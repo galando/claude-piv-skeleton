@@ -198,15 +198,23 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
-## Inspiration
+## Origins & Attribution
 
-This skeleton is based on the PIV methodology implementation in [woningscoutje](https://github.com/galando/woningscoutje), a production-ready real estate scanning platform using Spring Boot and React.
+**The PIV Methodology was created by [Cole Medin (coleam00)](https://github.com/coleam00)**
 
-The methodology was refined through real-world development with Claude Code, focusing on:
-- Context awareness
-- Planning precision
-- Implementation quality
-- Validation thoroughness
+Cole Medin is a Generative AI specialist who developed the PIV (Prime-Implement-Validate) methodology as part of his work on [context engineering](https://github.com/coleam00/context-engineering-intro) and AI-assisted development workflows. The methodology is demonstrated in his [habit-tracker](https://github.com/coleam00/habit-tracker) project.
+
+This skeleton is an implementation of Cole's PIV methodology, adapted from:
+- [habit-tracker](https://github.com/coleam00/habit-tracker) - PIV loop demonstration project
+- [context-engineering-intro](https://github.com/coleam00/context-engineering-intro) - Context engineering template
+- [woningscoutje.nl](https://woningscoutje.nl) - Production-ready implementation using PIV
+
+### Cole Medin's Other Work
+- [Archon](https://github.com/coleam00/Archon) - Knowledge and task management backbone for AI assistants
+- [ottomator-agents](https://github.com/coleam00/ottomator-agents) - Open source AI agents
+- [ai-agents-masterclass](https://github.com/coleam00/ai-agents-masterclass) - AI agents educational content
+
+**Thank you, Cole, for creating and sharing the PIV methodology with the community!** 🙌
 
 ---
 
