@@ -8,14 +8,13 @@ A technology-agnostic, extensible skeleton repository for implementing the PIV m
 
 ## What is PIV?
 
-PIV is a development methodology designed for AI-assisted software development:
+PIV (Prime-Implement-Validate) is a development methodology designed for AI-assisted software development:
 
 - **Prime**: Load and understand codebase context
-- **Investigate**: Plan, design, and architecture decisions
-- **Verify**: Implement, test, and validate
-- **Iterate**: Review, refine, and improve
+- **Implement**: Plan features and execute implementation
+- **Validate**: Automatically test, verify, and validate
 
-This methodology ensures Claude Code has proper context before making changes, creates detailed plans for complex features, and validates implementations thoroughly.
+This methodology ensures Claude Code has proper context before making changes, creates detailed plans for complex features, and automatically validates implementations thoroughly.
 
 ---
 
@@ -25,7 +24,7 @@ This methodology ensures Claude Code has proper context before making changes, c
 
 ```bash
 # Clone this repository
-git clone https://github.com/YOUR_USERNAME/claude-piv-skeleton.git my-project
+git clone https://github.com/galando/claude-piv-skeleton.git my-project
 cd my-project
 
 # Remove git history to start fresh
@@ -40,22 +39,22 @@ git init
 
 1. **Prime the workspace** - Load codebase context
    ```
-   Ask Claude: "Run /piv:prime to load the project context"
+   Ask Claude: "Run /core_piv_loop:prime to load the project context"
    ```
 
 2. **Plan your feature** - Create detailed implementation plan
    ```
-   Ask Claude: "Use /piv:plan to create a plan for adding user authentication"
+   Ask Claude: "Use /core_piv_loop:plan-feature to create a plan for adding user authentication"
    ```
 
-3. **Implement** - Execute the plan
+3. **Execute** - Implement from plan
    ```
-   Ask Claude: "Use /piv:implement to execute the plan"
+   Ask Claude: "Use /core_piv_loop:execute to implement the plan"
    ```
 
-4. **Verify** - Validate the implementation
+4. **Validate** - Automatic validation runs after execute
    ```
-   Ask Claude: "Run /piv:verify to validate the implementation"
+   No manual step - /validation:validate runs automatically!
    ```
 
 ---
@@ -73,12 +72,13 @@ git init
 - **Path-based Loading**: Rules load automatically when working on specific file types
 
 ### Command Infrastructure
-Standardized Claude Code skills for PIV workflow:
-- `/piv:prime` - Load context and prime workspace
-- `/piv:plan [feature]` - Create detailed feature plans
-- `/piv:implement [plan]` - Implement from plan
-- `/piv:verify` - Run validation pipeline
-- `/piv:iterate` - Review and refine
+Standardized Claude Code commands for PIV workflow:
+- `/core_piv_loop:prime` - Load context and prime workspace
+- `/core_piv_loop:plan-feature "description"` - Create detailed feature plans
+- `/core_piv_loop:execute [plan]` - Execute from plan (auto-validates)
+- `/validation:validate` - Run validation pipeline (automatic)
+- `/validation:code-review` - Optional detailed code review
+- `/validation:execution-report` - View execution report
 
 ### Technology Templates
 Pre-built templates for popular technologies:
@@ -162,24 +162,17 @@ claude-piv-skeleton/
 ## Documentation
 
 ### Getting Started
-- [Installation Guide](docs/getting-started/01-installation.md)
-- [Quick Start](docs/getting-started/02-quick-start.md)
-- [Your First Feature](docs/getting-started/03-your-first-feature.md)
-- [Customization](docs/getting-started/04-customization.md)
+- [Installation Guide](docs/getting-started/01-installation.md) - How to install and set up
+- [Quick Start](docs/getting-started/02-quick-start.md) - Get started in 5 minutes
+- [Your First Feature](docs/getting-started/03-your-first-feature.md) - Walkthrough of first feature
 
 ### Methodology
-- [What is PIV?](docs/methodology/01-what-is-piv.md)
-- [Prime Phase](docs/methodology/02-prime-phase.md)
-- [Investigate Phase](docs/methodology/03-investigate-phase.md)
-- [Verify Phase](docs/methodology/04-verify-phase.md)
-- [Iteration Cycle](docs/methodology/05-iteration-cycle.md)
-- [Best Practices](docs/methodology/06-best-practices.md)
+- [PIV Methodology](.claude/PIV-METHODOLOGY.md) - Complete methodology guide
+- [Project Instructions](.claude/CLAUDE.md) - Quick reference for Claude Code
 
-### Extending
-- [Adding Technologies](docs/extending/01-adding-technologies.md)
-- [Creating Rules](docs/extending/02-creating-rules.md)
-- [Writing Commands](docs/extending/03-writing-commands.md)
-- [Contributing](docs/extending/04-contributing.md)
+### Contributing
+- [Contributing Guidelines](CONTRIBUTING.md) - How to contribute to the skeleton
+- [Adding Technologies](docs/extending/01-adding-technologies.md) - Add new technology templates
 
 ---
 
@@ -191,7 +184,7 @@ We welcome contributions! This skeleton is designed to be community-driven and e
 1. **Add new technologies** - Follow the [Adding Technologies guide](docs/extending/01-adding-technologies.md)
 2. **Improve documentation** - Fix typos, clarify explanations, add examples
 3. **Share examples** - Add real-world implementation examples
-4. **Report issues** - Found a bug or have a suggestion? [Open an issue](https://github.com/YOUR_USERNAME/claude-piv-skeleton/issues)
+4. **Report issues** - Found a bug or have a suggestion? [Open an issue](https://github.com/galando/claude-piv-skeleton/issues)
 5. **Submit PRs** - Pull requests are welcome!
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
@@ -226,7 +219,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=YOUR_USERNAME/claude-piv-skeleton&type=Date)](https://star-history.com/#YOUR_USERNAME/claude-piv-skeleton&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=galando/claude-piv-skeleton&type=Date)](https://star-history.com/#galando/claude-piv-skeleton&Date)
 
 ---
 
