@@ -109,26 +109,49 @@ claude-piv-skeleton/
 │   ├── CLAUDE.md                # Root project instructions
 │   ├── PIV-METHODOLOGY.md       # Core methodology documentation
 │   ├── commands/                # PIV command definitions
-│   ├── rules/                   # Universal rules
-│   ├── agents/                  # Agent artifact templates
-│   └── reference/               # Best practices
+│   │   ├── prime.md             # Prime phase command
+│   │   ├── plan-feature.md      # Plan phase command
+│   │   ├── execute.md           # Execute phase command
+│   │   └── validate.md          # Validate phase command
+│   ├── rules/                   # Universal rules (apply to all projects)
+│   │   ├── 00-general.md        # General development principles
+│   │   ├── 10-git.md            # Git workflow rules
+│   │   ├── 20-testing.md        # Testing philosophy
+│   │   ├── 30-documentation.md  # Documentation standards
+│   │   └── 40-security.md       # Security guidelines
+│   ├── agents/                  # Agent artifact directories (auto-generated)
+│   │   ├── context/             # Prime phase context artifacts
+│   │   ├── plans/               # Plan phase artifacts
+│   │   └── reviews/             # Code review artifacts
+│   └── reference/               # Best practices and patterns
+│       └── patterns/            # Design patterns reference
 ├── technologies/                # Technology-specific extensions
-│   ├── backend/
-│   │   ├── spring-boot/
-│   │   ├── node-express/
-│   │   └── python-fastapi/
-│   ├── frontend/
-│   │   └── react/
-│   ├── database/
-│   │   └── postgresql/
-│   └── devops/
-│       └── docker/
+│   ├── backend/                 # Backend frameworks
+│   │   ├── spring-boot/         # Java/Kotlin with Spring Boot
+│   │   ├── node-express/        # Node.js with Express
+│   │   └── python-fastapi/      # Python with FastAPI
+│   ├── frontend/                # Frontend frameworks
+│   │   └── react/               # React with TypeScript
+│   ├── database/                # Databases
+│   │   └── postgresql/          # PostgreSQL database
+│   └── devops/                  # DevOps tools
+│       └── docker/              # Docker containerization
 ├── docs/                        # Comprehensive documentation
-│   ├── methodology/
-│   ├── getting-started/
-│   ├── extending/
-│   └── examples/
-└── scripts/                     # Utility scripts
+│   ├── getting-started/         # Getting started guides
+│   │   ├── 01-installation.md   # Installation guide
+│   │   ├── 02-quick-start.md    # Quick start guide
+│   │   └── 03-your-first-feature.md  # First feature walkthrough
+│   ├── extending/               # Extension guides
+│   │   └── 01-adding-technologies.md  # Adding new technologies
+│   ├── methodology/             # Methodology deep dives
+│   └── examples/                # Real-world examples
+├── scripts/                     # Utility scripts
+├── .github/                     # GitHub configuration
+│   ├── workflows/               # CI/CD workflows
+│   └── ISSUE_TEMPLATE/          # Issue templates
+├── README.md                    # This file
+├── CONTRIBUTING.md              # Contributing guidelines
+└── LICENSE                      # MIT License
 ```
 
 ---
