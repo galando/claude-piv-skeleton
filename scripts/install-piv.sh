@@ -37,7 +37,10 @@ if [ -z "${BASH_SOURCE+x}" ] || [ "${BASH_SOURCE[0]}" = "bash" ] || [ "${BASH_SO
     # Change back to original directory and run the real installer
     cd "$ORIGINAL_DIR"
     # Ensure stdin is connected to terminal for interactive prompts
-    exec "$TEMP_DIR/scripts/install-piv.sh" < /dev/tty
+    echo "Starting installer..."
+    # Use bash explicitly with proper terminal handling
+    bash "$TEMP_DIR/scripts/install-piv.sh" < /dev/tty
+    exit $?
 fi
 
 # Get script directory
