@@ -111,7 +111,11 @@ select_menu() {
 
     local selection
     while true; do
-        read -p "Select option [1-${#options[@]}]: " selection
+        if [ "$USE_TTY" -eq 1 ]; then
+            read -p "Select option [1-${#options[@]}]: " selection < /dev/tty
+        else
+            read -p "Select option [1-${#options[@]}]: " selection
+        fi
         if [[ "$selection" =~ ^[0-9]+$ ]] && [ "$selection" -ge 1 ] && [ "$selection" -le "${#options[@]}" ]; then
             echo ""
             return "$selection"
