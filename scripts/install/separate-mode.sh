@@ -7,8 +7,8 @@
 #    source "$(dirname "${BASH_SOURCE[0]}")/core.sh"
 #fi
 
-# PIV source directory (where the skeleton is located)
-PIV_SOURCE_DIR=""
+# Note: PIV_SOURCE_DIR is declared as exported in install-piv.sh
+# This script uses that exported variable
 
 # Set PIV source directory
 # Usage: set_piv_source "path"
