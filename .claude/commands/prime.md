@@ -1,139 +1,281 @@
-# Command: /core_piv_loop:prime
-
-**Phase: Prime**
-**Purpose: Load comprehensive codebase context**
-
+---
+description: Prime agent with codebase understanding and save context to file
 ---
 
-## Command Definition
+# Prime: Load Project Context
 
-This command primes the workspace by loading and understanding the entire codebase.
+## Objective
 
-## What It Does
+Build comprehensive understanding of the codebase by analyzing structure, documentation, and key files, then **save context to a reusable file** for planning phase.
 
-1. **Analyzes Project Structure**
-   - Identifies main directories and their purposes
-   - Maps out file organization
-   - Recognizes technology stack
+## Process
 
-2. **Identifies Patterns**
-   - Architectural patterns used
-   - Coding conventions
-   - Design patterns
-   - Integration patterns
+### 1. Analyze Project Structure
 
-3. **Loads Rules**
-   - Universal rules from `.claude/rules/`
-   - Technology-specific rules from `technologies/*/rules/`
-   - Project-specific conventions
+List all tracked files:
+```bash
+git ls-files
+```
 
-4. **Creates Context Artifact**
-   - Saves comprehensive context to `.claude/agents/context/prime-context.md`
-   - Includes key files reference
-   - Documents architectural decisions
-   - Lists active rules
+Show directory structure:
+```bash
+find . -type f \( -name "*.java" -o -name "*.ts" -o -name "*.tsx" -o -name "*.py" -o -name "*.js" -o -name "*.go" \) | grep -v node_modules | grep -v target | grep -v __pycache__ | grep -v ".git" | head -100
+```
 
-## When to Use
+### 2. Read Core Documentation
 
-- **Start of session**: Always run first
-- **Context switch**: When switching between unrelated features
-- **After major changes**: When architecture has changed significantly
-- **New contributor**: When onboarding to the codebase
+**Must Read:**
+- `.claude/CLAUDE.md` - Project overview and tech stack
+- `README.md` - Quick start guide
+- `docs/ARCHITECTURE.md` - System architecture (if exists)
+- `.claude/rules/` - Modular coding rules
 
-## Expected Output
+### 3. Identify Key Files
 
-### 1. Context Artifact
-File: `.claude/agents/context/prime-context.md`
+Based on the structure, identify and read:
+
+**Backend (Example: Java + Spring Boot):**
+- `backend/pom.xml` or `build.gradle` - Dependencies and version
+- `backend/src/main/java/com/example/Application.java` - Entry point
+- `backend/src/main/resources/application.properties` - Configuration
+- Key controllers: `backend/src/main/java/com/example/controller/`
+- Key services: `backend/src/main/java/com/example/service/`
+- Key entities: `backend/src/main/java/com/example/entity/`
+
+**Backend (Example: Python + FastAPI):**
+- `backend/pyproject.toml` or `requirements.txt` - Dependencies
+- `backend/main.py` or `backend/app/main.py` - Entry point
+- Key routers: `backend/app/api/`
+- Key services: `backend/app/services/`
+- Key models: `backend/app/models/`
+
+**Backend (Example: Node.js + Express):**
+- `backend/package.json` - Dependencies
+- `backend/src/index.js` or `backend/server.js` - Entry point
+- Key routes: `backend/src/routes/`
+- Key controllers: `backend/src/controllers/`
+
+**Frontend (Example: React):**
+- `frontend/package.json` - Dependencies
+- `frontend/src/main.tsx` or `frontend/src/index.tsx` - Entry point
+- `frontend/src/App.tsx` - Main app component
+- Key components: `frontend/src/components/`
+- Key pages: `frontend/src/pages/` or `frontend/src/app/`
+
+### 4. Understand Current State
+
+Check recent activity:
+```bash
+git log -10 --oneline
+```
+
+Check current branch and status:
+```bash
+git status
+git branch --show-current
+```
+
+### 5. Pattern Recognition
+
+Identify key patterns based on your technology stack:
+
+**Common Backend Patterns:**
+- Repository/ORM pattern (e.g., Spring Data JDBC, SQLAlchemy, TypeORM)
+- Service layer (business logic separation)
+- DTOs/Response models (API layer separation)
+- Logging strategy (structured logging, levels)
+- Error handling approach (graceful degradation, exceptions)
+
+**Common Frontend Patterns:**
+- Component architecture (functional, hooks, class-based)
+- State management (Context, Redux, Zustand, signals)
+- HTTP client (fetch, Axios, etc.)
+- Styling (CSS modules, Tailwind, styled-components)
+- Routing approach
+
+**Common Testing Patterns:**
+- Test framework (JUnit, pytest, Jest, Vitest)
+- Mocking approach (Mockito, unittest.mock, vi.mock)
+- Test types (unit, integration, E2E)
+
+### 6. External Dependencies
+
+Identify external APIs and services:
+- Authentication providers
+- Database systems
+- External APIs
+- Cloud services
+- Third-party integrations
+
+## Output
+
+### Save Context to File
+
+**File:** `.claude/agents/context/prime-context.md`
+
+**Structure:**
 
 ```markdown
-# Prime Context - [Project Name]
+# {Project Name} Prime Context
 
-**Generated**: [Timestamp]
-**Session**: [Session ID]
+**Last Updated:** {timestamp}
+**Branch:** {branch}
+**Commit:** {commit-hash}
 
 ## Project Overview
-[Brief project description]
 
-## Technology Stack
-- **Backend**: [List technologies]
-- **Frontend**: [List technologies]
-- **Database**: [List technologies]
-- **DevOps**: [List technologies]
+- **Name:** {project name}
+- **Purpose:** {brief description}
+- **Tech Stack:** {backend} + {frontend}
+- **Database:** {database}
+- **Current Version:** {version}
 
 ## Architecture
-[Architectural overview and patterns]
 
-## Project Structure
-```
-[Directory tree with descriptions]
-```
+### Backend
+- Framework: {framework and version}
+- Database: {database and ORM}
+- Security: {authentication approach}
+- Other: {key technologies}
+
+### Frontend
+- Framework: {framework and version}
+- Build Tool: {build tool}
+- Styling: {styling approach}
+- State Management: {state management}
+- HTTP Client: {HTTP client}
 
 ## Key Patterns
-[List key patterns and conventions]
 
-## Active Rules
-- Universal rules: `.claude/rules/00-*.md` through `.claude/rules/40-*.md`
-- Technology rules: [List active technology rule sets]
+### Backend Patterns
 
-## Important Files
-| File | Purpose |
-|------|---------|
-| `path/to/file` | [Description] |
+**Repository/ORM Pattern:**
+- {ORM or data access approach}
+- {Key conventions}
 
-## Development Workflow
-[How to build, test, run the project]
+**Service Layer:**
+- {Business logic organization}
+- {Dependency injection approach}
 
-## Environment
-- Local setup: [How to run locally]
-- Production: [How production works]
+**DTOs/Response Models:**
+- {API layer separation strategy}
+
+**Logging:**
+- {Logging framework and patterns}
+
+**Error Handling:**
+- {Error handling strategy}
+
+### Frontend Patterns
+
+**Components:**
+- {Component architecture}
+
+**State Management:**
+- {State management approach}
+
+**HTTP Client:**
+- {HTTP client and patterns}
+
+## Codebase Structure
+
+### Backend Directory Layout
+```
+backend/src/main/java/com/example/
+├── controller/      # REST API endpoints
+├── service/         # Business logic
+├── repository/      # Data access layer
+├── entity/          # Database entities
+├── dto/             # Data transfer objects
+└── config/          # Configuration classes
 ```
 
-### 2. Confirmation Message
+### Frontend Directory Layout
 ```
-✅ Workspace primed successfully
-
-Context saved to: .claude/agents/context/prime-context.md
-
-Technology stack detected:
-- Backend: [list]
-- Frontend: [list]
-
-Active rules loaded:
-- 5 universal rules
-- [X] technology-specific rules
-
-Ready for feature work. Use /core_piv_loop:plan-feature to start planning.
+frontend/src/
+├── components/      # React components
+├── context/         # State management
+├── api/             # API clients
+└── pages/           # Route pages
 ```
 
-## Implementation Notes
+## Configuration Files
 
-For Claude Code Implementation:
+- {List key configuration files}
 
-1. **Glob search** for main file types to understand stack
-2. **Read key files** (package.json, pom.xml, requirements.txt, etc.)
-3. **Grep** for patterns and imports
-4. **Check** for existing `.claude/` configuration
-5. **Load** rules from `.claude/rules/` and `technologies/*/rules/`
-6. **Generate** comprehensive context artifact
-7. **Report** findings to user
+## External APIs
 
-## Artifacts Created
+{List external APIs and services}
 
-- `.claude/agents/context/prime-context.md` - Primary context document
+## Testing
+
+**Backend:**
+- {Test framework}
+- {Mocking approach}
+- {Integration test approach}
+
+**Frontend:**
+- {Test framework}
+- {Component testing approach}
+
+## Build & Run
+
+**Backend:**
+```bash
+{Build and run commands}
+```
+
+**Frontend:**
+```bash
+{Build and run commands}
+```
+
+## Recent Activity
+
+{git-log-output}
+
+## Current State
+
+- Branch: {branch}
+- Status: {clean/dirty}
+- Last commit: {commit-message}
+
+## Important Notes
+
+{List critical patterns and conventions}
+
+## References
+
+- CLAUDE.md: Project overview
+- docs/ARCHITECTURE.md: Detailed architecture (if exists)
+- .claude/rules/: Modular coding rules
+```
 
 ## Next Steps
 
-After priming:
-1. Review the generated context
-2. Proceed to planning: `/core_piv_loop:plan-feature`
-3. Or ask questions about the codebase
+After creating the context file:
 
-## Related Commands
+1. **Use this context** when creating feature plans with `/core_piv_loop:plan-feature`
+2. **Update this context** weekly or when major changes occur
+3. **Reference this file** from all implementation plans
 
-- `/core_piv_loop:plan-feature` - Create implementation plan
-- `/core_piv_loop:execute` - Execute from plan
-- `/validation:validate` - Run validation (automatic after execute)
+**Example Plan Reference:**
+```markdown
+## CONTEXT REFERENCES
 
----
+### Prime Context
+- `.claude/agents/context/prime-context.md` - COMPLETE codebase overview
+  - Read this FIRST to understand project structure
+  - Contains all patterns, configurations, and external dependencies
+```
 
-**This command is the foundation of all PIV work. Always run before making changes.**
+## Quality Checklist
+
+- [ ] All tracked files listed
+- [ ] Core documentation read (CLAUDE.md, README.md, ARCHITECTURE.md)
+- [ ] Key files identified (controllers, services, entities)
+- [ ] Current state captured (git log, git status)
+- [ ] Patterns documented (backend, frontend, testing)
+- [ ] External APIs listed
+- [ ] Context saved to `.claude/agents/context/prime-context.md`
+- [ ] File is well-organized and easy to scan
