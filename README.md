@@ -113,21 +113,8 @@ claude-piv-skeleton/
 │   │   ├── plan-feature.md      # Plan phase command
 │   │   ├── execute.md           # Execute phase command
 │   │   └── validate.md          # Validate phase command
-│   ├── rules/                   # Universal rules (apply to all projects)
-│   │   ├── 00-general.md        # General development principles
-│   │   ├── 10-git.md            # Git workflow rules
-│   │   ├── 20-testing.md        # Testing philosophy
-│   │   ├── 30-documentation.md  # Documentation standards
-│   │   └── 40-security.md       # Security guidelines
-│   ├── agents/                  # Agent artifact directories (auto-generated)
-│   │   ├── context/             # Prime phase context artifacts
-│   │   ├── plans/               # Plan phase artifacts
-│   │   └── reviews/             # Code review artifacts
-│   └── reference/               # Best practices and patterns
-│       └── patterns/            # Design patterns reference
-├── .claude/                     # Claude Code configuration
-│   ├── rules/                   # Coding rules (all projects)
-│   │   ├── backend/             # Backend-specific rules
+│   ├── rules/                   # Coding rules (Claude loads from here)
+│   │   ├── backend/             # Technology-specific rules
 │   │   │   ├── 10-api-design.md # Spring Boot API patterns
 │   │   │   └── 20-database.md   # Spring Boot database patterns
 │   │   ├── 00-general.md        # General development principles
@@ -136,17 +123,27 @@ claude-piv-skeleton/
 │   │   ├── 21-testing.md        # Testing guidelines (Given-When-Then)
 │   │   ├── 30-documentation.md  # Documentation standards
 │   │   └── 40-security.md       # Security guidelines
-├── technologies/                # Technology-specific extensions
+│   ├── agents/                  # Agent artifact directories (auto-generated)
+│   │   ├── context/             # Prime phase context artifacts
+│   │   ├── plans/               # Plan phase artifacts
+│   │   └── reviews/             # Code review artifacts
+│   └── reference/               # Best practices and patterns
+│       └── patterns/            # Design patterns reference
+├── technologies/                # Technology-specific templates
 │   ├── backend/                 # Backend frameworks
-│   │   ├── spring-boot/         # Java/Kotlin with Spring Boot
-│   │   ├── node-express/        # Node.js with Express
-│   │   └── python-fastapi/      # Python with FastAPI
+│   │   ├── spring-boot/         # Java/Kotlin + Spring Boot
+│   │   │   ├── README.md        # Technology overview
+│   │   │   ├── reference/       # Best practices reference
+│   │   │   ├── examples/        # Code examples
+│   │   │   └── (no .claude - rules at root .claude/rules/backend/)
+│   │   ├── node-express/        # Node.js + Express
+│   │   └── python-fastapi/      # Python + FastAPI
 │   ├── frontend/                # Frontend frameworks
-│   │   └── react/               # React with TypeScript
+│   │   └── react/               # React + TypeScript
 │   ├── database/                # Databases
-│   │   └── postgresql/          # PostgreSQL database
+│   │   └── postgresql/          # PostgreSQL
 │   └── devops/                  # DevOps tools
-│       └── docker/              # Docker containerization
+│       └── docker/              # Docker
 ├── docs/                        # Comprehensive documentation
 │   ├── getting-started/         # Getting started guides
 │   │   ├── 01-installation.md   # Installation guide
