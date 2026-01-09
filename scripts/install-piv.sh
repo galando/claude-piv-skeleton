@@ -9,13 +9,34 @@ ORIGINAL_DIR="$(pwd)"
 
 # Check if running from stdin (via curl | bash)
 if [ -z "${BASH_SOURCE+x}" ] || [ "${BASH_SOURCE[0]}" = "bash" ] || [ "${BASH_SOURCE[0]}" = "/dev/stdin" ]; then
-    # We're being piped in from curl
-    # Save script content to temp file and re-execute
-    SCRIPT_CONTENT=$(cat)
-    TEMP_SCRIPT=$(mktemp)
-    echo "$SCRIPT_CONTENT" > "$TEMP_SCRIPT"
-    chmod +x "$TEMP_SCRIPT"
-    exec bash "$TEMP_SCRIPT"
+    # We're being piped in from curl - need to download the full skeleton
+    echo "PIV Installer - Downloading..."
+
+    # Create temp directory for skeleton
+    TEMP_DIR=$(mktemp -d)
+
+    # Check for git
+    if ! command -v git &> /dev/null; then
+        echo "Error: git is required for installation"
+        echo ""
+        echo "Please install git or use manual installation:"
+        echo "  git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv"
+        echo "  cd your-project"
+        echo "  /tmp/piv/scripts/install-piv.sh"
+        exit 1
+    fi
+
+    # Clone skeleton quietly
+    echo "Downloading PIV skeleton..."
+    if ! git clone --depth 1 -q https://github.com/galando/claude-piv-skeleton.git "$TEMP_DIR" 2>/dev/null; then
+        echo "Error: Failed to download PIV skeleton"
+        rm -rf "$TEMP_DIR"
+        exit 1
+    fi
+
+    # Change back to original directory and run the real installer
+    cd "$ORIGINAL_DIR"
+    exec "$TEMP_DIR/scripts/install-piv.sh"
 fi
 
 # Get script directory
