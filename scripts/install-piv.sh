@@ -4,16 +4,50 @@
 
 set -euo pipefail
 
+# Save original directory
+ORIGINAL_DIR="$(pwd)"
+
+# Check if running from stdin (via curl | bash)
+if [ -z "${BASH_SOURCE+x}" ] || [ "${BASH_SOURCE[0]}" = "bash" ] || [ "${BASH_SOURCE[0]}" = "/dev/stdin" ]; then
+    # Download PIV skeleton to temporary directory
+    TEMP_DIR=$(mktemp -d)
+    echo "Downloading PIV skeleton to $TEMP_DIR..."
+
+    if command -v git &> /dev/null; then
+        git clone --depth 1 -q https://github.com/galando/claude-piv-skeleton.git "$TEMP_DIR" 2>/dev/null || {
+            echo "Error: Failed to clone PIV skeleton"
+            rm -rf "$TEMP_DIR"
+            exit 1
+        }
+    else
+        # Fallback: show manual instructions
+        echo "Git not found. Please install git or use manual installation:"
+        echo ""
+        echo "  git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv"
+        echo "  cd /tmp/piv/scripts"
+        echo "  ./install-piv.sh"
+        rm -rf "$TEMP_DIR"
+        exit 1
+    fi
+
+    # Run installer from cloned directory
+    cd "$ORIGINAL_DIR"
+    exec "$TEMP_DIR/scripts/install-piv.sh"
+fi
+
 # Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Change to script directory to ensure relative paths work
+cd "$SCRIPT_DIR"
+
 # Source installation functions
-source "$SCRIPT_DIR/install/core.sh"
-source "$SCRIPT_DIR/install/detect-tech.sh"
-source "$SCRIPT_DIR/install/backup.sh"
-source "$SCRIPT_DIR/install/merge-mode.sh"
-source "$SCRIPT_DIR/install/separate-mode.sh"
-source "$SCRIPT_DIR/install/verify.sh"
+source "install/core.sh"
+source "install/detect-tech.sh"
+source "install/backup.sh"
+source "install/merge-mode.sh"
+source "install/separate-mode.sh"
+source "install/verify.sh"
 
 # Global variables
 INSTALLATION_MODE=""
@@ -200,6 +234,9 @@ install_piv() {
     fi
 
     print_info "PIV source: $PIV_SOURCE_DIR"
+
+    # Change back to original directory for installation
+    cd "$ORIGINAL_DIR"
 
     # Install based on mode
     if [ "$INSTALLATION_MODE" = "merge" ]; then
