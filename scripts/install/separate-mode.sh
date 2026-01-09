@@ -92,9 +92,33 @@ install_separate_mode() {
     else
         # No existing .claude/commands, create the structure
         ensure_dir ".claude/commands"
-        ln -sf "../$piv_dir/commands/piv_loop" ".claude/commands/piv_loop"
-        ln -sf "../$piv_dir/commands/validation" ".claude/commands/validation"
-        ln -sf "../$piv_dir/commands/bug_fix" ".claude/commands/bug_fix"
+
+        # Create individual command directories (not symlinks)
+        ensure_dir ".claude/commands/piv_loop"
+        ensure_dir ".claude/commands/validation"
+        ensure_dir ".claude/commands/bug_fix"
+
+        # Link command files from .claude-piv
+        for cmd_file in "$piv_dir/commands/piv_loop"/*.md; do
+            if [ -f "$cmd_file" ]; then
+                local basename=$(basename "$cmd_file")
+                ln -sf "../../$piv_dir/commands/piv_loop/$basename" ".claude/commands/piv_loop/$basename"
+            fi
+        done
+
+        for cmd_file in "$piv_dir/commands/validation"/*.md; do
+            if [ -f "$cmd_file" ]; then
+                local basename=$(basename "$cmd_file")
+                ln -sf "../../$piv_dir/commands/validation/$basename" ".claude/commands/validation/$basename"
+            fi
+        done
+
+        for cmd_file in "$piv_dir/commands/bug_fix"/*.md; do
+            if [ -f "$cmd_file" ]; then
+                local basename=$(basename "$cmd_file")
+                ln -sf "../../$piv_dir/commands/bug_fix/$basename" ".claude/commands/bug_fix/$basename"
+            fi
+        done
     fi
 
     # Add PIV reference to existing CLAUDE.md
