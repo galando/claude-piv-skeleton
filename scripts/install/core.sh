@@ -95,7 +95,7 @@ confirm() {
 
 # Select from menu
 # Usage: select_menu "Choose option" "option1" "option2" "option3"
-# Returns index (1-based) of selected option
+# Returns index (1-based) of selected option (via echo, not return code)
 select_menu() {
     local title="$1"
     shift
@@ -118,7 +118,8 @@ select_menu() {
         fi
         if [[ "$selection" =~ ^[0-9]+$ ]] && [ "$selection" -ge 1 ] && [ "$selection" -le "${#options[@]}" ]; then
             echo ""
-            return "$selection"
+            echo "$selection"
+            return 0
         fi
         print_error "Invalid selection. Please enter a number between 1 and ${#options[@]}"
     done
