@@ -4,16 +4,54 @@
 
 set -euo pipefail
 
+# Save original directory
+ORIGINAL_DIR="$(pwd)"
+
+# Check if running from stdin (via curl | bash)
+if [ -z "${BASH_SOURCE+x}" ] || [ "${BASH_SOURCE[0]}" = "bash" ] || [ "${BASH_SOURCE[0]}" = "/dev/stdin" ]; then
+    # We're being piped in from curl - need to download the full skeleton
+    echo "PIV Installer - Downloading..."
+
+    # Create temp directory for skeleton
+    TEMP_DIR=$(mktemp -d)
+
+    # Check for git
+    if ! command -v git &> /dev/null; then
+        echo "Error: git is required for installation"
+        echo ""
+        echo "Please install git or use manual installation:"
+        echo "  git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv"
+        echo "  cd your-project"
+        echo "  /tmp/piv/scripts/install-piv.sh"
+        exit 1
+    fi
+
+    # Clone skeleton quietly
+    echo "Downloading PIV skeleton..."
+    if ! git clone --depth 1 -q https://github.com/galando/claude-piv-skeleton.git "$TEMP_DIR" 2>/dev/null; then
+        echo "Error: Failed to download PIV skeleton"
+        rm -rf "$TEMP_DIR"
+        exit 1
+    fi
+
+    # Change back to original directory and run the real installer
+    cd "$ORIGINAL_DIR"
+    exec "$TEMP_DIR/scripts/install-piv.sh"
+fi
+
 # Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Change to script directory to ensure relative paths work
+cd "$SCRIPT_DIR"
+
 # Source installation functions
-source "$SCRIPT_DIR/install/core.sh"
-source "$SCRIPT_DIR/install/detect-tech.sh"
-source "$SCRIPT_DIR/install/backup.sh"
-source "$SCRIPT_DIR/install/merge-mode.sh"
-source "$SCRIPT_DIR/install/separate-mode.sh"
-source "$SCRIPT_DIR/install/verify.sh"
+source "install/core.sh"
+source "install/detect-tech.sh"
+source "install/backup.sh"
+source "install/merge-mode.sh"
+source "install/separate-mode.sh"
+source "install/verify.sh"
 
 # Global variables
 INSTALLATION_MODE=""
@@ -194,12 +232,34 @@ install_piv() {
     elif [ -f "$SCRIPT_DIR/.claude/PIV-METHODOLOGY.md" ]; then
         PIV_SOURCE_DIR="$SCRIPT_DIR"
     else
-        print_error "Cannot find PIV source files"
-        print_error "Please run this script from the PIV skeleton repository"
-        return 1
+        # PIV methodology not found - need to download skeleton
+        print_warning "PIV skeleton not found locally"
+        print_info "Downloading PIV skeleton..."
+
+        TEMP_DIR=$(mktemp -d)
+
+        if command -v git &> /dev/null; then
+            if ! git clone --depth 1 -q https://github.com/galando/claude-piv-skeleton.git "$TEMP_DIR" 2>/dev/null; then
+                print_error "Failed to clone PIV skeleton"
+                rm -rf "$TEMP_DIR"
+                return 1
+            fi
+            PIV_SOURCE_DIR="$TEMP_DIR"
+        else
+            print_error "Git is required for installation"
+            print_info "Please install git or use manual installation:"
+            echo ""
+            echo "  git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv"
+            echo "  cd /tmp/piv/scripts"
+            echo "  ./install-piv.sh"
+            return 1
+        fi
     fi
 
     print_info "PIV source: $PIV_SOURCE_DIR"
+
+    # Change back to original directory for installation
+    cd "$ORIGINAL_DIR"
 
     # Install based on mode
     if [ "$INSTALLATION_MODE" = "merge" ]; then

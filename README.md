@@ -40,13 +40,10 @@ git init
 Add PIV to your existing project with the interactive installer:
 
 ```bash
-# Option 1: Clone and run installer
+# Clone and run installer
 git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv
 cd your-project
 /tmp/piv/scripts/install-piv.sh
-
-# Option 2: Download and run (single command)
-curl -sSL https://raw.githubusercontent.com/galando/claude-piv-skeleton/main/scripts/install-piv.sh | bash
 
 # The installer will:
 # • Detect your technology stack
