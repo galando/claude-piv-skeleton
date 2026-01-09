@@ -4,6 +4,37 @@ description: Technical code review for quality and bugs that runs pre-commit
 
 # Code Review: Technical Quality Analysis
 
+## ⚠️ CRITICAL PREREQUISITES
+
+**DO NOT RUN this command if:**
+- ❌ Code doesn't compile
+- ❌ Tests are failing
+- ❌ Build is broken
+- ❌ Runtime errors occur
+
+**RUN ONLY AFTER:**
+- ✅ Compilation succeeds (`mvn clean compile`, `npm run build`, etc.)
+- ✅ All tests pass (`mvn test`, `npm test`, etc.)
+- ✅ No runtime errors
+- ✅ Build completes successfully
+
+**Why?** Code review performs **static analysis only**. It cannot verify that code actually compiles or runs correctly. Reviewing uncompiled code creates false confidence and wastes time.
+
+**If build is broken:**
+1. Fix compilation errors first
+2. Fix test failures
+3. Verify build succeeds
+4. THEN run code review
+
+**To verify build status, run:**
+```
+/validation:validate
+```
+
+This ensures compilation and tests pass before code review.
+
+---
+
 ## Core Principles
 
 **Review Philosophy:**

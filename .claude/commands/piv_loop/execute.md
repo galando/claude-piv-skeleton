@@ -40,9 +40,13 @@ If no plan name is specified, uses the most recent plan.
 
 ### 4. Trigger Validation (Automatic)
 - Automatically runs `/validation:validate`
+- **CRITICAL**: Verification includes compilation check
+- **CRITICAL**: Verification includes test execution
 - Runs all validation levels
 - Generates validation report
 - Generates execution report
+
+**⚠️ Important:** The automatic validation **MUST verify compilation** before proceeding to code review. If compilation fails, the execution is marked as FAILED and code review is NOT run.
 
 ## When to Use
 
