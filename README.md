@@ -125,6 +125,17 @@ claude-piv-skeleton/
 │   │   └── reviews/             # Code review artifacts
 │   └── reference/               # Best practices and patterns
 │       └── patterns/            # Design patterns reference
+├── .claude/                     # Claude Code configuration
+│   ├── rules/                   # Coding rules (all projects)
+│   │   ├── backend/             # Backend-specific rules
+│   │   │   ├── 10-api-design.md # Spring Boot API patterns
+│   │   │   └── 20-database.md   # Spring Boot database patterns
+│   │   ├── 00-general.md        # General development principles
+│   │   ├── 10-git.md            # Git workflow rules
+│   │   ├── 20-testing.md        # Testing philosophy
+│   │   ├── 21-testing.md        # Testing guidelines (Given-When-Then)
+│   │   ├── 30-documentation.md  # Documentation standards
+│   │   └── 40-security.md       # Security guidelines
 ├── technologies/                # Technology-specific extensions
 │   ├── backend/                 # Backend frameworks
 │   │   ├── spring-boot/         # Java/Kotlin with Spring Boot
