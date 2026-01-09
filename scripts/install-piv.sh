@@ -9,30 +9,13 @@ ORIGINAL_DIR="$(pwd)"
 
 # Check if running from stdin (via curl | bash)
 if [ -z "${BASH_SOURCE+x}" ] || [ "${BASH_SOURCE[0]}" = "bash" ] || [ "${BASH_SOURCE[0]}" = "/dev/stdin" ]; then
-    # Download PIV skeleton to temporary directory
-    TEMP_DIR=$(mktemp -d)
-    echo "Downloading PIV skeleton to $TEMP_DIR..."
-
-    if command -v git &> /dev/null; then
-        git clone --depth 1 -q https://github.com/galando/claude-piv-skeleton.git "$TEMP_DIR" 2>/dev/null || {
-            echo "Error: Failed to clone PIV skeleton"
-            rm -rf "$TEMP_DIR"
-            exit 1
-        }
-    else
-        # Fallback: show manual instructions
-        echo "Git not found. Please install git or use manual installation:"
-        echo ""
-        echo "  git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv"
-        echo "  cd /tmp/piv/scripts"
-        echo "  ./install-piv.sh"
-        rm -rf "$TEMP_DIR"
-        exit 1
-    fi
-
-    # Run installer from cloned directory
-    cd "$ORIGINAL_DIR"
-    exec "$TEMP_DIR/scripts/install-piv.sh"
+    # We're being piped in from curl
+    # Save script content to temp file and re-execute
+    SCRIPT_CONTENT=$(cat)
+    TEMP_SCRIPT=$(mktemp)
+    echo "$SCRIPT_CONTENT" > "$TEMP_SCRIPT"
+    chmod +x "$TEMP_SCRIPT"
+    exec bash "$TEMP_SCRIPT"
 fi
 
 # Get script directory
@@ -228,9 +211,28 @@ install_piv() {
     elif [ -f "$SCRIPT_DIR/.claude/PIV-METHODOLOGY.md" ]; then
         PIV_SOURCE_DIR="$SCRIPT_DIR"
     else
-        print_error "Cannot find PIV source files"
-        print_error "Please run this script from the PIV skeleton repository"
-        return 1
+        # PIV methodology not found - need to download skeleton
+        print_warning "PIV skeleton not found locally"
+        print_info "Downloading PIV skeleton..."
+
+        TEMP_DIR=$(mktemp -d)
+
+        if command -v git &> /dev/null; then
+            if ! git clone --depth 1 -q https://github.com/galando/claude-piv-skeleton.git "$TEMP_DIR" 2>/dev/null; then
+                print_error "Failed to clone PIV skeleton"
+                rm -rf "$TEMP_DIR"
+                return 1
+            fi
+            PIV_SOURCE_DIR="$TEMP_DIR"
+        else
+            print_error "Git is required for installation"
+            print_info "Please install git or use manual installation:"
+            echo ""
+            echo "  git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv"
+            echo "  cd /tmp/piv/scripts"
+            echo "  ./install-piv.sh"
+            return 1
+        fi
     fi
 
     print_info "PIV source: $PIV_SOURCE_DIR"
