@@ -59,18 +59,35 @@ print_header() {
     log "INFO" "====== $title ======"
 }
 
+# Check if we need to read from terminal
+if [ ! -t 0 ]; then
+    # Stdin is not a terminal, use /dev/tty for interactive input
+    USE_TTY=1
+else
+    USE_TTY=0
+fi
+
 # Confirmation prompt
 # Returns 0 (success/yes) or 1 (no)
 confirm() {
     local prompt="$1"
     local default="${2:-Y}"
+    local response
 
     if [[ "$default" == "Y" ]]; then
-        read -p "$prompt [Y/n]: " -n 1 -r response
+        if [ "$USE_TTY" -eq 1 ]; then
+            read -p "$prompt [Y/n]: " -n 1 -r response < /dev/tty
+        else
+            read -p "$prompt [Y/n]: " -n 1 -r response
+        fi
         echo
         [[ -z "$response" ]] || [[ "$response" =~ ^[Yy]$ ]]
     else
-        read -p "$prompt [y/N]: " -n 1 -r response
+        if [ "$USE_TTY" -eq 1 ]; then
+            read -p "$prompt [y/N]: " -n 1 -r response < /dev/tty
+        else
+            read -p "$prompt [y/N]: " -n 1 -r response
+        fi
         echo
         [[ "$response" =~ ^[Yy]$ ]]
     fi
@@ -94,7 +111,11 @@ select_menu() {
 
     local selection
     while true; do
-        read -p "Select option [1-${#options[@]}]: " selection
+        if [ "$USE_TTY" -eq 1 ]; then
+            read -p "Select option [1-${#options[@]}]: " selection < /dev/tty
+        else
+            read -p "Select option [1-${#options[@]}]: " selection
+        fi
         if [[ "$selection" =~ ^[0-9]+$ ]] && [ "$selection" -ge 1 ] && [ "$selection" -le "${#options[@]}" ]; then
             echo ""
             return "$selection"
