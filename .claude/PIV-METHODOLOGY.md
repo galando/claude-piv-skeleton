@@ -8,27 +8,37 @@ A development methodology designed specifically for AI-assisted software develop
 
 ## Overview
 
-PIV is a three-phase methodology that ensures Claude Code has proper context, implements features systematically, and validates work automatically. It's designed to minimize misunderstandings, reduce rework, and maintain code quality.
+PIV (Prime-Implement-Validate) is a methodology designed for AI-assisted software development with Claude Code. It ensures proper context, systematic implementation, and automatic validation. An optional Simplify phase helps maintain code quality over time.
 
-### The Three Phases
+The methodology is designed to minimize misunderstandings, reduce rework, and maintain code quality through systematic planning and automatic validation.
+
+### The PIV Phases
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      PIV LOOP                               │
-│                                                             │
-│  ┌──────────┐    ┌──────────────┐    ┌──────────┐        │
-│  │  PRIME   │───▶│  IMPLEMENT   │───▶│ VALIDATE │        │
-│  │          │    │              │    │          │        │
-│  │ Context  │    │  Plan        │    │  Auto    │        │
-│  │ Loading  │    │  Execute     │    │  Tests   │        │
-│  └──────────┘    └──────────────┘    └────┬─────┘        │
-│                                             │              │
-│                                             │              │
-│                                       ┌─────▼─────┐       │
-│                                       │   Report  │       │
-│                                       │ & Refine  │       │
-│                                       └───────────┘       │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│                         PIV METHODOLOGY                          │
+│                                                                  │
+│  ┌──────────┐    ┌──────────────┐    ┌──────────┐            │
+│  │  PRIME   │───▶│   IMPLEMENT  │───▶│ SIMPLIFY │ (Optional) │
+│  │          │    │              │    │          │            │
+│  │ Context  │    │  Plan        │    │  Clean   │            │
+│  │ Loading  │    │  Execute     │    │  Refactor│            │
+│  └──────────┘    └──────────────┘    └────┬─────┘            │
+│                                              │                  │
+│                                              ▼                  │
+│                                       ┌──────────┐            │
+│                                       │ VALIDATE │            │
+│                                       │          │            │
+│                                       │  Auto    │            │
+│                                       │  Tests   │            │
+│                                       └────┬─────┘            │
+│                                            │                  │
+│                                            ▼                  │
+│                                      ┌──────────┐            │
+│                                      │  Report  │            │
+│                                      │ & Refine │            │
+│                                      └──────────┘            │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -192,9 +202,82 @@ The Implement phase combines planning AND execution into a unified flow.
 
 ---
 
-## Phase 3: Validate
+## Phase 4: Simplify (Optional)
 
-**Goal: Automatically verify implementation quality**
+**Goal: Improve code clarity and maintainability**
+
+The Simplify phase is **optional** and should be used judiciously. It's not for every implementation.
+
+### What Happens
+
+After validation passes, you may choose to simplify the code:
+
+- Remove redundant code
+- Improve variable and method naming
+- Simplify complex logic
+- Consolidate duplicate code
+- Improve code organization
+
+### When to Use Simplify
+
+**Use Simplify:**
+- After completing a complex feature
+- When code has become tangled during implementation
+- Before major code reviews
+- At the end of long coding sessions
+- When code complexity is high
+
+**Skip Simplify:**
+- For simple one-off changes
+- During rapid prototyping
+- When actively changing the same code
+- For trivial implementations
+- When code is already clean
+
+### How It Works
+
+Simplification is a **behavior-preserving refactoring**:
+
+**✅ What It Does:**
+- Improves readability
+- Enhances maintainability
+- Removes dead code
+- Consolidates duplicates
+- Improves structure
+
+**❌ What It Doesn't Do:**
+- Change functionality
+- Alter behavior
+- Fix bugs (that's for the Implement phase)
+- Add new features
+- Change APIs
+
+### Integration with PIV
+
+**Option A: Simplify After Validation**
+```
+Implement → Validate → Simplify → Validate Again → Commit
+```
+Clean up code after everything works.
+
+**Option B: Skip for Simple Features**
+```
+Implement → Validate → Commit
+```
+Simplification is optional.
+
+**Important:** Always re-run validation after simplification to ensure nothing broke.
+
+### Success Criteria
+- [ ] Code is clearer and more readable
+- [ ] No functionality has changed
+- [ ] All tests still pass
+- [ ] Validation still passes
+- [ ] Code is easier to maintain
+
+---
+
+## Phase 5: Validate
 
 Validation happens **automatically** after execution to ensure quality without manual intervention.
 
@@ -539,16 +622,168 @@ After `/core_piv_loop:execute`:
 
 ---
 
+## PIV Anti-Patterns
+
+### ❌ Anti-Pattern #1: Working Directly on Main Branch
+
+**Problem**: Making commits directly to `main` branch
+
+**Symptoms:**
+- Large feature implementations on main
+- No feature branch created
+- Risk of breaking production code
+- Cannot easily undo changes
+
+**Consequences:**
+- Cannot easily undo changes
+- Blocks other development
+- No code review gate
+- Violates Git best practices
+- **VIOLATES CORE PIV PRINCIPLE**
+
+**Correct Approach:**
+```bash
+# ✅ ALWAYS start with:
+git checkout -b feature/<descriptive-name>
+
+# ✅ Verify you're on feature branch:
+git branch
+# Should show: * feature/<descriptive-name>
+
+# ✅ Work on feature branch, then:
+git commit -m "feat: ..."
+
+# ✅ Create PR for review:
+gh pr create
+
+# ✅ Merge via PR (NOT direct commit to main)
+```
+
+**Prevention:**
+- Create feature branch FIRST, before any code changes
+- Always verify branch with `git branch` before committing
+- Consider git hooks to warn against main commits
+
+---
+
+### ❌ Anti-Pattern #2: Executing Before Planning
+
+**Problem**: Starting implementation immediately without a plan
+
+**Symptoms:**
+- No PIV plan created
+- "I'll figure it out as I go"
+- Missing context research
+- Rework and backtracking
+
+**Consequences:**
+- Rework and backtracking
+- Inconsistent patterns
+- Missing edge cases
+- Delayed discovery of issues
+
+**Correct Approach:**
+1. Create feature branch
+2. Run `/piv:plan-feature <feature-name>`
+3. Review and approve plan
+4. ONLY THEN: `/piv:execute`
+
+---
+
+### ❌ Anti-Pattern #3: Skipping Validation
+
+**Problem**: Not running validation or disabling auto-validation
+
+**Symptoms:**
+- "Tests will pass, don't need to run"
+- Committing without validation
+- Not checking compilation
+- Skipping code review
+
+**Consequences:**
+- Broken code in repository
+- Production bugs
+- Embarrassing rollbacks
+- Loss of trust in process
+
+**Correct Approach:**
+- **ALWAYS** run validation before committing
+- **NEVER** disable automatic validation
+- Check environment (when applicable)
+- Review code before committing
+
+---
+
+### ❌ Anti-Pattern #4: Treating PIV as Optional
+
+**Problem**: Inconsistent application of PIV methodology
+
+**Symptoms:**
+- "PIV is too much overhead for small changes"
+- "I know what I'm doing, don't need a plan"
+- Skipping PIV for "quick fixes"
+- Inconsistent application
+
+**Consequences:**
+- Process breakdown
+- Technical debt accumulation
+- Knowledge silos
+- Onboarding difficulties
+
+**Correct Approach:**
+- PIV is **mandatory for features** (medium+ complexity)
+- PIV is **optional for trivial changes** (1-2 line fixes)
+- When in doubt, use PIV
+- Consistency over speed
+
+**Decision Tree:**
+```
+Is this a feature/enhancement?
+├─ Yes → Use PIV (Prime → Plan → Execute → Validate)
+└─ No → Is it a trivial typo/fix?
+    ├─ Yes → Can skip PIV, use judgment
+    └─ No → Use PIV (bug fix workflow)
+```
+
+---
+
+### ❌ Anti-Pattern #5: Over-Using Simplify
+
+**Problem**: Running simplification on every change
+
+**Symptoms:**
+- Simplifying trivial changes
+- Running simplify during active development
+- Treating simplify as mandatory
+- Slowing down development
+
+**Consequences:**
+- Wasted time on simple changes
+- Unnecessary churn
+- Development slowdown
+- Loss of focus
+
+**Correct Approach:**
+- Simplify is **OPTIONAL**, not mandatory
+- Use for complex features only
+- Skip for simple changes
+- Use judgment based on code complexity
+
+---
+
 ## Summary
 
-PIV is a simple but powerful methodology:
+PIV is a comprehensive methodology for AI-assisted development:
 
-1. **Prime** - Understand what you're working with
-2. **Implement** - Plan and execute systematically
-3. **Validate** - Automatic verification of quality
+1. **Prime** - Understand the codebase before making changes
+2. **Implement** - Plan and execute features systematically
+3. **Simplify** - Optional cleanup to maintain code quality
+4. **Validate** - Automatic verification of quality
 
-The methodology is lightweight enough for quick fixes but structured enough for complex features. The automatic validation ensures quality without manual intervention.
+The methodology is lightweight enough for quick fixes but structured enough for complex features. The optional Simplify phase helps maintain code quality, while the automatic validation ensures quality without manual intervention.
 
 **Key Differentiator**: Validation happens **automatically** as part of the execution flow, not as a separate manual step. This ensures every implementation gets thoroughly validated without requiring developer intervention.
 
 **Remember**: The goal is not to follow the process rigidly, but to use it to produce better code more efficiently. Let the methodology serve you, not the other way around.
+
+**When in doubt**: Prime → Plan → Execute → Validate. Simplification is optional and should be used based on code complexity and your judgment.

@@ -39,22 +39,28 @@ git init
 
 1. **Prime the workspace** - Load codebase context
    ```
-   Ask Claude: "Run /core_piv_loop:prime to load the project context"
+   Ask Claude: "Run /piv_loop:prime to load the project context"
    ```
 
 2. **Plan your feature** - Create detailed implementation plan
    ```
-   Ask Claude: "Use /core_piv_loop:plan-feature to create a plan for adding user authentication"
+   Ask Claude: "Use /piv_loop:plan-feature to create a plan for adding user authentication"
    ```
 
 3. **Execute** - Implement from plan
    ```
-   Ask Claude: "Use /core_piv_loop:execute to implement the plan"
+   Ask Claude: "Use /piv_loop:execute to implement the plan"
    ```
 
 4. **Validate** - Automatic validation runs after execute
    ```
    No manual step - /validation:validate runs automatically!
+   ```
+
+5. **Bug Fixes** - When bugs occur
+   ```
+   Ask Claude: "Run /bug_fix:rca for issue #123"
+   Ask Claude: "Use /bug_fix:implement-fix to fix the bug"
    ```
 
 ---
@@ -73,12 +79,16 @@ git init
 
 ### Command Infrastructure
 Standardized Claude Code commands for PIV workflow:
-- `/core_piv_loop:prime` - Load context and prime workspace
-- `/core_piv_loop:plan-feature "description"` - Create detailed feature plans
-- `/core_piv_loop:execute [plan]` - Execute from plan (auto-validates)
+- `/piv_loop:prime` - Load context and prime workspace
+- `/piv_loop:plan-feature "description"` - Create detailed feature plans
+- `/piv_loop:execute [plan]` - Execute from plan (auto-validates)
 - `/validation:validate` - Run validation pipeline (automatic)
 - `/validation:code-review` - Optional detailed code review
+- `/validation:code-review-fix` - Fix issues from code review
 - `/validation:execution-report` - View execution report
+- `/validation:system-review` - Analyze implementation vs plan
+- `/bug_fix:rca` - Root cause analysis for bugs
+- `/bug_fix:implement-fix` - Implement bug fix from RCA
 
 ### Technology Templates
 Pre-built templates for popular technologies:
@@ -109,10 +119,19 @@ claude-piv-skeleton/
 │   ├── CLAUDE.md                # Root project instructions
 │   ├── PIV-METHODOLOGY.md       # Core methodology documentation
 │   ├── commands/                # PIV command definitions
-│   │   ├── prime.md             # Prime phase command
-│   │   ├── plan-feature.md      # Plan phase command
-│   │   ├── execute.md           # Execute phase command
-│   │   └── validate.md          # Validate phase command
+│   │   ├── piv_loop/            # Core PIV workflow commands
+│   │   │   ├── prime.md         # Prime phase command
+│   │   │   ├── plan-feature.md  # Plan phase command
+│   │   │   └── execute.md       # Execute phase command
+│   │   ├── validation/          # Validation phase commands
+│   │   │   ├── validate.md      # Full validation pipeline
+│   │   │   ├── code-review.md   # Technical code review
+│   │   │   ├── code-review-fix.md # Fix code review issues
+│   │   │   ├── execution-report.md # Implementation report
+│   │   │   └── system-review.md # Process improvement analysis
+│   │   └── bug_fix/             # Bug fix workflow commands
+│   │       ├── rca.md           # Root cause analysis
+│   │       └── implement-fix.md # Implement bug fix
 │   ├── rules/                   # Coding rules (Claude loads from here)
 │   │   ├── backend/             # Technology-specific rules
 │   │   │   ├── 10-api-design.md # Spring Boot API patterns
@@ -126,7 +145,8 @@ claude-piv-skeleton/
 │   ├── agents/                  # Agent artifact directories (auto-generated)
 │   │   ├── context/             # Prime phase context artifacts
 │   │   ├── plans/               # Plan phase artifacts
-│   │   └── reviews/             # Code review artifacts
+│   │   ├── reports/             # Execution and validation reports
+│   │   └── reviews/             # Code review and RCA artifacts
 │   └── reference/               # Best practices and patterns
 │       └── patterns/            # Design patterns reference
 ├── technologies/                # Technology-specific templates
