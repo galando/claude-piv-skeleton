@@ -114,7 +114,10 @@ check_existing_installation() {
             "Uninstall PIV" \
             "Cancel"
 
-        local choice=$?
+        local choice=$(select_menu "What would you like to do?" \
+            "Reinstall PIV (will backup current installation)" \
+            "Uninstall PIV" \
+            "Cancel")
         echo ""
 
         case $choice in
@@ -210,7 +213,9 @@ EOF
         "Merge mode (integrate with existing .claude/)" \
         "Separate mode (keep .claude-piv/ separate)"
 
-    local choice=$?
+    local choice=$(select_menu "Select installation mode:" \
+        "Merge mode (integrate with existing .claude/)" \
+        "Separate mode (keep .claude-piv/ separate)")
     echo ""
 
     case $choice in
