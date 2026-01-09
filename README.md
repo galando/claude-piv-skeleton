@@ -134,8 +134,7 @@ claude-piv-skeleton/
 │   │   ├── spring-boot/         # Java/Kotlin + Spring Boot
 │   │   │   ├── README.md        # Technology overview
 │   │   │   ├── reference/       # Best practices reference
-│   │   │   ├── examples/        # Code examples
-│   │   │   └── (no .claude - rules at root .claude/rules/backend/)
+│   │   │   └── examples/        # Code examples
 │   │   ├── node-express/        # Node.js + Express
 │   │   └── python-fastapi/      # Python + FastAPI
 │   ├── frontend/                # Frontend frameworks
