@@ -210,13 +210,11 @@ manage_backups() {
     fi
 
     echo ""
-    select_menu "What would you like to do?" \
+    local choice=$(select_menu "What would you like to do?" \
         "Restore a backup" \
         "Delete a backup" \
         "Delete all backups" \
-        "Cancel"
-
-    local choice=$?
+        "Cancel")
 
     case $choice in
         1)

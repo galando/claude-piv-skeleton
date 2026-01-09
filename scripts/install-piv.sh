@@ -57,9 +57,9 @@ source "install/merge-mode.sh"
 source "install/separate-mode.sh"
 source "install/verify.sh"
 
-# Global variables
-INSTALLATION_MODE=""
-PIV_SOURCE_DIR=""
+# Global variables (exported for subprocess access)
+export INSTALLATION_MODE=""
+export PIV_SOURCE_DIR=""
 
 # Print welcome banner
 print_welcome() {
@@ -208,10 +208,6 @@ Choose how PIV should be installed:
     • Best for: Trying PIV without changing existing setup
 
 EOF
-
-    select_menu "Select installation mode:" \
-        "Merge mode (integrate with existing .claude/)" \
-        "Separate mode (keep .claude-piv/ separate)"
 
     local choice=$(select_menu "Select installation mode:" \
         "Merge mode (integrate with existing .claude/)" \

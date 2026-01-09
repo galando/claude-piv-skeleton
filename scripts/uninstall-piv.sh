@@ -136,12 +136,10 @@ main() {
     # Offer to restore backup first
     if has_backup; then
         echo ""
-        select_menu "Backup found. What would you like to do?" \
+        local choice=$(select_menu "Backup found. What would you like to do?" \
             "Restore backup (recommended - reverts to pre-PIV state)" \
             "Remove PIV files only (keep backup for now)" \
-            "Cancel"
-
-        local choice=$?
+            "Cancel")
         echo ""
 
         case $choice in
