@@ -16,13 +16,19 @@ DETECTED_DEVOPS=()
 # Detection functions for backend technologies
 
 detect_spring_boot() {
-    if [ -f "pom.xml" ]; then
-        if grep -qi "spring-boot" pom.xml; then
+    # Check for pom.xml (Maven)
+    if find . -name "pom.xml" -type f 2>/dev/null | head -1 | grep -q .; then
+        local pom_file=$(find . -name "pom.xml" -type f 2>/dev/null | head -1)
+        if grep -qi "spring-boot" "$pom_file"; then
+            log "INFO" "Detected Spring Boot via $pom_file"
             return 0
         fi
     fi
-    if [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
-        if grep -qi "spring-boot" build.gradle* 2>/dev/null; then
+    # Check for build.gradle (Gradle)
+    if find . -name "build.gradle" -o -name "build.gradle.kts" 2>/dev/null | head -1 | grep -q .; then
+        local gradle_file=$(find . \( -name "build.gradle" -o -name "build.gradle.kts" \) -type f 2>/dev/null | head -1)
+        if grep -qi "spring-boot" "$gradle_file"; then
+            log "INFO" "Detected Spring Boot via $gradle_file"
             return 0
         fi
     fi
