@@ -35,12 +35,17 @@ if [ -z "${BASH_SOURCE+x}" ] || [ "${BASH_SOURCE[0]}" = "bash" ] || [ "${BASH_SO
     fi
 
     # Change back to original directory and run the real installer
-    cd "$ORIGINAL_DIR"
+    cd "$ORIGINAL_DIR" || cd /
     # Ensure stdin is connected to terminal for interactive prompts
     echo "Starting installer..."
     # Use bash explicitly with proper terminal handling
     bash "$TEMP_DIR/scripts/install-piv.sh" < /dev/tty
-    exit $?
+    EXIT_CODE=$?
+
+    # Clean up temp directory
+    rm -rf "$TEMP_DIR"
+
+    exit $EXIT_CODE
 fi
 
 # Get script directory
@@ -264,7 +269,10 @@ install_piv() {
     print_info "PIV source: $PIV_SOURCE_DIR"
 
     # Change back to original directory for installation
-    cd "$ORIGINAL_DIR"
+    cd "$ORIGINAL_DIR" || {
+        print_error "Cannot access original directory: $ORIGINAL_DIR"
+        return 1
+    }
 
     # Install based on mode
     if [ "$INSTALLATION_MODE" = "merge" ]; then
