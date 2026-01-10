@@ -229,6 +229,8 @@ EOF
             print_success "Selected: Separate mode"
             ;;
     esac
+
+    log "INFO" "Mode selected: $INSTALLATION_MODE"
 }
 
 # Install PIV
@@ -275,6 +277,7 @@ install_piv() {
     }
 
     # Install based on mode
+    log "INFO" "Installing with mode: '$INSTALLATION_MODE'"
     if [ "$INSTALLATION_MODE" = "merge" ]; then
         set_piv_source "$PIV_SOURCE_DIR"
         install_merge_mode

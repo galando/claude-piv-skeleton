@@ -85,6 +85,7 @@ check_content() {
 verify_installation() {
     local mode="${1:-merge}"
 
+    log "INFO" "Verifying with mode: '$mode'"
     print_header "Verifying PIV Installation"
 
     CHECKS_PASSED=0
