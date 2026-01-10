@@ -219,6 +219,9 @@ EOF
         "Separate mode (keep .claude-piv/ separate)")
     echo ""
 
+    # Debug: log what we received
+    log "INFO" "User selected choice: '$choice' (length: ${#choice})"
+
     case $choice in
         1)
             INSTALLATION_MODE="merge"
@@ -227,6 +230,10 @@ EOF
         2)
             INSTALLATION_MODE="separate"
             print_success "Selected: Separate mode"
+            ;;
+        *)
+            INSTALLATION_MODE="separate"
+            print_warning "Invalid choice '$choice', defaulting to Separate mode"
             ;;
     esac
 
