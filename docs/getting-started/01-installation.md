@@ -130,7 +130,7 @@ Test that Claude Code recognizes your PIV setup:
 
 ```bash
 # In Claude Code, run:
-/core_piv_loop:prime
+/piv_loop:prime
 ```
 
 You should see context loading from your project.

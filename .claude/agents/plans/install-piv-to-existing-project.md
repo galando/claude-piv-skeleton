@@ -607,4 +607,4 @@ Create minimal project fixtures for testing:
 
 ---
 
-**Ready to execute. Use `/core_piv_loop:execute` to implement this plan.**
+**Ready to execute. Use `/piv_loop:execute` to implement this plan.**

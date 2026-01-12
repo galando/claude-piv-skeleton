@@ -11,7 +11,7 @@ description: Run comprehensive validation pipeline (automatic after execute)
 
 ## Command Definition
 
-This command runs a comprehensive validation pipeline to ensure code quality. It is **automatically triggered** after `/core_piv_loop:execute` completes.
+This command runs a comprehensive validation pipeline to ensure code quality. It is **automatically triggered** after `/piv_loop:execute` completes.
 
 ## Usage
 
@@ -19,7 +19,7 @@ This command runs a comprehensive validation pipeline to ensure code quality. It
 /validation:validate
 ```
 
-**Note**: This command runs automatically after `/core_piv_loop:execute`. Manual invocation is rarely needed.
+**Note**: This command runs automatically after `/piv_loop:execute`. Manual invocation is rarely needed.
 
 ---
 
@@ -494,10 +494,10 @@ extend-ignore = E203, W503
 
 ## Automatic Execution
 
-This command runs **automatically** as part of `/core_piv_loop:execute`:
+This command runs **automatically** as part of `/piv_loop:execute`:
 
 ```
-/core_piv_loop:execute
+/piv_loop:execute
   │
   ├─▶ Execute implementation steps
   │
@@ -516,7 +516,7 @@ This command runs **automatically** as part of `/core_piv_loop:execute`:
 
 ## Related Commands
 
-- `/core_piv_loop:execute` - Triggers validation automatically
+- `/piv_loop:execute` - Triggers validation automatically
 - `/validation:code-review` - Detailed code review (runs in parallel)
 - `/validation:execution-report` - View execution report
 

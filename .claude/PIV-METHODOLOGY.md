@@ -61,7 +61,7 @@ The methodology is designed to minimize misunderstandings, reduce rework, and ma
 
 ### Commands
 ```
-/core_piv_loop:prime
+/piv_loop:prime
 ```
 
 ### Artifacts Created
@@ -93,7 +93,7 @@ The Implement phase combines planning AND execution into a unified flow.
 
 ### What Happens
 
-#### Step 1: Plan (`/core_piv_loop:plan-feature`)
+#### Step 1: Plan (`/piv_loop:plan-feature`)
 - Feature requirements are gathered and clarified
 - Technical approach is designed
 - Architecture decisions are documented
@@ -101,7 +101,7 @@ The Implement phase combines planning AND execution into a unified flow.
 - Files to create/modify are listed
 - Verification criteria are defined
 
-#### Step 2: Execute (`/core_piv_loop:execute`)
+#### Step 2: Execute (`/piv_loop:execute`)
 - Implementation follows the plan step-by-step
 - Code is written following all applicable rules
 - Changes are made incrementally
@@ -124,12 +124,12 @@ The Implement phase combines planning AND execution into a unified flow.
 
 #### Planning
 ```
-/core_piv_loop:plan-feature "Feature description"
+/piv_loop:plan-feature "Feature description"
 ```
 
 #### Execution
 ```
-/core_piv_loop:execute [plan-name]
+/piv_loop:execute [plan-name]
 ```
 
 ### Artifacts Created
@@ -327,7 +327,7 @@ The `/validation:validate` command runs a comprehensive validation pipeline:
 /validation:validate
 ```
 
-This command is **automatically invoked** after `/core_piv_loop:execute` completes.
+This command is **automatically invoked** after `/piv_loop:execute` completes.
 
 #### Code Review (Optional)
 ```
@@ -375,7 +375,7 @@ Includes:
 The validation is designed to run **automatically** as part of the execution flow:
 
 ```
-/core_piv_loop:execute
+/piv_loop:execute
   │
   ├─▶ Implement feature
   │
@@ -405,18 +405,18 @@ The validation is designed to run **automatically** as part of the execution flo
 ### Standard Feature Development
 
 ```
-1. /core_piv_loop:prime
+1. /piv_loop:prime
    │
    ├─▶ Load codebase context
    ├─▶ Create context artifact
    │
-2. /core_piv_loop:plan-feature "Add user authentication"
+2. /piv_loop:plan-feature "Add user authentication"
    │
    ├─▶ Analyze requirements
    ├─▶ Design approach
    ├─▶ Create plan artifact
    │
-3. /core_piv_loop:execute
+3. /piv_loop:execute
    │
    ├─▶ Implement from plan
    ├─▶ Follow all rules
@@ -565,7 +565,7 @@ Start
 
 ### What Runs Automatically
 
-After `/core_piv_loop:execute`:
+After `/piv_loop:execute`:
 
 ```
 1. /validation:validate (AUTOMATIC)

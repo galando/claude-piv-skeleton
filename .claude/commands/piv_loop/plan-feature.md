@@ -1,4 +1,4 @@
-# Command: /core_piv_loop:plan-feature
+# Command: /piv_loop:plan-feature
 
 **Phase: Implement**
 **Purpose: Create comprehensive implementation plan**
@@ -12,7 +12,7 @@ This command creates a detailed implementation plan for a feature, including req
 ## Usage
 
 ```
-/core_piv_loop:plan-feature "Feature description"
+/piv_loop:plan-feature "Feature description"
 ```
 
 ## What It Does
@@ -163,7 +163,7 @@ Summary:
 - [X] files to modify
 - [X] verification criteria
 
-Ready to execute. Use /core_piv_loop:execute to implement.
+Ready to execute. Use /piv_loop:execute to implement.
 ```
 
 ## Implementation Notes
@@ -194,7 +194,7 @@ During planning, Claude should:
 
 Example interaction:
 ```
-User: /core_piv_loop:plan-feature "Add user authentication"
+User: /piv_loop:plan-feature "Add user authentication"
 
 Claude: I'll create a plan for adding user authentication. A few questions:
 
@@ -230,13 +230,13 @@ After planning:
 
 1. **Review** the plan with user
 2. **Revise** if needed based on feedback
-3. **Execute** using `/core_piv_loop:execute`
+3. **Execute** using `/piv_loop:execute`
 4. **Validate** runs automatically after execute
 
 ## Related Commands
 
-- `/core_piv_loop:prime` - Load context (run before planning)
-- `/core_piv_loop:execute` - Execute from plan
+- `/piv_loop:prime` - Load context (run before planning)
+- `/piv_loop:execute` - Execute from plan
 - `/validation:validate` - Run validation (automatic)
 
 ---

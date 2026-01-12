@@ -24,7 +24,7 @@ This guide will get you up and running with the PIV methodology quickly.
 
 **Ask Claude Code**:
 ```
-Run /core_piv_loop:prime to load the project context
+Run /piv_loop:prime to load the project context
 ```
 
 **What happens**:
@@ -45,12 +45,12 @@ Run /core_piv_loop:prime to load the project context
 
 **Ask Claude Code**:
 ```
-Use /core_piv_loop:plan-feature to create a plan for adding [your feature]
+Use /piv_loop:plan-feature to create a plan for adding [your feature]
 ```
 
 **Example**:
 ```
-Use /core_piv_loop:plan-feature to create a plan for adding user authentication
+Use /piv_loop:plan-feature to create a plan for adding user authentication
 ```
 
 **What happens**:
@@ -66,7 +66,7 @@ Use /core_piv_loop:plan-feature to create a plan for adding user authentication
 
 **Ask Claude Code**:
 ```
-Use /core_piv_loop:execute to implement the plan
+Use /piv_loop:execute to implement the plan
 ```
 
 **What happens**:
@@ -119,16 +119,16 @@ Implement this change: Add a timestamp field to the User entity
 
 ```bash
 # 1. Prime context
-/core_piv_loop:prime
+/piv_loop:prime
 
 # 2. Plan feature
-/core_piv_loop:plan-feature "Add user authentication"
+/piv_loop:plan-feature "Add user authentication"
 
 # 3. Review plan (in .claude/agents/plans/)
 # Edit if needed
 
 # 4. Execute plan
-/core_piv_loop:execute
+/piv_loop:execute
 
 # 5. Validation runs automatically
 # ✨ No manual step needed!
@@ -143,7 +143,7 @@ Implement this change: Add a timestamp field to the User entity
 
 ```bash
 # 1. Prime context (if not already done)
-/core_piv_loop:prime
+/piv_loop:prime
 
 # 2. Implement fix directly
 Fix the bug in UserService where null pointer occurs
@@ -157,7 +157,7 @@ Fix the bug in UserService where null pointer occurs
 
 ```bash
 # When switching to a new session or project
-/core_piv_loop:prime
+/piv_loop:prime
 ```
 
 **Total Time**: 30 seconds
@@ -170,9 +170,9 @@ Fix the bug in UserService where null pointer occurs
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
-| `/core_piv_loop:prime` | Load context | New session, context switch |
-| `/core_piv_loop:plan-feature "desc"` | Create plan | Complex features, refactoring |
-| `/core_piv_loop:execute` | Implement | Execute from plan |
+| `/piv_loop:prime` | Load context | New session, context switch |
+| `/piv_loop:plan-feature "desc"` | Create plan | Complex features, refactoring |
+| `/piv_loop:execute` | Implement | Execute from plan |
 | `/validation:validate` | Run validation | Manual validation (optional) |
 | `/validation:code-review` | Code review | Detailed technical review |
 | `/validation:execution-report` | View report | See what was executed |
@@ -212,13 +212,13 @@ Fix the bug in UserService where null pointer occurs
 
 ```bash
 # 1. Prime
-/core_piv_loop:prime
+/piv_loop:prime
 
 # 2. Plan
-/core_piv_loop:plan-feature "Add REST API endpoint for creating users"
+/piv_loop:plan-feature "Add REST API endpoint for creating users"
 
 # 3. Execute
-/core_piv_loop:execute
+/piv_loop:execute
 
 # 4. Review
 /validation:execution-report
@@ -228,7 +228,7 @@ Fix the bug in UserService where null pointer occurs
 
 ```bash
 # 1. Prime (if needed)
-/core_piv_loop:prime
+/piv_loop:prime
 
 # 2. Implement directly
 Fix the bug where user email validation doesn't reject invalid domains
@@ -240,13 +240,13 @@ Fix the bug where user email validation doesn't reject invalid domains
 
 ```bash
 # 1. Prime
-/core_piv_loop:prime
+/piv_loop:prime
 
 # 2. Plan
-/core_piv_loop:plan-feature "Refactor UserService to use repository pattern"
+/piv_loop:plan-feature "Refactor UserService to use repository pattern"
 
 # 3. Execute
-/core_piv_loop:execute
+/piv_loop:execute
 ```
 
 ---
@@ -279,7 +279,7 @@ Fix the bug where user email validation doesn't reject invalid domains
 
 ### "Claude doesn't understand my codebase"
 
-**Solution**: Run `/core_piv_loop:prime` to reload context
+**Solution**: Run `/piv_loop:prime` to reload context
 
 ### "Plan doesn't match what I want"
 

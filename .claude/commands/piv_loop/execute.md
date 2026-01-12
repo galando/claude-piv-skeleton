@@ -3,7 +3,7 @@ description: Execute an implementation plan step-by-step with automatic validati
 argument-hint: "<path-to-plan.md>"
 ---
 
-# Command: /core_piv_loop:execute
+# Command: /piv_loop:execute
 
 **Phase: Implement**
 **Purpose: Execute implementation plan step-by-step**
@@ -12,12 +12,12 @@ argument-hint: "<path-to-plan.md>"
 
 ## Command Definition
 
-This command executes an implementation plan created by `/core_piv_loop:plan-feature`, following the steps systematically and creating/modifying files as specified.
+This command executes an implementation plan created by `/piv_loop:plan-feature`, following the steps systematically and creating/modifying files as specified.
 
 ## Usage
 
 ```
-/core_piv_loop:execute [plan-name]
+/piv_loop:execute [plan-name]
 ```
 
 If no plan name is specified, uses the most recent plan.
@@ -432,8 +432,8 @@ If you want to skip automatic validation and run manually:
 
 ## Related Commands
 
-- `/core_piv_loop:prime` - Load context before executing
-- `/core_piv_loop:plan-feature` - Create plan (before execute)
+- `/piv_loop:prime` - Load context before executing
+- `/piv_loop:plan-feature` - Create plan (before execute)
 - `/validation:validate` - Run validation (automatic after execute)
 - `/validation:code-review` - Detailed code review (automatic)
 - `/validation:execution-report` - View execution report

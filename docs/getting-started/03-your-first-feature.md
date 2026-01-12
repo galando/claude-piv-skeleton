@@ -42,7 +42,7 @@ A user registration system with:
 
 **Ask Claude Code**:
 ```
-Run /core_piv_loop:prime to load the project context
+Run /piv_loop:prime to load the project context
 ```
 
 **What to Expect**:
@@ -59,7 +59,7 @@ Run /core_piv_loop:prime to load the project context
 
 **Ask Claude Code**:
 ```
-Use /core_piv_loop:plan-feature to create a plan for implementing user registration with email validation, password hashing, and database storage
+Use /piv_loop:plan-feature to create a plan for implementing user registration with email validation, password hashing, and database storage
 ```
 
 **What to Expect**:
@@ -126,7 +126,7 @@ Claude will:
 
 **Ask Claude Code**:
 ```
-Use /core_piv_loop:execute to implement the user registration plan
+Use /piv_loop:execute to implement the user registration plan
 ```
 
 **What to Expect**:
@@ -352,7 +352,7 @@ Plan user registration with:
 git stash
 
 # Run execute
-/core_piv_loop:execute
+/piv_loop:execute
 
 # Review changes
 git diff
@@ -391,33 +391,33 @@ For multi-feature projects:
 
 ```bash
 # 1. Prime once
-/core_piv_loop:prime
+/piv_loop:prime
 
 # 2. Plan each feature
-/core_piv_loop:plan-feature "User authentication"
-/core_piv_loop:plan-feature "User profile"
-/core_piv_loop:plan-feature "Password reset"
+/piv_loop:plan-feature "User authentication"
+/piv_loop:plan-feature "User profile"
+/piv_loop:plan-feature "Password reset"
 
 # 3. Execute each plan
-/core_piv_loop:execute  # Runs with last plan
+/piv_loop:execute  # Runs with last plan
 # Or execute specific plan
-/core_piv_loop:execute user-authentication
+/piv_loop:execute user-authentication
 ```
 
 ### Iterative Development
 
 ```bash
 # Plan basic version
-/core_piv_loop:plan-feature "User registration (basic)"
+/piv_loop:plan-feature "User registration (basic)"
 
 # Execute basic version
-/core_piv_loop:execute
+/piv_loop:execute
 
 # Plan enhancements
-/core_piv_loop:plan-feature "Add email verification to registration"
+/piv_loop:plan-feature "Add email verification to registration"
 
 # Execute enhancements
-/core_piv_loop:execute
+/piv_loop:execute
 ```
 
 ---

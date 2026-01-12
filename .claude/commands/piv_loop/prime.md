@@ -255,7 +255,7 @@ frontend/src/
 
 After creating the context file:
 
-1. **Use this context** when creating feature plans with `/core_piv_loop:plan-feature`
+1. **Use this context** when creating feature plans with `/piv_loop:plan-feature`
 2. **Update this context** weekly or when major changes occur
 3. **Reference this file** from all implementation plans
 

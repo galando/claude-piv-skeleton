@@ -24,9 +24,9 @@ This is a **skeleton/template repository** for starting new projects with the PI
 
 | Command | Purpose |
 |---------|---------|
-| `/core_piv_loop:prime` | Load codebase context and understanding |
-| `/core_piv_loop:plan-feature "description"` | Create implementation plan |
-| `/core_piv_loop:execute` | Execute implementation plan |
+| `/piv_loop:prime` | Load codebase context and understanding |
+| `/piv_loop:plan-feature "description"` | Create implementation plan |
+| `/piv_loop:execute` | Execute implementation plan |
 
 ### Validation (Automatic)
 
@@ -53,7 +53,7 @@ This is a **skeleton/template repository** for starting new projects with the PI
 **Load context before making changes**
 
 ```
-Ask: "Run /core_piv_loop:prime to load project context"
+Ask: "Run /piv_loop:prime to load project context"
 ```
 
 ### Phase 2: Implement
@@ -61,8 +61,8 @@ Ask: "Run /core_piv_loop:prime to load project context"
 
 For complex work:
 ```
-Ask: "Use /core_piv_loop:plan-feature to plan adding [feature]"
-Ask: "Use /core_piv_loop:execute to implement the plan"
+Ask: "Use /piv_loop:plan-feature to plan adding [feature]"
+Ask: "Use /piv_loop:execute to implement the plan"
 ```
 
 For simple changes:
@@ -74,7 +74,7 @@ Ask: "Implement this fix directly"
 **Automatic verification**
 
 ```
-✨ Runs automatically after /core_piv_loop:execute
+✨ Runs automatically after /piv_loop:execute
 ```
 
 No manual intervention needed - validation includes:
@@ -183,7 +183,7 @@ When cloning this skeleton, update:
 
 | Scenario | Approach |
 |----------|----------|
-| New session | Always `/core_piv_loop:prime` |
+| New session | Always `/piv_loop:prime` |
 | Context switch | Prime again |
 | Simple bug fix | Implement directly |
 | New endpoint | Plan → Execute |

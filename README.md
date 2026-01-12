@@ -23,6 +23,30 @@ This methodology ensures Claude Code has proper context before making changes, c
 
 ## Quick Start
 
+### 🚀 One-Line Install (Existing Projects)
+
+The fastest way to add PIV to your existing project:
+
+```bash
+curl -s https://raw.githubusercontent.com/galando/claude-piv-skeleton/main/scripts/install-piv.sh | bash
+```
+
+**Or download and run manually:**
+
+```bash
+git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv
+cd your-project
+/tmp/piv/scripts/install-piv.sh
+```
+
+The installer will:
+- ✅ Detect your technology stack automatically
+- ✅ Install PIV commands and rules
+- ✅ Preserve your existing configuration
+- ✅ Create automatic backup before making changes
+
+**See [Installing to Existing Projects](docs/getting-started/04-installing-to-existing-projects.md) for detailed guide.**
+
 ### For New Projects
 
 ```bash
@@ -37,25 +61,6 @@ git init
 # Install your technology stack
 # (Follow technology-specific guides in technologies/ directory)
 ```
-
-### For Existing Projects ✨ NEW
-
-Add PIV to your existing project with the interactive installer:
-
-```bash
-# Clone and run installer
-git clone https://github.com/galando/claude-piv-skeleton.git /tmp/piv
-cd your-project
-/tmp/piv/scripts/install-piv.sh
-
-# The installer will:
-# • Detect your technology stack
-# • Install PIV commands and rules
-# • Preserve your existing configuration
-# • Create automatic backup
-```
-
-**See [Installing to Existing Projects](docs/getting-started/04-installing-to-existing-projects.md) for detailed guide.**
 
 ### Your First Feature
 
