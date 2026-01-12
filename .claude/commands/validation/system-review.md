@@ -12,7 +12,7 @@ argument-hint: "<path-to-plan.md> <path-to-execution-report.md>"
 
 **Example:**
 ```bash
-/validation:system-review .claude/agents/plans/feature-name.md .claude/agents/reports/execution-report-feature-name.md
+/piv:system-review .claude/agents/plans/example-feature-validation.md .claude/agents/execution-reports/example-feature-validation-report.md
 ```
 
 ## Purpose
@@ -247,7 +247,7 @@ This is NOT about the code quality (that's code-review). This is about improving
 
 **Anti-Patterns to Document:**
 - [What to avoid]
-- [Add to anti-patterns documentation]
+- [Add to anti-patterns.md]
 
 ### 6. Process Improvement Recommendations
 
@@ -316,9 +316,9 @@ This is NOT about the code quality (that's code-review). This is about improving
 
 ## Save Report
 
-**Location:** `.claude/agents/reviews/system-review-{feature-name}.md`
+**Location:** `.claude/agents/system-reviews/{feature-name}-system-review.md`
 
-**Example:** `.claude/agents/reviews/system-review-user-authentication.md`
+**Example:** `.claude/agents/system-reviews/example-feature-validation-system-review.md`
 
 ## Use Cases
 

@@ -19,7 +19,7 @@ git ls-files
 
 Show directory structure:
 ```bash
-find . -type f \( -name "*.java" -o -name "*.ts" -o -name "*.tsx" -o -name "*.py" -o -name "*.js" -o -name "*.go" \) | grep -v node_modules | grep -v target | grep -v __pycache__ | grep -v ".git" | head -100
+find . -type f -name "*.java" -o -name "*.ts" -o -name "*.tsx" -o -name "*.md" | grep -v node_modules | grep -v target | head -100
 ```
 
 ### 2. Read Core Documentation
@@ -27,40 +27,27 @@ find . -type f \( -name "*.java" -o -name "*.ts" -o -name "*.tsx" -o -name "*.py
 **Must Read:**
 - `.claude/CLAUDE.md` - Project overview and tech stack
 - `README.md` - Quick start guide
-- `docs/ARCHITECTURE.md` - System architecture (if exists)
+- `docs/ARCHITECTURE.md` - System architecture
 - `.claude/rules/` - Modular coding rules
 
 ### 3. Identify Key Files
 
 Based on the structure, identify and read:
 
-**Backend (Example: Java + Spring Boot):**
-- `backend/pom.xml` or `build.gradle` - Dependencies and version
+**Backend (Java 24 + Spring Boot):**
+- `backend/pom.xml` - Maven dependencies and Java version
 - `backend/src/main/java/com/example/Application.java` - Entry point
 - `backend/src/main/resources/application.properties` - Configuration
 - Key controllers: `backend/src/main/java/com/example/controller/`
 - Key services: `backend/src/main/java/com/example/service/`
 - Key entities: `backend/src/main/java/com/example/entity/`
 
-**Backend (Example: Python + FastAPI):**
-- `backend/pyproject.toml` or `requirements.txt` - Dependencies
-- `backend/main.py` or `backend/app/main.py` - Entry point
-- Key routers: `backend/app/api/`
-- Key services: `backend/app/services/`
-- Key models: `backend/app/models/`
-
-**Backend (Example: Node.js + Express):**
-- `backend/package.json` - Dependencies
-- `backend/src/index.js` or `backend/server.js` - Entry point
-- Key routes: `backend/src/routes/`
-- Key controllers: `backend/src/controllers/`
-
-**Frontend (Example: React):**
+**Frontend (React 19 + Vite):**
 - `frontend/package.json` - Dependencies
-- `frontend/src/main.tsx` or `frontend/src/index.tsx` - Entry point
+- `frontend/src/main.tsx` - Entry point
 - `frontend/src/App.tsx` - Main app component
 - Key components: `frontend/src/components/`
-- Key pages: `frontend/src/pages/` or `frontend/src/app/`
+- Key pages: `frontend/src/pages/`
 
 ### 4. Understand Current State
 
@@ -77,30 +64,31 @@ git branch --show-current
 
 ### 5. Pattern Recognition
 
-Identify key patterns based on your technology stack:
+Identify key patterns:
 
-**Common Backend Patterns:**
-- Repository/ORM pattern (e.g., Spring Data JDBC, SQLAlchemy, TypeORM)
-- Service layer (business logic separation)
-- DTOs/Response models (API layer separation)
-- Logging strategy (structured logging, levels)
-- Error handling approach (graceful degradation, exceptions)
+**Backend Patterns:**
+- Repository pattern: Spring Data JDBC (NOT JPA)
+- Service layer: @Service with @RequiredArgsConstructor
+- DTOs: Separate DTO classes for API responses
+- Logging: SLF4J structured logging
+- Error handling: Graceful degradation, continue processing
 
-**Common Frontend Patterns:**
-- Component architecture (functional, hooks, class-based)
-- State management (Context, Redux, Zustand, signals)
-- HTTP client (fetch, Axios, etc.)
-- Styling (CSS modules, Tailwind, styled-components)
-- Routing approach
+**Frontend Patterns:**
+- Functional components with hooks
+- Context API for global state
+- Axios for HTTP client
+- TailwindCSS utility classes
+- TypeScript interfaces
 
-**Common Testing Patterns:**
-- Test framework (JUnit, pytest, Jest, Vitest)
-- Mocking approach (Mockito, unittest.mock, vi.mock)
-- Test types (unit, integration, E2E)
+**Testing Patterns:**
+- JUnit 5 for unit tests
+- Mockito for mocking
+- @SpringBootTest for integration tests
+- Testcontainers for PostgreSQL
 
 ### 6. External Dependencies
 
-Identify external APIs and services:
+**Identify external APIs and services:**
 - Authentication providers
 - Database systems
 - External APIs
@@ -149,33 +137,48 @@ Identify external APIs and services:
 
 ### Backend Patterns
 
-**Repository/ORM Pattern:**
-- {ORM or data access approach}
-- {Key conventions}
+**Repository Pattern:**
+- Spring Data JDBC (NOT JPA/Hibernate)
+- @Repository interfaces extending CrudRepository
+- Custom @Query annotations for complex queries
 
 **Service Layer:**
-- {Business logic organization}
-- {Dependency injection approach}
+- @Service annotation
+- @RequiredArgsConstructor for constructor injection
+- Business logic in services, not controllers
+- @Transactional for database operations
 
-**DTOs/Response Models:**
-- {API layer separation strategy}
+**DTOs:**
+- Separate DTO classes for API responses
+- Never return entities from controllers
+- Map entities to DTOs in service layer
 
 **Logging:**
-- {Logging framework and patterns}
+- SLF4J + Logback
+- Structured logging with key-value pairs
+- log.info(), log.error(), log.warn()
 
 **Error Handling:**
-- {Error handling strategy}
+- Graceful degradation on non-critical errors
+- Continue processing even if individual items fail
+- Try-catch around external API calls
 
 ### Frontend Patterns
 
 **Components:**
-- {Component architecture}
+- Functional components with hooks (no class components)
+- TypeScript interfaces for props
+- TailwindCSS utility classes (no inline styles)
 
 **State Management:**
-- {State management approach}
+- React Context API for global state
+- useState for local state
+- useEffect for side effects
 
 **HTTP Client:**
-- {HTTP client and patterns}
+- Axios for API calls
+- Async/await for promises
+- Error handling with try-catch
 
 ## Codebase Structure
 
@@ -196,12 +199,16 @@ frontend/src/
 ├── components/      # React components
 ├── context/         # State management
 ├── api/             # API clients
-└── pages/           # Route pages
+├── pages/           # Route pages
+└── locales/         # i18next translations
 ```
 
 ## Configuration Files
 
-- {List key configuration files}
+- `backend/pom.xml` - Maven dependencies
+- `backend/src/main/resources/application.properties` - Spring config
+- `frontend/package.json` - NPM dependencies
+- `frontend/vite.config.ts` - Vite config
 
 ## External APIs
 
@@ -210,24 +217,29 @@ frontend/src/
 ## Testing
 
 **Backend:**
-- {Test framework}
-- {Mocking approach}
-- {Integration test approach}
+- JUnit 5 for unit tests
+- Mockito for mocking
+- @SpringBootTest for integration tests
+- Testcontainers for PostgreSQL
 
 **Frontend:**
-- {Test framework}
-- {Component testing approach}
+- Vitest for unit tests
+- React Testing Library for component tests
 
 ## Build & Run
 
 **Backend:**
 ```bash
-{Build and run commands}
+cd backend
+mvn clean install
+mvn spring-boot:run
 ```
 
 **Frontend:**
 ```bash
-{Build and run commands}
+cd frontend
+npm install
+npm run dev
 ```
 
 ## Recent Activity
@@ -242,13 +254,21 @@ frontend/src/
 
 ## Important Notes
 
-{List critical patterns and conventions}
+- Use Spring Data JDBC, NOT JPA/Hibernate
+- Always use DTOs in API responses
+- Constructor injection with @RequiredArgsConstructor
+- Structured logging with SLF4J
+- Graceful error handling
+- Test-first approach for new features
+- Never modify existing Flyway migrations
 
 ## References
 
 - CLAUDE.md: Project overview
-- docs/ARCHITECTURE.md: Detailed architecture (if exists)
+- docs/ARCHITECTURE.md: Detailed architecture
 - .claude/rules/: Modular coding rules
+- docs/API.md: API reference
+- docs/SETUP.md: Setup guide
 ```
 
 ## Next Steps

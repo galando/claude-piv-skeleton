@@ -9,7 +9,7 @@ argument-hint: "<path-to-code-review-report>"
 
 Read code review report: `$ARGUMENTS`
 
-**Example:** `.claude/agents/reviews/code-review-{timestamp}.md`
+**Example:** `.claude/agents/code-reviews/example-feature-validation-review.md`
 
 ## Process
 
@@ -60,7 +60,7 @@ For each issue in the review report:
 **Step 2: Apply the fix**
 - Follow the suggestion from the review
 - Use the code example provided
-- Follow project-specific patterns (see `.claude/rules/`)
+- Follow Example patterns (see reference docs)
 
 **Step 3: Verify the fix**
 - Run related tests
@@ -71,54 +71,107 @@ For each issue in the review report:
 - Add comment if logic is complex
 - Update related documentation if needed
 
-### 4. Follow Project Standards
+### 4. Example Standards Compliance
 
-When fixing issues, ensure compliance with your project's technology patterns:
+When fixing issues, ensure compliance with:
 
-**For Spring Boot projects:**
-- Use Spring Data JDBC (NOT JPA/Hibernate)
-- Constructor injection with @RequiredArgsConstructor
-- DTOs for API responses
-- Structured logging
-- Graceful error handling
+**Spring Data JDBC (NOT JPA/Hibernate):**
+```java
+// ✅ GOOD: Simple entity for JDBC
+public class Entity {
+    private Long id;
+    private Long userId;
+}
 
-**For React projects:**
-- Functional components with hooks
-- TypeScript strict mode
-- Proper state management
-- Performance optimizations
+// ❌ BAD: JPA annotations
+@Entity
+public class Entity {
+    @ManyToOne
+    private User user;
+}
+```
 
-**For other technologies:**
-- Check `technologies/*/reference/` for best practices
-- Follow `.claude/rules/` guidelines
-- Maintain consistency with existing code
+**Constructor Injection:**
+```java
+// ✅ GOOD: Constructor injection
+@RequiredArgsConstructor
+public class Service {
+    private final Repository repository;
+}
+
+// ❌ BAD: Field injection
+@Autowired
+private Repository repository;
+```
+
+**DTOs for API:**
+```java
+// ✅ GOOD: Return DTOs
+@GetMapping
+public List<EntityDTO> getAll() {
+    return service.getAll()
+        .stream()
+        .map(EntityDTO::from)
+        .collect(Collectors.toList());
+}
+
+// ❌ BAD: Return entities
+@GetMapping
+public List<Entity> getAll() {
+    return service.getAll();
+}
+```
+
+**Structured Logging:**
+```java
+// ✅ GOOD: Structured logging
+log.info("Fetching completed: source={}, found={}", source, count);
+
+// ❌ BAD: String concatenation
+log.info("Fetching completed for " + source);
+```
+
+**Graceful Error Handling:**
+```java
+// ✅ GOOD: Continue processing
+for (Entity p : properties) {
+    try {
+        process(p);
+    } catch (Exception e) {
+        log.error("Failed to process: {}", p.getId(), e);
+        // Continue with next
+    }
+}
+
+// ❌ BAD: Fail fast
+for (Entity p : properties) {
+    process(p); // Throws exception, stops all processing
+}
+```
 
 ### 5. Validate Fixes
 
-After fixing all issues, run validation commands appropriate for your technology stack:
+After fixing all issues:
 
-**For Spring Boot backend:**
+**Run all validations:**
 ```bash
-# Compilation
-mvn clean compile
+# Level 0: Environment check (LOCAL mode!)
+cat backend/.env.local | grep DATABASE_URL | grep -v "production.example.com"
 
-# Unit tests
-mvn test
+# Level 1: Backend compilation
+cd backend && mvn clean compile
 
-# Integration tests
-mvn verify -DskipUnitTests=true
+# Level 2: Unit tests
+cd backend && mvn test
 
-# Coverage
-mvn jacoco:report
-```
+# Level 3: Integration tests (LOCAL)
+cd backend && mvn verify -DskipUnitTests=true
 
-**For React frontend:**
-```bash
-# Build
-npm run build
+# Level 4: Coverage
+cd backend && mvn jacoco:report
 
-# Tests
-npm test
+# Level 5: Frontend build
+cd frontend && npm run build
 ```
 
 **All validations must pass!**
@@ -127,7 +180,7 @@ npm test
 
 If critical or many issues were fixed:
 
-- Run code review again
+- Run `/piv:code-review` again
 - Verify all issues are resolved
 - No new issues introduced
 
@@ -156,26 +209,28 @@ Provide summary of fixes applied:
 ### Files Modified
 
 - `path/to/file1.java` - Fixed security issue (SQL injection)
-- `path/to/file2.tsx` - Fixed performance issue (unnecessary re-renders)
+- `path/to/file2.java` - Fixed performance issue (N+1 query)
 - `path/to/file3.java` - Fixed code quality issue
 
 ### Validation Results
 
 ```bash
 # All validation commands pass
-✅ Compilation: PASS
+✅ Backend compilation: PASS
 ✅ Unit tests: PASS (42 tests)
 ✅ Integration tests: PASS (8 tests)
 ✅ Coverage: 85% (meets 80% requirement)
-✅ Build: PASS
+✅ Frontend build: PASS
 ```
 
-### Standards Compliance
+### Example Standards Compliance
 
-- ✅ Follows technology patterns
-- ✅ Proper error handling
-- ✅ Appropriate logging
-- ✅ Security best practices
+- ✅ Spring Data JDBC used (not JPA)
+- ✅ Constructor injection
+- ✅ DTOs for API responses
+- ✅ Structured logging
+- ✅ Graceful error handling
+- ✅ Environment-safe configuration
 
 ### Ready for Commit
 
@@ -194,7 +249,7 @@ All critical and high priority issues fixed. Code ready to commit.
 **After fixing issues:**
 
 **IF critical or high priority issues were fixed:**
-- Automatically re-run code review
+- Automatically re-run: `/validation:code-review`
 - Verify all issues are resolved
 - Check for new issues introduced
 - **Loop until:** Code review passes with zero critical/high issues
@@ -209,7 +264,7 @@ All critical and high priority issues fixed. Code ready to commit.
 - User can manually fix and re-run code review
 
 **If called manually (not from code review):**
-- Ask user: "Run code review to verify fixes"
+- Ask user: "Run `/validation:code-review` to verify fixes"
 - Don't auto-chain (user is in control)
 
 This automatic loop ensures code is clean before proceeding to final validation.

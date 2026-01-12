@@ -1,34 +1,19 @@
 ---
-description: Execute an implementation plan step-by-step with automatic validation
+description: Execute an implementation plan
 argument-hint: "<path-to-plan.md>"
 ---
 
-# Command: /piv_loop:execute
+# Execute: Implement from Plan
 
-**Phase: Implement**
-**Purpose: Execute implementation plan step-by-step**
+## Plan to Execute
 
----
+Read plan file: `$ARGUMENTS`
 
-## Command Definition
-
-This command executes an implementation plan created by `/piv_loop:plan-feature`, following the steps systematically and creating/modifying files as specified.
-
-## Usage
-
-```
-/piv_loop:execute [plan-name]
-```
-
-If no plan name is specified, uses the most recent plan.
-
-**Example:** `.claude/agents/plans/feature-implementation.md`
-
----
+**Example:** `.claude/agents/plans/example-feature-address-validation.md`
 
 ## Execution Instructions
 
-### 1. Read and Understand the Plan
+### 1. Read and Understand
 
 **CRITICAL: Read the ENTIRE plan carefully first!**
 
@@ -42,7 +27,7 @@ If no plan name is specified, uses the most recent plan.
 
 ### 2. Read Prime Context
 
-Before starting implementation, read the prime context to understand the codebase:
+Before starting implementation, read the prime context:
 
 ```bash
 Read .claude/agents/context/prime-context.md
@@ -52,29 +37,29 @@ This provides the overall codebase context that the plan builds upon.
 
 ### 3. Read All Mandatory Files
 
-The plan lists files under "CONTEXT REFERENCES" or "Relevant Codebase Files (MUST READ!)"
+The plan lists files under "CONTEXT REFERENCES > Relevant Codebase Files (MUST READ!)"
 
 **Read each file carefully:**
 - Pay attention to patterns used
 - Note naming conventions
-- Understand error handling approaches
+- Understand error handling
 - Observe logging patterns
 
 **Example:**
 ```bash
-# Read relevant pattern files based on your technology
-# Backend patterns (if applicable)
+# Read controller pattern
 Read backend/src/main/java/com/example/controller/ExampleController.java
+
+# Read service pattern
 Read backend/src/main/java/com/example/service/ExampleService.java
 
-# Frontend patterns (if applicable)
-Read frontend/src/components/ExampleComponent.tsx
-Read frontend/src/api/exampleApi.ts
+# Read entity pattern
+Read backend/src/main/java/com/example/entity/Example.java
 ```
 
 ### 4. Execute Tasks in Order
 
-For EACH task in the implementation steps:
+For EACH task in "STEP-BY-STEP TASKS":
 
 #### a. Navigate to the task
 
@@ -86,7 +71,7 @@ For EACH task in the implementation steps:
 
 - **Follow the detailed specifications exactly**
 - Maintain consistency with existing code patterns
-- Include proper type annotations
+- Include proper type annotations (Java) or types (TypeScript)
 - Add structured logging where appropriate
 - Follow naming conventions from the plan
 
@@ -96,21 +81,14 @@ For EACH task in the implementation steps:
 - Ensure imports are correct
 - Verify types are properly defined
 
-#### d. Run validation command (if specified)
+#### d. Run validation command
 
 **CRITICAL:** Run the validation command specified in the task:
 
 ```bash
-# Example validation commands (technology-specific)
-# Backend (Java/Spring Boot):
+# Example validation commands from tasks
 cd backend && mvn clean compile
-
-# Backend (Node.js):
-npm run build
-
-# Tests:
-mvn test -Dtest=ExampleServiceTest  # Java
-npm test -- ExampleService.test     # JavaScript
+mvn test -Dtest=ExampleServiceTest
 ```
 
 **If validation fails:**
@@ -132,15 +110,14 @@ After completing implementation tasks:
 **Run tests after creating each test file:**
 
 ```bash
-# Backend tests (technology-specific examples)
-mvn test -Dtest=NewServiceTest          # Java
-pytest tests/test_new_service.py       # Python
-npm test -- NewService.test            # JavaScript
+# Backend unit tests
+mvn test -Dtest=NewServiceTest
 
-# Integration tests
-mvn test -Dtest=NewControllerIT        # Java
-pytest tests/integration/              # Python
-npm test -- NewController.integration  # JavaScript
+# Backend integration tests
+mvn test -Dtest=NewControllerIT
+
+# Frontend tests
+npm test -- NewComponent.test.tsx
 ```
 
 ### 6. Run All Validation Commands
@@ -148,35 +125,23 @@ npm test -- NewController.integration  # JavaScript
 Execute **ALL validation commands** from the plan in order:
 
 ```bash
-# Example validation flow (adapt to your technology stack)
+# Level 1: Backend Compilation
+cd backend && mvn clean compile
 
-# Level 1: Compilation
-# Java: cd backend && mvn clean compile
-# Node: npm run build
-# Python: python -m py_compile src/**/*.py
+# Level 2: Backend Unit Tests
+cd backend && mvn test
 
-# Level 2: Unit Tests
-# Java: cd backend && mvn test
-# Node: npm test
-# Python: pytest
-
-# Level 3: Integration Tests
-# Java: cd backend && mvn verify -DskipUnitTests=true
-# Node: npm run test:integration
-# Python: pytest tests/integration/
+# Level 3: Backend Integration Tests
+cd backend && mvn verify -DskipUnitTests=true
 
 # Level 4: Test Coverage
-# Java: cd backend && mvn jacoco:report
-# Node: npm test -- --coverage
-# Python: pytest --cov=. --cov-report=html
+cd backend && mvn jacoco:report
 
-# Level 5: Build
-# Java: cd backend && mvn package
-# Node: npm run build
-# Python: python setup.py build
+# Level 5: Frontend Build
+cd frontend && npm run build
 
-# Level 6: Manual Validation (feature-specific)
-# (Run any manual testing steps from the plan)
+# Level 6: Manual Validation
+# (Feature-specific manual testing steps)
 ```
 
 **If any command fails:**
@@ -196,31 +161,29 @@ Before completing implementation, verify:
 - ✅ All tasks from plan completed
 - ✅ Code follows project conventions
 - ✅ Proper error handling implemented
-- ✅ Structured logging added (if applicable)
-- ✅ Proper data transfer objects used
-- ✅ Framework patterns followed correctly
+- ✅ Structured logging added
+- ✅ DTOs used (not entities in controllers)
+- ✅ Spring Data JDBC patterns followed (not JPA)
 
 **Testing:**
 - ✅ All tests created and passing
 - ✅ Unit tests cover new functionality
 - ✅ Integration tests verify workflows
 - ✅ Edge cases tested
-- ✅ Coverage meets project requirements (typically ≥80%)
+- ✅ Coverage >= 80%
 
 **Validation:**
 - ✅ All validation commands pass
 - ✅ No compilation errors
 - ✅ No test failures
 - ✅ No linting errors
-- ✅ Build completes successfully
+- ✅ Frontend builds successfully
 
 **Acceptance Criteria:**
 - ✅ All acceptance criteria met
 - ✅ Feature works as specified
 - ✅ No regressions in existing functionality
 - ✅ Documentation updated (if required)
-
----
 
 ## Output Report
 
@@ -230,108 +193,112 @@ Provide completion summary:
 
 List all tasks completed:
 
-- ✅ Task 1: CREATE ExampleController.java / ExampleService.ts
-- ✅ Task 2: CREATE ExampleRepository.java / exampleRepository.ts
-- ✅ Task 3: CREATE migration / database change
-- ✅ Task 4: CREATE ExampleServiceTest.java / ExampleService.test.ts
-- ✅ Task 5: CREATE ExampleComponent.tsx
+- ✅ Task 1: CREATE NewController.java
+- ✅ Task 2: CREATE NewService.java
+- ✅ Task 3: CREATE NewRepository.java
+- ✅ Task 4: CREATE V{next}__description.sql migration
+- ✅ Task 5: CREATE NewServiceTest.java
+- ✅ Task 6: CREATE NewComponent.tsx
 
 ### Files Created
 
 List all new files with paths:
 
-**Backend (if applicable):**
-- `backend/src/main/java/com/example/controller/ExampleController.java`
-- `backend/src/main/java/com/example/service/ExampleService.java`
-- `backend/src/main/java/com/example/repository/ExampleRepository.java`
+**Backend:**
+- `backend/src/main/java/com/example/controller/NewController.java`
+- `backend/src/main/java/com/example/service/NewService.java`
+- `backend/src/main/java/com/example/repository/NewRepository.java`
+- `backend/src/main/java/com/example/dto/NewDTO.java`
 - `backend/src/main/resources/db/migration/V{next}__description.sql`
-- `backend/src/test/java/com/example/service/ExampleServiceTest.java`
+- `backend/src/test/java/com/example/service/NewServiceTest.java`
+- `backend/src/test/java/com/example/controller/NewControllerIT.java`
 
-**Frontend (if applicable):**
-- `frontend/src/components/ExampleComponent.tsx`
-- `frontend/src/api/exampleApi.ts`
+**Frontend:**
+- `frontend/src/components/NewComponent.tsx`
 
 ### Files Modified
 
 List all modified files with paths:
 
+**Backend:**
 - `backend/src/main/resources/application.properties` (added new config)
+
+**Frontend:**
 - `frontend/src/api/exampleApi.ts` (added new API endpoint)
 
 ### Tests Added
 
 **Test Files Created:**
-- `backend/src/test/java/com/example/service/ExampleServiceTest.java` - X test cases
+- `backend/src/test/java/com/example/service/NewServiceTest.java` - 12 test cases
+- `backend/src/test/java/com/example/controller/NewControllerIT.java` - 5 integration tests
 
 **Test Cases Implemented:**
-- Unit tests: X tests covering all service methods
-- Integration tests: X tests verifying end-to-end workflows
-- Edge cases: X tests covering error scenarios
+- Unit tests: 12 tests covering all service methods
+- Integration tests: 5 tests verifying end-to-end workflows
+- Edge cases: 4 tests covering error scenarios
 
 **Test Results:**
 
 ```bash
 # Paste test output here
-[INFO] Tests run: X, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 ### Validation Results
 
-**Level 1: Compilation**
+**Level 1: Backend Compilation**
 ```bash
-# Technology-specific command
+cd backend && mvn clean compile
 # Output: BUILD SUCCESS
 ```
 
-**Level 2: Unit Tests**
+**Level 2: Backend Unit Tests**
 ```bash
-# Technology-specific command
-# Output: Tests run: X, Failures: 0, Errors: 0
+cd backend && mvn test
+# Output: Tests run: 42, Failures: 0, Errors: 0, Skipped: 0
 ```
 
-**Level 3: Integration Tests**
+**Level 3: Backend Integration Tests**
 ```bash
-# Technology-specific command
-# Output: Tests run: X, Failures: 0
+cd backend && mvn verify -DskipUnitTests=true
+# Output: Tests run: 8, Failures: 0, Errors: 0
 ```
 
 **Level 4: Test Coverage**
 ```bash
-# Technology-specific command
-# Output: Coverage: XX% (meets XX% requirement)
+cd backend && mvn jacoco:report
+# Output: Coverage: 85% (meets 80% requirement)
 ```
 
-**Level 5: Build**
+**Level 5: Frontend Build**
 ```bash
-# Technology-specific command
+cd frontend && npm run build
 # Output: Build completed successfully
 ```
 
 **Level 6: Manual Validation**
-- ✅ Tested API endpoint
-- ✅ Verified UI navigation
-- ✅ Verified database changes
+- ✅ Tested API endpoint: `curl -X GET http://localhost:8080/api/new`
+- ✅ Verified UI: Navigation to `/new-page` works correctly
+- ✅ Verified database: Tables created in PostgreSQL
 
 ### Overall Status
 
 **Status:** ✅ PASS
 
 **Summary:**
-- All X tasks completed successfully
-- X tests added, all passing
-- Test coverage: XX%
+- All 6 tasks completed successfully
+- 17 tests added, all passing
+- Test coverage: 85%
 - All validation commands passing
 - Manual testing confirms feature works
-- Ready for automatic validation
+- Ready for code review
 
-### Ready for Automatic Validation
+### Ready for Code Review
 
 Confirm:
 - ✅ All changes are complete
 - ✅ All validations pass
-- ✅ Proceeding to automatic validation flow
-
----
+- ✅ Ready for `/piv:code-review`
 
 ## Notes
 
@@ -360,8 +327,6 @@ Confirm:
 - Don't deviate from plan without documenting why
 - Don't proceed until each validation passes
 
----
-
 ## Next Steps (AUTOMATIC)
 
 **IMPORTANT:** The following steps now run AUTOMATICALLY to ensure code quality.
@@ -372,7 +337,7 @@ After implementation completes, the system will **automatically**:
 
 1. **Run Code Review** - Technical quality analysis
    - Checks for bugs, security issues, performance problems
-   - Verifies project standards compliance
+   - Verifies Example standards compliance
    - If issues found → Auto-fix and re-review
 
 2. **Run System Review** (Parallel) - Process improvement analysis
@@ -384,14 +349,14 @@ After implementation completes, the system will **automatically**:
    - Compilation verification
    - Unit tests
    - Integration tests
-   - Coverage check (≥ project threshold)
+   - Coverage check (≥80%)
    - Security scan
-   - Performance check (if applicable)
+   - Performance check
 
 4. **Ready State** - Stop when all pass
    - Report: "✅ FEATURE COMPLETE - ALL VALIDATIONS PASSED"
    - Summary: Files created, tests added, coverage achieved
-   - Next step: **Ready to commit**
+   - Next step: **Run `/commit` to finish**
 
 ### What You Need To Do
 
@@ -404,7 +369,7 @@ After implementation completes, the system will **automatically**:
 **When feature is complete:**
 - You'll see: "✅ READY TO COMMIT"
 - Review the summary
-- Create a commit with your changes
+- Run `/commit` to finish
 
 ### Manual Override (Optional)
 
@@ -420,28 +385,5 @@ If you want to skip automatic validation and run manually:
 **But why?** Automatic flow ensures consistent quality and catches issues early.
 
 ---
-
-## Artifacts Created
-
-- **Code files**: As specified in plan
-- **Test files**: For all new code
-- `.claude/agents/reports/execution-report-{feature-name}.md` - Execution summary
-- `.claude/agents/reports/validation-report-{timestamp}.md` - Validation results (automatic)
-
----
-
-## Related Commands
-
-- `/piv_loop:prime` - Load context before executing
-- `/piv_loop:plan-feature` - Create plan (before execute)
-- `/validation:validate` - Run validation (automatic after execute)
-- `/validation:code-review` - Detailed code review (automatic)
-- `/validation:execution-report` - View execution report
-
----
-
-**Execution follows the plan systematically. Deviate only when necessary and document why.**
-
-**Validation runs automatically to ensure quality.**
 
 **Remember:** The goal is one-pass implementation with automatic quality gates. If you followed the plan and all validations pass, you succeeded! 🎉

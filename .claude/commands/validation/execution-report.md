@@ -9,7 +9,7 @@ argument-hint: "<path-to-plan.md>"
 
 Read the executed plan: `$ARGUMENTS`
 
-**Example:** `.claude/agents/plans/feature-name.md`
+**Example:** `.claude/agents/plans/example-feature-address-validation.md`
 
 ## Purpose
 
@@ -56,29 +56,29 @@ List all tasks from the plan that were completed:
 
 ### 3. Files Created
 
-**Backend (if applicable):**
-- `path/to/NewController.java` - [Purpose]
-- `path/to/NewService.java` - [Purpose]
-- `path/to/NewRepository.java` - [Purpose]
-- `path/to/NewDTO.java` - [Purpose]
-- `path/to/db/migration/V{next}__description.sql` - [Purpose]
+**Backend:**
+- `backend/src/main/java/com/example/controller/NewController.java` - [Purpose]
+- `backend/src/main/java/com/example/service/NewService.java` - [Purpose]
+- `backend/src/main/java/com/example/repository/NewRepository.java` - [Purpose]
+- `backend/src/main/java/com/example/dto/NewDTO.java` - [Purpose]
+- `backend/src/main/resources/db/migration/V{next}__description.sql` - [Purpose]
 
-**Frontend (if applicable):**
-- `path/to/NewComponent.tsx` - [Purpose]
+**Frontend:**
+- `frontend/src/components/NewComponent.tsx` - [Purpose]
 
 **Tests:**
-- `path/to/NewServiceTest.java` - X test cases
-- `path/to/NewControllerIT.java` - X integration tests
+- `backend/src/test/java/com/example/service/NewServiceTest.java` - X test cases
+- `backend/src/test/java/com/example/controller/NewControllerIT.java` - X integration tests
 
 **Total:** X files created
 
 ### 4. Files Modified
 
 **Backend:**
-- `path/to/application.properties` - Added new configuration
+- `backend/src/main/resources/application.properties` - Added new configuration
 
 **Frontend:**
-- `path/to/api/exampleApi.ts` - Added new API endpoint
+- `frontend/src/api/exampleApi.ts` - Added new API endpoint
 
 **Total:** X files modified
 
@@ -100,19 +100,23 @@ List all tasks from the plan that were completed:
 
 ### 6. Validation Results
 
-**Level 1: Compilation**
+**Level 0: Environment Verification**
 ```bash
-# Example for Spring Boot
-mvn clean compile
+cat backend/.env.local | grep DATABASE_URL | grep -v "production.example.com"
+```
+**Result:** ✅ PASS - LOCAL mode confirmed
+
+**Level 1: Backend Compilation**
+```bash
+cd backend && mvn clean compile
 ```
 **Result:** ✅ PASS / ❌ FAIL
 **Output:** [Build output or error messages]
 **Duration:** X seconds
 
-**Level 2: Unit Tests**
+**Level 2: Backend Unit Tests**
 ```bash
-# Example for Spring Boot
-mvn test
+cd backend && mvn test
 ```
 **Result:** ✅ PASS / ❌ FAIL
 **Tests Run:** X
@@ -121,10 +125,9 @@ mvn test
 **Skipped:** 0
 **Duration:** X seconds
 
-**Level 3: Integration Tests**
+**Level 3: Integration Tests (LOCAL)**
 ```bash
-# Example for Spring Boot
-mvn verify -DskipUnitTests=true
+cd backend && mvn verify -DskipUnitTests=true
 ```
 **Result:** ✅ PASS / ❌ FAIL
 **Tests Run:** X
@@ -134,27 +137,25 @@ mvn verify -DskipUnitTests=true
 
 **Level 4: Test Coverage**
 ```bash
-# Example for Spring Boot
-mvn jacoco:report
+cd backend && mvn jacoco:report
 ```
 **Result:** ✅ PASS / ❌ FAIL
 **Coverage:** XX%
 **Target:** >= 80%
 **Status:** Meets requirement / Below requirement
 
-**Level 5: Build**
+**Level 5: Frontend Build**
 ```bash
-# Example for React
-npm run build
+cd frontend && npm run build
 ```
 **Result:** ✅ PASS / ❌ FAIL
 **Output:** Build output or error messages
 **Duration:** X seconds
 
-**Level 6: Manual Validation**
+**Level 6: Manual Validation (LOCAL)**
 - ✅ Tested API endpoint: `/api/new`
 - ✅ Verified UI: `/new-page` works correctly
-- ✅ Verified database: Tables created
+- ✅ Verified database: Tables created in LOCAL PostgreSQL
 
 **Overall Validation Status:** ✅ ALL PASS / ❌ SOME FAILURES
 
@@ -202,27 +203,35 @@ npm run build
 **What was inaccurate in the plan?**
 - [List inaccurate information or examples]
 
-### 9. Standards Compliance
+### 9. Example Standards Compliance
 
-**Check compliance with your technology stack:**
+**Spring Data JDBC:**
+- ✅ Used Spring Data JDBC (not JPA)
+- ✅ Simple entities, no JPA annotations
+- ✅ Repository pattern correct
 
-**For Spring Boot:**
-- ✅ Used appropriate ORM (JDBC/JPA as per project standards)
-- ✅ Dependency injection pattern correct
+**Constructor Injection:**
+- ✅ Used @RequiredArgsConstructor
+- ✅ No field injection
+
+**DTOs:**
 - ✅ Used DTOs in API responses
-- ✅ Structured logging
-- ✅ Proper error handling
+- ✅ Did not return entities from controllers
 
-**For React:**
-- ✅ Functional components
-- ✅ TypeScript strict mode
-- ✅ Proper state management
-- ✅ Performance optimizations
+**Logging:**
+- ✅ Structured logging with SLF4J
+- ✅ Proper log levels used
+- ✅ No sensitive data logged
 
-**For Database:**
-- ✅ Proper migrations
-- ✅ Indexes where needed
-- ✅ Constraints appropriate
+**Error Handling:**
+- ✅ Graceful degradation
+- ✅ Continue processing on non-critical errors
+- ✅ Proper exception handling
+
+**Environment Safety:**
+- ✅ All configuration via properties
+- ✅ No hardcoded URLs
+- ✅ Safe for LOCAL and PROD modes
 
 **Overall Compliance:** ✅ COMPLIANT / ❌ VIOLATIONS
 
@@ -320,9 +329,9 @@ npm run build
 
 ## Save Report
 
-**Location:** `.claude/agents/reports/execution-report-{feature-name}.md`
+**Location:** `.claude/agents/execution-reports/{feature-name}-report.md`
 
-**Example:** `.claude/agents/reports/execution-report-user-authentication.md`
+**Example:** `.claude/agents/execution-reports/example-feature-validation-report.md`
 
 ## Use Cases for Reports
 

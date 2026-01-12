@@ -1,244 +1,888 @@
-# Command: /piv_loop:plan-feature
-
-**Phase: Implement**
-**Purpose: Create comprehensive implementation plan**
-
+---
+description: "Create comprehensive feature plan with deep codebase analysis and research"
+argument-hint: "<feature-name>"
 ---
 
-## Command Definition
+# Plan a New Feature
 
-This command creates a detailed implementation plan for a feature, including requirements, technical approach, implementation steps, and verification criteria.
+## Feature: $ARGUMENTS
 
-## Usage
+## Mission
+
+Transform a feature request into a **comprehensive implementation plan** through systematic codebase analysis, external research, and strategic planning.
+
+**Core Principle**: We do NOT write code in this phase. Our goal is to create a context-rich implementation plan that enables one-pass implementation success.
+
+**Key Philosophy**: Context is King. The plan must contain ALL information needed for implementation - patterns, mandatory reading, documentation, validation commands - so the execution agent succeeds on the first attempt.
+
+## Planning Process
+
+### Phase 1: Feature Understanding
+
+**Deep Feature Analysis:**
+
+1. **Extract the Core Problem:**
+   - What problem are we solving?
+   - What is the user value?
+   - What is the business impact?
+
+2. **Identify Feature Type:**
+   - New Capability (adds new functionality)
+   - Enhancement (improves existing feature)
+   - Refactor (restructures without changing behavior)
+   - Bug Fix (fixes incorrect behavior)
+
+3. **Assess Complexity:**
+   - Low: Single component, minimal integration (< 4 hours)
+   - Medium: Multiple components, some integration (< 2 days)
+   - High: Cross-cutting changes, many integrations (> 2 days)
+
+4. **Map Affected Systems:**
+   - Backend components (controllers, services, repositories)
+   - Frontend components (pages, components, context)
+   - Database schema (new tables, migrations)
+   - External APIs (new integrations)
+   - Configuration (new properties)
+
+**Create User Story Format:**
 
 ```
-/piv_loop:plan-feature "Feature description"
+As a <type of user>
+I want to <action/goal>
+So that <benefit/value>
 ```
 
-## What It Does
+**Example:**
+```
+As a data searcher
+I want to verify if data exists on External APIs
+So that I don't get false "exclusive" alerts for properties that actually exist
+```
 
-### 1. Requirements Analysis
-- Gathers functional requirements
-- Identifies non-functional requirements
-- Clarifies edge cases
-- Defines acceptance criteria
+### Phase 2: Codebase Intelligence Gathering
 
-### 2. Context Analysis
-- Reviews prime context
-- Identifies relevant parts of codebase
-- Finds similar existing implementations
-- Maps dependencies
+**IMPORTANT: Start by reading the prime context:**
 
-### 3. Technical Design
-- Chooses technical approach
-- Identifies patterns to follow
-- Plans architecture changes
-- Considers trade-offs
+```bash
+# Read the prime context file
+Read .claude/agents/context/prime-context.md
+```
 
-### 4. Implementation Planning
-- Breaks down into steps
-- Lists files to create
-- Lists files to modify
-- Identifies dependencies
+**Then perform targeted analysis:**
 
-### 5. Verification Planning
-- Defines test strategy
-- Lists verification criteria
-- Plans manual testing
-- Identifies success metrics
+**1. Project Structure Analysis**
 
-## When to Use
+- Detect primary language(s), frameworks, and runtime versions
+- Map directory structure and architectural patterns
+- Identify service/component boundaries and integration points
+- Locate configuration files (pom.xml, package.json, application.properties)
+- Find environment setup and build processes
 
-- **Complex features**: Multi-file or architectural changes
-- **New functionality**: Features requiring design decisions
-- **Refactoring**: Changes affecting multiple components
-- **Integrations**: Adding new dependencies or services
-- **API endpoints**: New or modified endpoints
-- **Database changes**: Migrations or schema changes
+**2. Pattern Recognition**
 
-## When NOT to Use
+Use specialized subagents when beneficial:
 
-- Simple typo fixes
-- Adding a single field
-- Minor style fixes
-- Documentation updates
+- **Search for similar implementations in codebase:**
+  ```bash
+  # Find similar features
+  grep -r "keyword" backend/src/main/java/
+  grep -r "keyword" frontend/src/
+  ```
 
-## Expected Output
+- **Identify coding conventions:**
+  - Naming patterns (CamelCase for Java, kebab-case for files)
+  - File organization and module structure
+  - Error handling approaches
+  - Logging patterns and standards
 
-### Plan Artifact
-File: `.claude/agents/plans/{feature-name}.md`
+- **Extract common patterns for the feature's domain:**
+  - Controller patterns (REST endpoints, request/response)
+  - Service patterns (business logic, transactions)
+  - Repository patterns (queries, Spring Data JDBC)
+  - Component patterns (React hooks, state management)
+
+- **Document anti-patterns to avoid:**
+  - Check `.claude/rules/anti-patterns.md`
+  - Check `.claude/rules/backend/` for backend anti-patterns
+  - Check `.claude/rules/` for general anti-patterns
+
+- **Check CLAUDE.md and .claude/rules/ for project-specific rules:**
+  ```bash
+  # Read relevant rule files
+  Read .claude/CLAUDE.md
+  Read .claude/rules/backend/api-design.md
+  Read .claude/rules/backend/database.md
+  Read .claude/rules/backend/fetching.md  # if data collector-related
+  Read .claude/rules/testing.md
+  ```
+
+**3. Dependency Analysis**
+
+- **Catalog external libraries relevant to feature:**
+  - Check `backend/pom.xml` for Java dependencies
+  - Check `frontend/package.json` for JavaScript dependencies
+
+- **Understand how libraries are integrated:**
+  - Check imports in relevant files
+  - Check configuration files
+
+- **Find relevant documentation:**
+  - Check `docs/` directory
+  - Check `.claude/reference/` for best practices
+
+- **Note library versions and compatibility requirements:**
+
+**4. Testing Patterns**
+
+- **Identify test framework and structure:**
+  - JUnit 5 for backend unit tests
+  - Mockito for mocking
+  - @SpringBootTest for integration tests
+  - Testcontainers for PostgreSQL
+
+- **Find similar test examples for reference:**
+  ```bash
+  # Find test files
+  find backend/src/test -name "*Test.java"
+  find backend/src/test -name "*IT.java"
+  ```
+
+- **Understand test organization:**
+  - Unit tests: `*Test.java` (fast, no external dependencies)
+  - Integration tests: `*IT.java` (slower, with database/external APIs)
+
+- **Note coverage requirements:**
+  - Target: 80%+ coverage for new code
+
+**5. Integration Points**
+
+- **Identify existing files that need updates:**
+  - Controllers to add new endpoints
+  - Services to add new business logic
+  - Repositories to add new queries
+  - Components to add new UI elements
+  - Routes to add new pages
+
+- **Determine new files that need creation:**
+  - New controller for new API
+  - New service for new business logic
+  - New repository for new data access
+  - New entity/DTO for new data model
+  - New migration for database changes
+  - New component/page for frontend
+
+- **Map router/API registration patterns:**
+  - REST endpoint patterns: `/api/{resource}`
+  - Frontend routing: React Router v7
+
+- **Understand database/model patterns if applicable:**
+  - Spring Data JDBC entities
+  - Flyway migrations
+  - DTO naming conventions
+
+**Clarify Ambiguities:**
+
+- If requirements are unclear at this point, **ask the user to clarify** before you continue
+- Get specific implementation preferences (libraries, approaches, patterns)
+- Resolve architectural decisions before proceeding
+
+### Phase 3: External Research & Documentation
+
+**Use specialized subagents when beneficial for external research:**
+
+**Documentation Gathering:**
+
+- **Research latest library versions and best practices:**
+  - Spring Boot 3.2.0 documentation
+  - Java 24 features (if using new Java 24 APIs)
+  - React 19 documentation
+  - Library-specific docs (e.g., GeoService API)
+
+- **Find official documentation with specific section anchors:**
+  - Spring Boot reference guide
+  - Spring Data JDBC documentation
+  - React 19 documentation
+
+- **Locate implementation examples and tutorials:**
+  - Official examples
+  - Stack Overflow answers (if applicable)
+  - GitHub repositories with similar patterns
+
+- **Identify common gotchas and known issues:**
+  - Spring Data JDBC limitations
+  - React 19 breaking changes
+  - Java 24 migration issues
+
+- **Check for breaking changes and migration guides:**
+  - Spring Boot 3.x changes
+  - React 19 changes
+
+**Technology Trends:**
+
+- **Research current best practices for the technology stack:**
+  - Spring Boot best practices
+  - React 19 best practices
+  - Java 24 modern patterns
+
+- **Find relevant blog posts, guides, or case studies:**
+  - Baeldung for Spring Boot
+  - React blog for React patterns
+
+- **Identify performance optimization patterns:**
+  - Database query optimization
+  - React performance (memo, useMemo, useCallback)
+
+- **Document security considerations:**
+  - OWASP Top 10 for the technology stack
+  - Input validation
+  - Authentication/authorization
+
+**Compile Research References:**
 
 ```markdown
-# Feature: [Feature Name]
+## Relevant Documentation
 
-**Created**: [Timestamp]
-**Status**: Planned
+- [Spring Boot Data JDBC](https://docs.spring.io/spring-data/jdbc/docs/current/reference/html/#reference)
+  - Specific section: Repository interfaces
+  - Why: Needed for data access patterns
 
-## Context
-[Relevant context from prime phase]
+- [React 19 Hooks](https://react.dev/reference/react)
+  - Specific section: useEffect, useState
+  - Why: Component state management
 
-## Requirements
-
-### Functional Requirements
-- [ ] FR-1: [Description]
-- [ ] FR-2: [Description]
-
-### Non-Functional Requirements
-- [ ] NFR-1: [Performance requirement]
-- [ ] NFR-2: [Security requirement]
-
-## Technical Approach
-
-### Architecture
-[Describe the technical approach]
-
-### Patterns
-[List patterns to follow]
-
-### Trade-offs
-[Explain trade-off decisions]
-
-### Dependencies
-[List external dependencies or prerequisites]
-
-## Implementation Steps
-
-1. **Step 1**: [Description]
-   - Files: [List files]
-   - Notes: [Implementation notes]
-
-2. **Step 2**: [Description]
-   - Files: [List files]
-   - Notes: [Implementation notes]
-
-[Continue for all steps]
-
-## Files to Create
-| File | Purpose |
-|------|---------|
-| `path/to/file` | [Description] |
-
-## Files to Modify
-| File | Changes |
-|------|---------|
-| `path/to/file` | [Description of changes] |
-
-## Testing Strategy
-
-### Unit Tests
-- [ ] [Test requirement 1]
-- [ ] [Test requirement 2]
-
-### Integration Tests
-- [ ] [Test requirement 1]
-- [ ] [Test requirement 2]
-
-### Manual Testing
-- [ ] [Manual test scenario 1]
-- [ ] [Manual test scenario 2]
-
-## Verification Criteria
-- [ ] [Criterion 1]
-- [ ] [Criterion 2]
-- [ ] [Criterion 3]
-
-## Notes
-[Additional considerations, edge cases, risks, etc.]
-
-## Related Issues
-- [Issue #1](url)
-- [Issue #2](url)
+- [External API Docs](https://api.example.com/docs)
+  - Specific section: Authentication
+  - Why: Required for API integration
 ```
 
-### Confirmation Message
-```
-✅ Plan created successfully
+### Phase 4: Deep Strategic Thinking
 
-Plan: [Feature name]
-Saved to: .claude/agents/plans/{feature-name}.md
+**Think Harder About:**
 
-Summary:
-- [X] implementation steps
-- [X] files to create
-- [X] files to modify
-- [X] verification criteria
+1. **Architecture Fit:**
+   - How does this feature fit into the existing architecture?
+   - Does it follow existing patterns?
+   - Does it require new patterns?
 
-Ready to execute. Use /piv_loop:execute to implement.
-```
+2. **Dependencies and Order:**
+   - What are the critical dependencies?
+   - What is the order of operations?
+   - Can we break this into smaller phases?
 
-## Implementation Notes
+3. **Potential Issues:**
+   - What could go wrong? (Edge cases, race conditions, errors)
+   - How do we handle failures?
+   - What are the performance implications?
 
-For Claude Code Implementation:
+4. **Testing Strategy:**
+   - How will this be tested comprehensively?
+   - What are the edge cases?
+   - How do we mock external dependencies?
 
-1. **Parse** feature description from user input
-2. **Ask clarifying questions** if requirements are unclear
-3. **Review** prime context for relevant patterns
-4. **Search** codebase for similar implementations
-5. **Design** technical approach
-6. **Break down** into actionable steps
-7. **Generate** comprehensive plan artifact
-8. **Present** plan summary to user
+5. **Performance:**
+   - What are the performance implications?
+   - Are there any N+1 query issues?
+   - Are there any memory leaks?
 
-## Artifacts Created
+6. **Security:**
+   - Are there security considerations?
+   - Input validation?
+   - Authentication/authorization?
+   - SQL injection? XSS?
 
-- `.claude/agents/plans/{feature-name}.md` - Implementation plan
+7. **Maintainability:**
+   - How maintainable is this approach?
+   - Is it easy to understand?
+   - Is it easy to modify?
 
-## User Interaction
+**Design Decisions:**
 
-During planning, Claude should:
+- **Choose between alternative approaches with clear rationale:**
+  - Why this approach over alternatives?
+  - What are the trade-offs?
 
-1. **Ask questions** to clarify requirements
-2. **Propose alternatives** for technical decisions
-3. **Explain trade-offs** of different approaches
-4. **Confirm** plan with user before saving
+- **Design for extensibility and future modifications:**
+  - Can this be extended later?
+  - Is it flexible?
 
-Example interaction:
-```
-User: /piv_loop:plan-feature "Add user authentication"
+- **Plan for backward compatibility if needed:**
+  - Will this break existing functionality?
+  - Do we need a migration strategy?
 
-Claude: I'll create a plan for adding user authentication. A few questions:
+- **Consider scalability implications:**
+  - Will this scale?
+  - Are there any bottlenecks?
 
-1. Should authentication use JWT or session-based auth?
-User: JWT
+### Phase 5: Plan Structure Generation
 
-2. Do you need social login (Google, GitHub)?
-User: Not yet, just email/password
+**Create comprehensive plan with the following structure:**
 
-3. What password requirements?
-User: Min 8 chars, 1 uppercase, 1 number
+```markdown
+# Feature: <feature-name>
 
-[Creates plan with these requirements]
-```
+**IMPORTANT:** Before implementing, validate documentation and codebase patterns. Pay special attention to naming of existing utils, types, and models. Import from the right files.
 
-## Plan Quality Checklist
+## Feature Description
 
-Before finalizing plan, ensure:
+<Detailed description of the feature, its purpose, and value to users>
 
-- [ ] Requirements are clear and complete
-- [ ] Technical approach is justified
-- [ ] Implementation steps are actionable
-- [ ] Files are listed with purposes
-- [ ] Testing strategy is comprehensive
-- [ ] Verification criteria are measurable
-- [ ] Dependencies are identified
-- [ ] Edge cases are considered
-- [ ] User has approved the plan
+## User Story
 
-## Next Steps
+As a <type of user>
+I want to <action/goal>
+So that <benefit/value>
 
-After planning:
+## Problem Statement
 
-1. **Review** the plan with user
-2. **Revise** if needed based on feedback
-3. **Execute** using `/piv_loop:execute`
-4. **Validate** runs automatically after execute
+<Clearly define the specific problem or opportunity this feature addresses>
 
-## Related Commands
+## Solution Statement
 
-- `/piv_loop:prime` - Load context (run before planning)
-- `/piv_loop:execute` - Execute from plan
-- `/validation:validate` - Run validation (automatic)
+<Describe the proposed solution approach and how it solves the problem>
+
+## Feature Metadata
+
+**Feature Type:** [New Capability/Enhancement/Refactor/Bug Fix]
+**Estimated Complexity:** [Low/Medium/High]
+**Primary Systems Affected:** [List of main components/services]
+**Dependencies:** [External libraries or services required]
 
 ---
 
-**A good plan is the foundation of successful implementation. Take time to plan thoroughly.**
+## CONTEXT REFERENCES
+
+### Prime Context (READ THIS FIRST!)
+
+- `.claude/agents/context/prime-context.md` - COMPLETE codebase overview
+  - **WHY:** Contains all project patterns, configurations, and architecture
+  - **ACTION:** Read this file first to understand the codebase
+
+### Relevant Codebase Files (MUST READ BEFORE IMPLEMENTING!)
+
+<List files with line numbers and relevance>
+
+- `backend/src/main/java/com/example/controller/ExampleController.java` (lines 15-45)
+  - **WHY:** Contains REST API pattern to mirror
+  - **PATTERN:** Thin controller, delegates to service layer
+
+- `backend/src/main/java/com/example/service/ExampleService.java` (lines 100-120)
+  - **WHY:** Shows business logic pattern to follow
+  - **PATTERN:** @Service with @RequiredArgsConstructor
+
+- `backend/src/main/java/com/example/entity/Example.java`
+  - **WHY:** Entity structure for Spring Data JDBC
+  - **PATTERN:** Simple entity, no JPA annotations
+
+- `frontend/src/components/ExampleComponent.tsx`
+  - **WHY:** React component pattern
+  - **PATTERN:** Functional component with hooks
+
+### New Files to Create
+
+- `backend/src/main/java/com/example/controller/NewController.java` - New REST API endpoints
+- `backend/src/main/java/com/example/service/NewService.java` - Business logic for feature
+- `backend/src/main/java/com/example/dto/NewDTO.java` - Data transfer object
+- `backend/src/main/java/com/example/repository/NewRepository.java` - Data access layer
+- `backend/src/main/resources/db/migration/V{next}__{description}.sql` - Database migration
+- `backend/src/test/java/com/example/controller/NewControllerTest.java` - Unit tests
+- `frontend/src/components/NewComponent.tsx` - New React component
+
+### Relevant Documentation (MUST READ!)
+
+- [Spring Boot Data JDBC Docs](https://docs.spring.io/spring-data/jdbc/docs/current/reference/html/)
+  - **Section:** Repository interfaces
+  - **WHY:** Required for data access patterns
+
+- [React 19 Documentation](https://react.dev/)
+  - **Section:** Hooks Reference
+  - **WHY:** Component state management patterns
+
+### Patterns to Follow
+
+**Backend Controller Pattern:**
+
+```java
+// ✅ GOOD: Thin controller with DTOs
+@RestController
+@RequestMapping("/api/resource")
+@RequiredArgsConstructor
+public class ExampleController {
+    private final ExampleService exampleService;
+
+    @GetMapping
+    public ResponseEntity<List<ExampleDTO>> getAll() {
+        return ResponseEntity.ok(exampleService.getAll());
+    }
+
+    @PostMapping
+    public ResponseEntity<ExampleDTO> create(@RequestBody CreateExampleRequest request) {
+        return ResponseEntity.ok(exampleService.create(request));
+    }
+}
+```
+
+**Backend Service Pattern:**
+
+```java
+// ✅ GOOD: Service with constructor injection
+@Service
+@RequiredArgsConstructor
+public class ExampleService {
+    private final ExampleRepository repository;
+    private final AnotherDependency dependency;
+
+    public List<ExampleDTO> getAll() {
+        return repository.findAll()
+            .stream()
+            .map(ExampleDTO::from)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ExampleDTO create(CreateExampleRequest request) {
+        Example entity = new Example();
+        entity.setName(request.getName());
+        Example saved = repository.save(entity);
+        return ExampleDTO.from(saved);
+    }
+}
+```
+
+**Backend Repository Pattern:**
+
+```java
+// ✅ GOOD: Spring Data JDBC repository
+@Repository
+public interface ExampleRepository extends CrudRepository<Example, Long> {
+    @Query("SELECT * FROM examples WHERE status = :status")
+    List<Example> findByStatus(String status);
+}
+```
+
+**Frontend Component Pattern:**
+
+```typescript
+// ✅ GOOD: Functional component with hooks
+interface Props {
+    data: DataType[];
+    onUpdate: (id: string) => void;
+}
+
+export function ExampleComponent({ data, onUpdate }: Props) {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        // Side effect
+    }, []);
+
+    return (
+        <div className="p-4">
+            {/* JSX */}
+        </div>
+    );
+}
+```
+
+**Logging Pattern:**
+
+```java
+// ✅ GOOD: Structured logging
+log.info("Processing completed: count={}, duration={}ms", count, duration);
+log.error("Failed to process: id={}, error={}", id, error.getMessage(), error);
+```
+
+**Error Handling Pattern:**
+
+```java
+// ✅ GOOD: Graceful error handling
+try {
+    // Risky operation
+} catch (Exception e) {
+    log.error("Operation failed: {}", entity, e);
+    // Continue processing
+    return fallback;
+}
+```
+
+---
+
+## IMPLEMENTATION PLAN
+
+### Phase 1: Foundation
+
+<Describe foundational work needed before main implementation>
+
+**Tasks:**
+
+- Set up base structures (entities, DTOs, interfaces)
+- Configure necessary dependencies
+- Create foundational utilities or helpers
+
+**Order:** These tasks must be completed first before moving to Phase 2.
+
+### Phase 2: Core Implementation
+
+<Describe the main implementation work>
+
+**Tasks:**
+
+- Implement core business logic in service layer
+- Create REST API endpoints in controller layer
+- Implement data models and repository
+- Add frontend components
+
+**Order:** Depends on Phase 1 completion.
+
+### Phase 3: Integration
+
+<Describe how feature integrates with existing functionality>
+
+**Tasks:**
+
+- Connect to existing routers/handlers
+- Register new components
+- Update configuration files
+- Add migrations
+
+**Order:** Depends on Phase 2 completion.
+
+### Phase 4: Testing & Validation
+
+<Describe testing approach>
+
+**Tasks:**
+
+- Implement unit tests for each component
+- Create integration tests for feature workflow
+- Add edge case tests
+- Validate against acceptance criteria
+
+**Order:** Can be done incrementally with each phase.
+
+---
+
+## STEP-BY-STEP TASKS
+
+**IMPORTANT:** Execute every task in order, top to bottom. Each task is atomic and independently testable.
+
+### Task Format Guidelines
+
+Use information-dense keywords for clarity:
+
+- **CREATE**: New files or components
+- **UPDATE**: Modify existing files
+- **ADD**: Insert new functionality into existing code
+- **REMOVE**: Delete deprecated code
+- **REFACTOR**: Restructure without changing behavior
+- **MIRROR**: Copy pattern from elsewhere in codebase
+
+### Task 1: CREATE {target_file}
+
+- **IMPLEMENT:** {Specific implementation detail}
+- **PATTERN:** {Reference to existing pattern - file:line}
+- **IMPORTS:** {Required imports and dependencies}
+- **GOTCHA:** {Known issues or constraints to avoid}
+- **VALIDATE:** `{executable validation command}`
+
+### Task 2: UPDATE {target_file}
+
+- **IMPLEMENT:** {Specific implementation detail}
+- **PATTERN:** {Reference to existing pattern - file:line}
+- **IMPORTS:** {Required imports}
+- **GOTCHA:** {Known issues}
+- **VALIDATE:** `{executable validation command}`
+
+### Task 3: CREATE {test_file}
+
+- **IMPLEMENT:** {Test cases}
+- **PATTERN:** {Reference to existing test - file:line}
+- **VALIDATE:** `mvn test -Dtest={TestClass}`
+
+<Continue with all tasks in dependency order...>
+
+---
+
+## TESTING STRATEGY
+
+<Define testing approach based on project's test framework and patterns discovered during research>
+
+### Unit Tests
+
+**Scope and Requirements:**
+
+- Test all public methods in services
+- Test all REST endpoints in controllers
+- Mock external dependencies (repositories, APIs)
+- Use JUnit 5 + Mockito
+
+**Pattern:**
+
+```java
+@Test
+void shouldReturnDataWhenValidInput() {
+    // Given
+    ExampleDTO expected = new ExampleDTO("test");
+    when(repository.findById(1L)).thenReturn(Optional.of(entity));
+
+    // When
+    ExampleDTO result = service.getById(1L);
+
+    // Then
+    assertThat(result).isEqualTo(expected);
+    verify(repository).findById(1L);
+}
+```
+
+### Integration Tests
+
+**Scope and Requirements:**
+
+- Test complete workflows
+- Use @SpringBootTest with Testcontainers
+- Test database operations
+- Test API endpoints end-to-end
+
+**Pattern:**
+
+```java
+@SpringBootTest
+@Testcontainers
+class ExampleIntegrationTest {
+    @Container
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+
+    @Test
+    void shouldCreateAndRetrieveData() {
+        // Test complete workflow
+    }
+}
+```
+
+### Edge Cases
+
+**List specific edge cases that must be tested for this feature:**
+
+- Null inputs
+- Empty collections
+- External API failures
+- Database connection failures
+- Concurrent access
+- Invalid data formats
+
+---
+
+## VALIDATION COMMANDS
+
+**⚠️ CRITICAL SAFETY RULE: ALL validation must be done in LOCAL DEV MODE!**
+
+**Environment Requirements:**
+- ✅ Use `backend/.env.local` configuration (NOT `backend/.env`)
+- ✅ Connect to LOCAL Docker PostgreSQL (NOT CloudProvider production)
+- ✅ Start with `./start-local.sh` (NOT `./start.sh`)
+- ❌ NEVER validate against CloudProvider production database
+
+**Prerequisites:**
+
+```bash
+# 1. Start LOCAL dev environment
+./start-local.sh
+
+# 2. Verify we're in LOCAL mode
+cat backend/.env.local | grep DATABASE_URL
+# Expected: localhost or 127.0.0.1 (NOT production.example.com)
+
+# 3. Verify local database is running
+docker ps | grep postgres
+```
+
+**Define validation commands based on project's tools discovered in Phase 2**
+
+Execute every command to ensure zero regressions and 100% feature correctness in **LOCAL DEV MODE**.
+
+### Level 0: Environment Verification (CRITICAL)
+
+```bash
+# Verify LOCAL mode before proceeding
+cat backend/.env.local | grep DATABASE_URL | grep -v "production.example.com" && echo "✅ SAFE: LOCAL mode" || echo "❌ UNSAFE: PRODUCTION mode detected!"
+```
+
+**Expected:** ✅ SAFE: LOCAL mode
+**Expected:** Database URL contains `localhost` or `127.0.0.1`
+**Unsafe:** Database URL contains `production.example.com`
+
+**If unsafe, STOP and fix configuration immediately!**
+
+### Level 1: Backend Compilation
+
+```bash
+cd backend && mvn clean compile
+```
+
+**Expected:** Build succeeds with no compilation errors
+
+### Level 2: Backend Unit Tests
+
+```bash
+cd backend && mvn test
+```
+
+**Expected:** All unit tests pass, execution time < 60 seconds
+
+### Level 3: Backend Integration Tests (LOCAL MODE)
+
+```bash
+cd backend && mvn verify -DskipUnitTests=true
+```
+
+**Expected:** All integration tests pass
+
+**Note:** Uses LOCAL Docker PostgreSQL via `.env.local`
+
+### Level 4: Test Coverage
+
+```bash
+cd backend && mvn jacoco:report
+```
+
+**Expected:** Coverage >= 80% for new code
+
+### Level 5: Frontend Build
+
+```bash
+cd frontend && npm run build
+```
+
+**Expected:** Build completes successfully
+
+### Level 6: Manual Validation (LOCAL MODE)
+
+<Feature-specific manual testing steps - API calls, UI testing, etc.>
+
+```bash
+# Test API endpoint (LOCAL backend)
+curl -X GET http://localhost:8080/api/resource
+
+# Verify UI: Navigate to `/page` and test functionality
+# Verify database: Check tables in LOCAL PostgreSQL
+docker exec -it <postgres-container> psql -U example -d example -c "SELECT * FROM table_name;"
+```
+
+**All manual validation should be done against LOCAL environment only!**
+
+---
+
+## ACCEPTANCE CRITERIA
+
+<List specific, measurable criteria that must be met for completion>
+
+- [ ] Feature implements all specified functionality
+- [ ] All validation commands pass with zero errors
+- [ ] Unit test coverage meets requirements (80%+)
+- [ ] Integration tests verify end-to-end workflows
+- [ ] Code follows project conventions and patterns
+- [ ] No regressions in existing functionality
+- [ ] Documentation is updated (if applicable)
+- [ ] Performance meets requirements (if applicable)
+- [ ] Security considerations addressed (if applicable)
+
+---
+
+## COMPLETION CHECKLIST
+
+- [ ] All tasks completed in order
+- [ ] Each task validation passed immediately
+- [ ] All validation commands executed successfully
+- [ ] Full test suite passes (unit + integration)
+- [ ] No linting or type checking errors
+- [ ] Manual testing confirms feature works
+- [ ] Acceptance criteria all met
+- [ ] Code reviewed for quality and maintainability
+
+---
+
+## NOTES
+
+<Additional context, design decisions, trade-offs>
+
+**Design Rationale:**
+
+- **Why this approach?** Explain architectural decisions
+- **Alternatives considered:** List alternatives and why rejected
+- **Trade-offs:** What was traded off?
+
+**Future Considerations:**
+
+- **Potential improvements:** What could be improved later
+- **Known limitations:** What this doesn't do
+- **Extension points:** How to extend in future
+```
+
+## Output Format
+
+**Filename:** `.claude/agents/plans/{kebab-case-feature-name}.md`
+
+**Example:** `.claude/agents/plans/example-feature-address-validation.md`
+
+**Directory:** Create `.claude/agents/plans/` if it doesn't exist
+
+## Quality Criteria
+
+### Context Completeness ✓
+
+- [ ] All necessary patterns identified and documented
+- [ ] External library usage documented with links
+- [ ] Integration points clearly mapped
+- [ ] Gotchas and anti-patterns captured
+- [ ] Every task has executable validation command
+
+### Implementation Ready ✓
+
+- [ ] Another developer could execute without additional context
+- [ ] Tasks ordered by dependency (can execute top-to-bottom)
+- [ ] Each task is atomic and independently testable
+- [ ] Pattern references include specific file:line numbers
+
+### Pattern Consistency ✓
+
+- [ ] Tasks follow existing codebase conventions
+- [ ] New patterns justified with clear rationale
+- [ ] No reinvention of existing patterns or utils
+- [ ] Testing approach matches project standards
+
+### Information Density ✓
+
+- [ ] No generic references (all specific and actionable)
+- [ ] URLs include section anchors when applicable
+- [ ] Task descriptions use codebase keywords
+- [ ] Validation commands are non-interactive executable
+
+## Success Metrics
+
+**One-Pass Implementation:** Execution agent can complete feature without additional research or clarification
+
+**Validation Complete:** Every task has at least one working validation command
+
+**Context Rich:** The plan passes "No Prior Knowledge Test" - someone unfamiliar with codebase can implement using only plan content
+
+**Confidence Score:** #/10 that execution will succeed on first attempt
+
+## Report
+
+After creating the plan, provide:
+
+- **Summary:** Brief overview of feature and approach
+- **Plan Path:** Full path to created plan file
+- **Complexity Assessment:** Low/Medium/High with rationale
+- **Key Risks:** Implementation risks or considerations
+- **Confidence Score:** #/10 for one-pass success
+
+---
+
+**IMPORTANT:** Before saving the plan, verify:
+
+1. ✅ Prime context is referenced
+2. ✅ All "MUST READ" files are listed with line numbers
+3. ✅ Patterns include code examples from Example codebase
+4. ✅ Every task has a validation command
+5. ✅ Testing strategy is specific to the feature
+6. ✅ Acceptance criteria are measurable

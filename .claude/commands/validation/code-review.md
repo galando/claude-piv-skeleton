@@ -4,37 +4,6 @@ description: Technical code review for quality and bugs that runs pre-commit
 
 # Code Review: Technical Quality Analysis
 
-## ⚠️ CRITICAL PREREQUISITES
-
-**DO NOT RUN this command if:**
-- ❌ Code doesn't compile
-- ❌ Tests are failing
-- ❌ Build is broken
-- ❌ Runtime errors occur
-
-**RUN ONLY AFTER:**
-- ✅ Compilation succeeds (`mvn clean compile`, `npm run build`, etc.)
-- ✅ All tests pass (`mvn test`, `npm test`, etc.)
-- ✅ No runtime errors
-- ✅ Build completes successfully
-
-**Why?** Code review performs **static analysis only**. It cannot verify that code actually compiles or runs correctly. Reviewing uncompiled code creates false confidence and wastes time.
-
-**If build is broken:**
-1. Fix compilation errors first
-2. Fix test failures
-3. Verify build succeeds
-4. THEN run code review
-
-**To verify build status, run:**
-```
-/validation:validate
-```
-
-This ensures compilation and tests pass before code review.
-
----
-
 ## Core Principles
 
 **Review Philosophy:**
@@ -50,32 +19,47 @@ This ensures compilation and tests pass before code review.
 
 **Start by understanding the codebase standards:**
 
-Read these files FIRST:
+**NOTE:** As part of PIV adoption (Week 1), the following documentation files are being aligned with PIV methodology. Check if they've been updated yet.
+
+Read these files FIRST (in order of priority):
 
 ```bash
-# 1. Project overview and standards
+# 1. Project overview and standards (PIV-aligned)
 Read .claude/CLAUDE.md
 
-# 2. PIV methodology guide
-Read .claude/PIV-METHODOLOGY.md
+# 2. PIV methodology workflow (current)
+Read .claude/PIV-WORKFLOW.md
 
-# 3. Architecture documentation (if exists)
+# 3. PIV adoption journey (historical)
+Read .claude/archive/PIV-ADOPTION-JOURNEY.md
+
+# 4. Architecture and patterns (to be PIV-aligned)
 Read docs/ARCHITECTURE.md
 
-# 4. Technology-specific rules
-# Backend rules (if using backend technologies)
-Read .claude/rules/backend/*.md
+# 5. Backend rules (to be PIV-aligned)
+# These files will be enhanced with PIV-specific patterns during Week 1
+Read .claude/rules/backend/api-design.md
+Read .claude/rules/backend/database.md
+Read .claude/rules/backend/fetching.md
+Read .claude/rules/backend/email.md
+Read .claude/rules/backend/security.md
+Read .claude/rules/backend/data-quality.md
+Read .claude/rules/backend/monitoring.md
 
-# 5. General rules
-Read .claude/rules/00-general.md
-Read .claude/rules/10-git.md
-Read .claude/rules/20-testing.md
-Read .claude/rules/30-documentation.md
-Read .claude/rules/40-security.md
+# 6. General rules (to be PIV-aligned)
+Read .claude/rules/testing.md
+Read .claude/rules/anti-patterns.md
+Read .claude/rules/code-review.md
+Read .claude/rules/environment.md
 
-# 6. Technology-specific reference documentation
-# Check technologies/{backend|frontend|database}/*/reference/
+# 7. PIV-specific rules (NEW - being created in Week 1)
+Read .claude/rules/piv-workflow.md  # This file will be created
 ```
+
+**Important:** Use the patterns documented in:
+1. `.claude/PIV-WORKFLOW.md` - Current PIV methodology (primary reference)
+2. `.claude/rules/` - Modular coding standards
+3. Apply PIV methodology principles as the primary reference
 
 ### 2. Identify Changed Files
 
@@ -133,17 +117,19 @@ if (price >= 100 && price <= 1000) { }
 **Missing error handling:**
 ```java
 // ❌ BAD: No error handling
-public Resource fetchResource(String url) {
-    return httpClient.get(url);
+public Entity fetchProperty(String url) {
+    return jsoup.connect(url).get();
 }
 
-// ✅ GOOD: Proper error handling
-public Resource fetchResource(String url) {
+// ✅ GOOD: Proper error handling (Example pattern)
+public Entity fetchProperty(String url) {
     try {
-        return httpClient.get(url);
+        Document doc = jsoup.connect(url).get();
+        return parseEntity(doc);
     } catch (IOException e) {
-        log.error("Failed to fetch resource: {}", url, e);
-        return null; // Or throw appropriate exception
+        log.error("Failed to fetch property: {}", url, e);
+        // Continue processing - Example graceful degradation pattern
+        return null;
     }
 }
 ```
@@ -151,13 +137,13 @@ public Resource fetchResource(String url) {
 **Race conditions:**
 ```java
 // ❌ BAD: Potential race condition
-if (resource == null) {
-    resource = repository.save(new Resource());
+if (property == null) {
+    property = repository.save(new Entity());
 }
 
 // ✅ GOOD: Atomic operation
-resource = repository.findById(id)
-    .orElseGet(() -> repository.save(new Resource()));
+property = repository.findById(id)
+    .orElseGet(() -> repository.save(new Entity()));
 ```
 
 ## 2. Security Issues
@@ -165,12 +151,12 @@ resource = repository.findById(id)
 **SQL injection vulnerabilities:**
 ```java
 // ❌ BAD: SQL injection risk
-@Query("SELECT * FROM resources WHERE name = '" + name + "'")
-List<Resource> findByName(String name);
+@Query("SELECT * FROM properties WHERE city = '" + city + "'")
+List<Entity> findByCity(String city);
 
-// ✅ GOOD: Parameterized query
-@Query("SELECT * FROM resources WHERE name = :name")
-List<Resource> findByName(String name);
+// ✅ GOOD: Parameterized query (Spring Data JDBC pattern)
+@Query("SELECT * FROM properties WHERE city = :city")
+List<Entity> findByCity(String city);
 ```
 
 **XSS vulnerabilities:**
@@ -178,7 +164,7 @@ List<Resource> findByName(String name);
 // ❌ BAD: XSS risk
 <div dangerouslySetInnerHTML={{ __html: userInput }} />
 
-// ✅ GOOD: Sanitized input (React auto-escapes)
+// ✅ GOOD: Sanitized input (React pattern)
 <div>{userInput}</div>
 ```
 
@@ -187,7 +173,7 @@ List<Resource> findByName(String name);
 // ❌ BAD: Logging sensitive data
 log.info("User password: {}", user.getPassword());
 
-// ✅ GOOD: Don't log sensitive data
+// ✅ GOOD: Don't log sensitive data (Example logging pattern)
 log.info("User login attempt: {}", user.getEmail());
 ```
 
@@ -196,8 +182,8 @@ log.info("User login attempt: {}", user.getEmail());
 // ❌ BAD: Hardcoded API key
 String API_KEY = "abc123xyz";
 
-// ✅ GOOD: Configuration
-@Value("${api.key}")
+// ✅ GOOD: Configuration (Example configuration pattern)
+@Value("${external-geo-service.api.key}")
 private String apiKey;
 ```
 
@@ -208,39 +194,59 @@ private String apiKey;
 // ❌ BAD: N+1 query problem
 List<User> users = userRepository.findAll();
 for (User user : users) {
-    List<Item> items = itemRepository.findByUserId(user.getId());
-    user.setItems(items);
+    List<Entity> properties = dataRepository.findByUserId(user.getId());
+    user.setProperties(properties);
 }
 
-// ✅ GOOD: Single query with JOIN
-@Query("SELECT users.*, items.* FROM users LEFT JOIN items ON users.id = items.user_id")
-List<UserWithItems> findAllWithItems();
+// ✅ GOOD: Single query with JOIN (Spring Data JDBC pattern)
+@Query("SELECT users.*, properties.* FROM users LEFT JOIN properties ON users.id = properties.user_id")
+List<UserWithProperties> findAllWithProperties();
 ```
 
 **Inefficient algorithms:**
 ```java
 // ❌ BAD: O(n²) nested loop
-for (Item i1 : items) {
-    for (Item i2 : items) {
-        if (i1.getId().equals(i2.getId())) { }
+for (Entity p1 : properties) {
+    for (Entity p2 : properties) {
+        if (p1.getId().equals(p2.getId())) { }
     }
 }
 
 // ✅ GOOD: O(n) with HashMap
-Map<Long, Item> itemMap = items.stream()
-    .collect(Collectors.toMap(Item::getId, Function.identity()));
+Map<Long, Property> propertyMap = properties.stream()
+    .collect(Collectors.toMap(Property::getId, Function.identity()));
 ```
 
 **Memory leaks:**
 ```java
 // ❌ BAD: Unbounded cache
-private static List<Resource> cache = new ArrayList<>();
+private static List<Entity> cache = new ArrayList<>();
 
 // ✅ GOOD: Bounded cache with eviction
-private static Cache<Long, Resource> cache = Caffeine.newBuilder()
+private static Cache<Long, Property> cache = Caffeine.newBuilder()
     .maximumSize(1000)
     .expireAfterWrite(10, TimeUnit.MINUTES)
     .build();
+```
+
+**Unnecessary computations:**
+```java
+// ❌ BAD: Repeated expensive computation
+for (Entity property : properties) {
+    double distance = calculateDistance(property.getAddress(), userAddress);
+    if (distance < 10) {
+        notify(property);
+    }
+}
+
+// ✅ GOOD: Filter first, compute only for matches
+List<Entity> nearby = properties.stream()
+    .filter(p -> isNearby(p, userAddress))
+    .toList();
+for (Entity property : nearby) {
+    double distance = calculateDistance(property.getAddress(), userAddress);
+    notify(property);
+}
 ```
 
 ## 4. Code Quality
@@ -248,20 +254,23 @@ private static Cache<Long, Resource> cache = Caffeine.newBuilder()
 **Violations of DRY principle:**
 ```java
 // ❌ BAD: Repeated code
-public void processResourceA(Resource r) {
-    r.setName(r.getName().trim());
-    r.setValue(r.getValue().trim());
+public void processExternalServiceAProperty(Entity entity) {
+    p.setUrl(p.getUrl().trim());
+    p.setPrice(p.getPrice().trim());
+    p.setAddress(p.getAddress().trim());
 }
 
-public void processResourceB(Resource r) {
-    r.setName(r.getName().trim());
-    r.setValue(r.getValue().trim());
+public void processExternalServiceBProperty(Entity entity) {
+    p.setUrl(p.getUrl().trim());
+    p.setPrice(p.getPrice().trim());
+    p.setAddress(p.getAddress().trim());
 }
 
 // ✅ GOOD: Extract common method
-public void trimResourceFields(Resource r) {
-    r.setName(r.getName().trim());
-    r.setValue(r.getValue().trim());
+public void trimPropertyFields(Entity entity) {
+    p.setUrl(p.getUrl().trim());
+    p.setPrice(p.getPrice().trim());
+    p.setAddress(p.getAddress().trim());
 }
 ```
 
@@ -300,23 +309,120 @@ public String formatFullAddress(String postalCode, String city) {
 List list = new ArrayList();
 
 // ✅ GOOD: Generic types
-List<Resource> resources = new ArrayList<>();
+List<Entity> properties = new ArrayList<>();
 ```
 
-## 5. Adherence to Project Standards
+## 5. Adherence to Example Standards
 
-**Follow technology-specific patterns:**
+**Spring Data JDBC (NOT JPA/Hibernate):**
+```java
+// ❌ BAD: JPA annotations (FORBIDDEN in Example)
+@Entity
+@Table(name = "properties")
+public class Entity {
+    @ManyToOne
+    private User user;
+}
 
-Check if the code follows the patterns defined in:
-- `.claude/rules/backend/` for backend code
-- `technologies/backend/*/reference/` for best practices
-- `.claude/rules/` for general patterns
+// ✅ GOOD: Simple entity for JDBC (Example pattern)
+public class Entity {
+    private Long id;
+    private Long userId;
+    // No @ManyToOne, use repository for queries
+}
+```
 
-**Common patterns to verify:**
+**Constructor injection with @RequiredArgsConstructor:**
+```java
+// ❌ BAD: Field injection (FORBIDDEN in Example)
+@Autowired
+private DataService propertyService;
 
-- **Backend**: Dependency injection, DTOs, structured logging, error handling
-- **Frontend**: Functional components, TypeScript, state management
-- **Database**: Proper indexing, constraints, migrations
+// ✅ GOOD: Constructor injection (Example pattern)
+@RequiredArgsConstructor
+public class EntityController {
+    private final DataService propertyService;
+}
+```
+
+**DTOs for API responses:**
+```java
+// ❌ BAD: Returning entities from controller (FORBIDDEN in Example)
+@GetMapping
+public List<Entity> getProperties() {
+    return propertyService.getAll();
+}
+
+// ✅ GOOD: Returning DTOs (Example pattern)
+@GetMapping
+public List<EntityDTO> getProperties() {
+    return propertyService.getAll()
+        .stream()
+        .map(EntityDTO::from)
+        .collect(Collectors.toList());
+}
+```
+
+**Structured logging:**
+```java
+// ❌ BAD: Unstructured logging
+log.info("Fetching completed for " + sourceName);
+
+// ✅ GOOD: Structured logging (Example pattern)
+log.info("Fetching completed: source={}, found={}, new={}, duration={}ms",
+         sourceName, propertiesFound, newProperties, duration);
+```
+
+**Graceful error handling:**
+```java
+// ❌ BAD: Fails fast on error
+for (Entity property : properties) {
+    enrichEntity(property); // Throws exception, stops processing
+}
+
+// ✅ GOOD: Continues on error (Example pattern)
+for (Entity property : properties) {
+    try {
+        enrichEntity(property);
+    } catch (Exception e) {
+        log.error("Failed to enrich property: {}", entity.getId(), e);
+        // Continue with next property - Example graceful degradation
+    }
+}
+```
+
+**Environment Safety (LOCAL vs PROD):**
+```java
+// ❌ BAD: Hardcoded production URL (CRITICAL SECURITY ISSUE)
+String dbUrl = "jdbc:postgresql://production.example.com/database";
+
+// ❌ BAD: Hardcoded local URL (won't work in production)
+String dbUrl = "jdbc:postgresql://localhost:5432/example";
+
+// ✅ GOOD: Configuration with environment-specific values (Example pattern)
+@Value("${spring.datasource.url}")
+private String dbUrl;
+
+// Uses backend/.env.local for LOCAL mode
+// Uses backend/.env for PRODUCTION mode
+```
+
+**PIV Methodology Adherence (if applicable):**
+
+If the implementation was done using PIV methodology:
+
+```java
+// ✅ GOOD: Follows PIV plan
+// - Patterns match those documented in plan
+// - Validation commands were run
+// - Tests were implemented per plan
+
+// Check if:
+// [ ] Plan was read before implementation
+// [ ] Patterns from plan were followed
+// [ ] All validation commands pass
+// [ ] Tests cover acceptance criteria
+```
 
 ## Verify Issues Are Real
 
@@ -331,17 +437,17 @@ Check if the code follows the patterns defined in:
 ```java
 // Looks like N+1 query...
 for (User user : users) {
-    List<Item> items = itemRepository.findByUserId(user.getId());
+    List<Entity> props = dataRepository.findByUserId(user.getId());
 }
 
 // But maybe it's intentional for pagination?
-// Check: Is there caching? Is the data size small?
+// Check: Is there a @Async? Is the result cached?
 // Verify before flagging as issue
 ```
 
 ## Output Format
 
-**Save review report to:** `.claude/agents/reviews/code-review-{timestamp}.md`
+**Save review report to:** `.claude/agents/code-reviews/{feature-name}-review.md`
 
 **Report Structure:**
 
@@ -420,14 +526,23 @@ for (User user : users) {
 
 {Overall recommendations for improvement}
 
-## Standards Compliance
+## Environment Safety Check
 
-{Check against project-specific standards}
-- [ ] Follows technology patterns
-- [ ] Proper error handling
-- [ ] Appropriate logging
-- [ ] Security best practices
-- [ ] Performance considerations
+- [ ] No hardcoded production URLs (production.example.com)
+- [ ] No hardcoded local URLs (localhost)
+- [ ] No hardcoded API keys or secrets
+- [ ] All configuration via @Value or properties files
+- [ ] Safe for both LOCAL and PROD environments
+- [ ] Follows Example environment patterns
+
+## Example Standards Compliance
+
+- [ ] Spring Data JDBC used (NOT JPA/Hibernate)
+- [ ] Constructor injection with @RequiredArgsConstructor
+- [ ] DTOs used for API responses (NOT entities)
+- [ ] Structured logging with SLF4J
+- [ ] Graceful error handling (continue processing)
+- [ ] Proper use of @Transactional where needed
 
 ## Conclusion
 
@@ -472,9 +587,18 @@ for (User user : users) {
 - ✅ No security issues
 - ✅ No performance problems
 - ✅ Code quality is good
-- ✅ Follows project standards
+- ✅ Follows Example standards
 - ✅ Proper error handling
 - ✅ Good use of patterns
+- ✅ Environment-safe configuration
+
+**Example Standards:**
+- ✅ Spring Data JDBC (not JPA)
+- ✅ Constructor injection
+- ✅ DTOs for API
+- ✅ Structured logging
+- ✅ Graceful degradation
+- ✅ Environment-safe
 
 **Ready for commit.**
 ```
@@ -501,6 +625,20 @@ for (User user : users) {
 - Provide actionable feedback
 - Help improve code quality
 
+**Check Environment Safety:**
+- No hardcoded production URLs (CRITICAL)
+- No hardcoded local URLs
+- No hardcoded secrets
+- Configuration via properties
+- Safe for both LOCAL and PROD modes
+
+**Check Example Standards:**
+- Spring Data JDBC (NOT JPA)
+- Constructor injection (NOT field injection)
+- DTOs for API (NOT entities)
+- Structured logging
+- Graceful error handling
+
 **Check PIV Compliance (if applicable):**
 - Was a plan created?
 - Was the plan followed?
@@ -510,6 +648,8 @@ for (User user : users) {
 ---
 
 **Remember:** The goal is to improve code quality, not to criticize. Be helpful, not harsh.
+
+**Note:** During PIV adoption, some documentation may not be fully aligned with PIV yet. In that case, prioritize PIV-WORKFLOW.md and the emerging PIV patterns over older documentation that hasn't been updated yet.
 
 ---
 
