@@ -184,7 +184,84 @@ cd backend && mvn clean compile
 
 **Why:** Ensures all Java code compiles without errors, including all dependencies.
 
-### 3. Backend Unit Tests
+### 3. TDD Compliance Check (MANDATORY)
+
+**🚨 CRITICAL: HARD STOP if TDD violations detected**
+
+```bash
+# Check for implementation files without corresponding test files
+# (This is a manual check - no automated command yet)
+
+# Find all implementation files changed in this branch
+git diff --name-only main | grep -E '\.(java|ts|tsx|js|py|go)$' | grep -v -E '\.(test|spec)\.'
+
+# For each implementation file found:
+# - Verify corresponding test file exists
+# - Verify test was written BEFORE implementation (check git history)
+# - Verify test follows Given-When-Then pattern
+```
+
+**Expected:** All implementation files have corresponding test files, tests written BEFORE implementation.
+
+**Time:** ~30 seconds (manual review)
+
+**Why:** Ensures strict TDD compliance - tests written FIRST, implementation SECOND.
+
+**Checks:**
+- [ ] Every implementation file (`.java`, `.ts`, `.tsx`, `.js`, `.py`, `.go`) has corresponding test file
+  - Java: `UserService.java` → `UserServiceTest.java`
+  - TypeScript: `user.service.ts` → `user.service.test.ts`
+  - Python: `user_service.py` → `test_user_service.py`
+- [ ] Test file was created BEFORE implementation file (check `git log --follow`)
+- [ ] Test follows Given-When-Then pattern
+- [ ] Test was run and FAILED (RED phase) before implementation
+- [ ] Implementation was written AFTER test (GREEN phase)
+
+**🚨 ON FAILURE (HARD STOP):**
+
+If TDD violations detected, validation STOPS immediately:
+
+```
+❌ TDD COMPLIANCE CHECK FAILED
+
+Implementation file: [filename]
+Test file: [missing or created AFTER implementation]
+
+REQUIRED ACTION:
+1. DELETE implementation code (code written before tests violates TDD)
+2. Write test FIRST (RED phase)
+3. Run test to verify it FAILS
+4. Implement code to make test PASS (GREEN phase)
+5. Refactor while keeping tests green (REFACTOR phase)
+
+Validation is BLOCKED until TDD compliance achieved.
+
+TDD is NON-NEGOTIABLE:
+- ❌ NO exceptions for "simple code"
+- ❌ NO exceptions for "just this once"
+- ❌ NO exceptions for "I'll add tests later"
+
+Zero tolerance for TDD violations.
+```
+
+**No Exceptions:**
+- Don't write implementation before tests
+- Don't write tests after implementation
+- Don't skip TDD for "simple" code
+- Don't say "this doesn't need a test"
+
+**Follow RED-GREEN-REFACTOR cycle:**
+1. 🔴 RED: Write FAILING test first
+2. 🟢 GREEN: Write MINIMAL code to pass
+3. 🔵 REFACTOR: Improve while tests stay green
+
+**Enforcement:**
+- Skills system auto-activates to enforce TDD while you code
+- Validation FAILS if TDD violations detected
+- Code review rejects code written before tests
+- Code written before tests WILL BE DELETED
+
+### 4. Backend Unit Tests
 
 ```bash
 cd backend && mvn test
@@ -229,7 +306,7 @@ Do NOT proceed to integration tests until unit tests pass.
 
 **Fix the failure NOW.**
 
-### 4. Backend Integration Tests (LOCAL DEV MODE)
+### 5. Backend Integration Tests (LOCAL DEV MODE)
 
 ```bash
 cd backend && mvn verify -DskipUnitTests=true
@@ -283,7 +360,7 @@ Before re-running, confirm:
 
 **Fix the failure NOW.**
 
-### 5. Test Coverage
+### 6. Test Coverage
 
 ```bash
 cd backend && mvn jacoco:report
@@ -300,7 +377,7 @@ cd backend && mvn jacoco:report
 - Check overall coverage percentage
 - Ensure new files have >= 80% coverage
 
-### 6. Frontend Type Check
+### 7. Frontend Type Check
 
 ```bash
 cd frontend && npm run type-check
@@ -312,7 +389,7 @@ cd frontend && npm run type-check
 
 **Why:** Ensures all TypeScript code is properly typed.
 
-### 7. Frontend Linting
+### 8. Frontend Linting
 
 ```bash
 cd frontend && npm run lint
@@ -324,7 +401,7 @@ cd frontend && npm run lint
 
 **Why:** Ensures code follows project style guidelines.
 
-### 8. Frontend Unit Tests
+### 9. Frontend Unit Tests
 
 ```bash
 cd frontend && npm test
@@ -336,7 +413,7 @@ cd frontend && npm test
 
 **Why:** Verifies frontend logic and components work correctly.
 
-### 9. Frontend Build
+### 10. Frontend Build
 
 ```bash
 cd frontend && npm run build
@@ -348,7 +425,7 @@ cd frontend && npm run build
 
 **Why:** Ensures production build works without errors.
 
-### 10. Database Migration Check (LOCAL DEV MODE)
+### 11. Database Migration Check (LOCAL DEV MODE)
 
 ```bash
 cd backend && mvn flyway:info -Dflyway.configFiles=src/main/resources/application.properties
@@ -362,7 +439,7 @@ cd backend && mvn flyway:info -Dflyway.configFiles=src/main/resources/applicatio
 - Only affects LOCAL Docker database
 - Does NOT touch CloudProvider production database
 
-### 11. Application Startup (LOCAL DEV MODE)
+### 12. Application Startup (LOCAL DEV MODE)
 
 **⚠️ CRITICAL: Only run this in LOCAL DEV MODE!**
 

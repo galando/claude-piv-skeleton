@@ -106,10 +106,20 @@ git init
 ## Features
 
 ### 🚨 Strict Test-Driven Development (TDD)
-- **MANDATORY TDD** - All code must follow RED-GREEN-REFACTOR cycle
+- **MANDATORY TDD** - All code must follow RED-GREEN-REFACTOR cycle with zero exceptions
 - **Zero Tolerance** - Code written before tests will be deleted
-- **TDD Compliance Validation** - Automatic validation fails if TDD violations detected
-- **Auto-Activating Skills** - Real-time TDD enforcement during development
+- **Skills Enforcement** - Auto-activating behaviors enforce TDD in real-time
+- **Validation Fails** - Automatic validation fails if TDD violations detected
+- **Test-First Culture** - Tests written FIRST (RED), then implementation (GREEN), then refactor (REFACTOR)
+
+### Skills System: Auto-Activating Behaviors
+- **Real-Time Enforcement** - Skills activate based on file patterns and commands
+- **TDD Skill** - Enforces RED-GREEN-REFACTOR when writing implementation code
+- **Test-Writing Skill** - Enforces Given-When-Then test structure
+- **API Design Skill** - Enforces REST best practices for controllers
+- **Security Skill** - Enforces OWASP Top 10 security checks
+- **Code-Review Skill** - Systematic quality checks during reviews
+- **Complements Commands** - Skills enhance manual commands, don't replace them
 
 ### Technology Agnostic Core
 - Universal PIV methodology applicable to any technology stack
@@ -126,6 +136,7 @@ Standardized Claude Code commands for PIV workflow:
 - `/piv_loop:prime` - Load context and prime workspace
 - `/piv_loop:plan-feature "description"` - Create detailed feature plans
 - `/piv_loop:execute [plan]` - Execute from plan (auto-validates)
+- `/commit` - Create atomic commit with conventional commits (phase-based workflow)
 - `/validation:validate` - Run validation pipeline (automatic)
 - `/validation:code-review` - Optional detailed code review
 - `/validation:code-review-fix` - Fix issues from code review
