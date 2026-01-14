@@ -85,9 +85,51 @@ Read backend/src/main/java/com/example/service/ExampleService.java
 Read backend/src/main/java/com/example/entity/Example.java
 ```
 
+### 3.5. Verify TDD Compliance Before Implementation
+
+**🚨 CRITICAL: You MUST follow RED-GREEN-REFACTOR cycle!**
+
+For EACH task in "STEP-BY-STEP TASKS":
+
+**Step 1: CHECK Test Exists (RED Phase)**
+- Does test file exist for the code you're about to write?
+- If NO → **STOP!** Write test FIRST (use test-writing skill)
+- If YES → Continue to Step 2
+
+**Step 2: VERIFY Test Fails (RED Phase)**
+- Run the test to verify it FAILS (RED)
+- If test passes → You're missing test logic, fix test first
+- If test fails → **GOOD!** Continue to Step 3
+
+**Step 3: Implement Code (GREEN Phase)**
+- Write MINIMAL code to make the test pass
+- Run test again to verify it PASSES (GREEN)
+- If test fails → Fix implementation until test passes
+
+**Step 4: Refactor (REFACTOR Phase)**
+- Improve code while keeping tests green
+- Run tests again to ensure nothing broke
+- If tests break → Fix refactor or revert
+
+**ZERO TOLERANCE:**
+- ❌ Code written before tests **WILL BE DELETED**
+- ❌ NO exceptions for "simple code" or "just this once"
+- ❌ If you violate TDD, **DELETE CODE** and start over
+
+**TDD Enforcement:**
+- **test-driven-development skill** will auto-activate and enforce this
+- **test-writing skill** will enforce Given-When-Then pattern
+- Follow the cycle: **Test first, implement second, refactor third**
+
 ### 4. Execute Tasks in Order
 
 For EACH task in "STEP-BY-STEP TASKS":
+
+**🚨 TDD CHECKPOINT (Before EACH task):**
+- Does test file exist for implementation you're about to write?
+- Was test written BEFORE implementation code (RED-GREEN-REFACTOR)?
+- **If code written before test → DELETE CODE, write test first**
+- **TDD skill will auto-activate to enforce this**
 
 #### a. Navigate to the task
 
@@ -127,6 +169,11 @@ mvn test -Dtest=ExampleServiceTest
 **DO NOT skip validation!** Each task has a validation command for a reason.
 
 ### 5. Implement Testing Strategy
+
+**🚨 TDD REMINDER: Tests should be written FIRST (RED phase), not after implementation!**
+
+If you followed TDD correctly in section 4, tests are already written.
+If not, **DELETE implementation code** and start over with test-first approach.
 
 After completing implementation tasks:
 
@@ -365,7 +412,8 @@ After implementation completes, the system will **automatically**:
 
 1. **Run Code Review** - Technical quality analysis
    - Checks for bugs, security issues, performance problems
-   - Verifies Example standards compliance
+   - Verifies PIV standards compliance
+   - Checks TDD compliance (tests written before code)
    - If issues found → Auto-fix and re-review
 
 2. **Run System Review** (Parallel) - Process improvement analysis
@@ -374,17 +422,19 @@ After implementation completes, the system will **automatically**:
    - Identifies future improvements (doesn't block)
 
 3. **Run Final Validation** - Complete validation suite
+   - Environment safety check
    - Compilation verification
    - Unit tests
    - Integration tests
+   - TDD compliance check (🚨 HARD STOP if violations detected)
    - Coverage check (≥80%)
    - Security scan
-   - Performance check
+   - Build verification
 
 4. **Ready State** - Stop when all pass
    - Report: "✅ FEATURE COMPLETE - ALL VALIDATIONS PASSED"
    - Summary: Files created, tests added, coverage achieved
-   - Next step: **Create pull request for review**
+   - Next step: **Ask user about committing**
 
 ### What You Need To Do
 
@@ -397,32 +447,45 @@ After implementation completes, the system will **automatically**:
 **When feature is complete:**
 - You'll see: "✅ READY TO COMMIT"
 - Review the summary
-- **CRITICAL: Follow the commit workflow below**
+- **System will ASK: "Ready to commit implementation?"**
+- Respond with "yes" to commit or "no" to make changes
 
-### Commit Workflow for Feature Branches
+### Phase-Based Commit Workflow
 
-**After implementation completes, you are on a feature branch.**
+**Implementation Phase Commit (current phase):**
 
-**Step 1: Commit your changes**
+After automatic validation passes:
+
+**Step 1: System asks for permission**
+```
+✅ FEATURE COMPLETE - ALL VALIDATIONS PASSED
+
+Ready to commit implementation? (yes/no)
+```
+
+**Step 2: If you say "yes"**
 ```bash
 /commit
 ```
-This will create a commit with all your changes on the feature branch.
+This creates a commit with:
+- All implementation changes (code + tests written in TDD order)
+- Commit message follows conventional commits
+- Includes co-author attribution
 
-**Step 2: Push to remote**
+**Step 3: Push to remote**
 ```bash
 git push -u origin <your-feature-branch>
 ```
 
-**Step 3: Create Pull Request**
+**Step 4: Create Pull Request**
 ```bash
 gh pr create --title "Feature: <brief description>" --body "Summary of changes"
 ```
 
-**Step 4: Merge to main (ONLY after review and approval)**
+**Step 5: Merge to main (ONLY after review and approval)**
 - ✅ Pull request must be reviewed
 - ✅ All checks must pass
-- ✅ Get explicit approval from maintainer
+- ✅ Get **explicit approval** from maintainer
 - Then merge to main
 
 **IMPORTANT:**
@@ -430,6 +493,7 @@ gh pr create --title "Feature: <brief description>" --body "Summary of changes"
 - ❌ **NEVER** push directly to main branch
 - ✅ **ALWAYS** use feature branches for implementations
 - ✅ **ALWAYS** create PR for review before merging to main
+- ✅ **System ASKS before committing** - never automatic
 
 ### Manual Override (Optional)
 

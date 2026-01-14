@@ -148,6 +148,90 @@ wip
 - **COMMIT** after tests pass
 - **DON'T** commit unfinished work (use WIP commits if needed)
 
+### Commit Timing (PIV Methodology)
+
+**When working with PIV methodology, commits happen AFTER each major phase:**
+
+#### Standard PIV Workflow with Phase-Based Commits
+
+```
+1. Plan Phase
+   ├─ Create plan artifact
+   └─ Ask user: "Ready to commit plan?"
+      └─ If yes: /commit "plan: [feature description]"
+
+2. Implement Phase
+   ├─ Execute plan (following TDD: RED-GREEN-REFACTOR)
+   ├─ Validation runs automatically
+   └─ Ask user: "Ready to commit implementation?"
+      └─ If yes: /commit "feat: [feature description]"
+         (includes both code AND tests written in TDD order)
+
+3. Validate Phase (Already ran after implement)
+   └─ If validation fixes needed:
+      └─ Ask user: "Ready to commit validation fixes?"
+         └─ If yes: /commit "chore: fix validation issues"
+
+4. Simplify Phase (Optional)
+   ├─ Refactor and clean up
+   ├─ Validation runs again
+   └─ Ask user: "Ready to commit refactoring?"
+      └─ If yes: /commit "refactor: [what was simplified]"
+
+Total: 2-4 commits (one per phase)
+```
+
+#### Why Phase-Based Commits?
+
+**Benefits:**
+- ✅ **Right granularity** - Each phase is a logical unit
+- ✅ **Easy to revert** - Can revert entire phase if needed
+- ✅ **Clear history** - Git history shows PIV phases
+- ✅ **Tests + code together** - Implementation phase includes both (TDD verified)
+
+**IMPORTANT:** Always ASK user before committing - never commit automatically!
+
+#### When to Commit vs. When to Continue
+
+**Commit after phase:**
+- ✅ Plan complete → Commit plan
+- ✅ Implementation complete + validation passing → Commit implementation
+- ✅ Validation fixes applied → Commit fixes
+- ✅ Refactoring complete + validation passing → Commit refactor
+
+**Continue without committing:**
+- ✅ During implementation (multiple tasks in one phase)
+- ✅ During refactoring (multiple cleanups in one phase)
+- ✅ While validation is running (wait for results)
+
+#### TDD and Commits
+
+**Implementation phase commits include BOTH tests AND code:**
+
+**Correct TDD order within implementation phase:**
+```
+1. Write test (RED)
+2. Run test → Fails ✅
+3. Write implementation (GREEN)
+4. Run test → Passes ✅
+5. Refactor (REFACTOR)
+6. Run tests → Still pass ✅
+
+[Repeat for each piece of functionality]
+
+[After all implementation complete + validation passing]
+→ /commit "feat: [feature]"
+```
+
+**One commit for entire implementation phase** includes:
+- All tests written (RED phase)
+- All implementation code (GREEN phase)
+- All refactoring (REFACTOR phase)
+- Validation passing
+
+**Do NOT commit after each test/implementation cycle** - that's too granular.
+**DO commit after entire implementation phase is complete** - right granularity.
+
 ### Before Committing
 1. **CHECK** what you're committing: `git status` / `git diff`
 2. **ENSURE** tests pass: Run test suite
