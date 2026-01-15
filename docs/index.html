@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PIV (Prime-Implement-Validate) methodology skeleton for Claude Code. Universal template with technology-agnostic rules, modular command infrastructure, and comprehensive documentation for AI-assisted software development.">
+    <title>PIV Skeleton - AI-Assisted Development Methodology</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="nav-content">
+                <div class="nav-logo">
+                    <span class="logo-text">PIV Skeleton</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#quick-start">Quick Start</a></li>
+                    <li><a href="#commands">Commands</a></li>
+                    <li><a href="#documentation">Documentation</a></li>
+                    <li><a href="https://github.com/galando/claude-piv-skeleton" class="nav-github-link">View on GitHub</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="container">
+                <h1>Claude PIV Skeleton</h1>
+                <p class="hero-subtitle">Universal PIV (Prime-Implement-Validate) methodology skeleton for Claude Code</p>
+                <p class="hero-description">
+                    A technology-agnostic, extensible skeleton repository for implementing the PIV methodology with Claude Code.
+                    Provides comprehensive documentation, rules, and templates to accelerate development while maintaining code quality and consistency.
+                </p>
+                <div class="cta-group">
+                    <a href="#quick-start" class="btn btn-primary">Get Started</a>
+                    <a href="https://github.com/galando/claude-piv-skeleton" class="btn btn-secondary">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section section-alt" id="features">
+            <div class="container">
+                <h2 class="section-title">Why PIV?</h2>
+                <p class="section-subtitle">A complete methodology for AI-assisted software development with strict Test-Driven Development</p>
+
+                <div class="grid grid-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">🚨</div>
+                        <h3>Strict Test-Driven Development</h3>
+                        <p>MANDATORY TDD with RED-GREEN-REFACTOR cycle. Zero tolerance policy - code written before tests will be deleted. Skills enforce TDD in real-time.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Skills System: Auto-Activating Behaviors</h3>
+                        <p>Real-time enforcement based on file patterns and commands. TDD, test-writing, API design, security, and code-review skills enhance development.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3>Technology Agnostic Core</h3>
+                        <p>Universal PIV methodology applicable to any technology stack. Modular design allows picking only what you need. Progressive enhancement.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📏</div>
+                        <h3>Modular Rules System</h3>
+                        <p>Universal rules apply to all projects (git, testing, documentation, strict TDD). Technology rules auto-load based on your stack.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚙️</div>
+                        <h3>Command Infrastructure</h3>
+                        <p>Standardized Claude Code commands for PIV workflow: prime, plan-feature, execute, validation, bug fixes, and more.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Technology Templates</h3>
+                        <p>Pre-built templates for Spring Boot, Node.js/Express, Python/FastAPI, React, PostgreSQL, and Docker with best practices.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Start Section -->
+        <section class="section" id="quick-start">
+            <div class="container">
+                <h2 class="section-title">Quick Start</h2>
+                <p class="section-subtitle">Get started in 5 minutes</p>
+
+                <div class="install-section">
+                    <h3>🚀 One-Line Install (Existing Projects)</h3>
+                    <p class="install-description">The fastest way to add PIV to your existing project:</p>
+                    <pre><code class="language-bash">curl -s https://raw.githubusercontent.com/galando/claude-piv-skeleton/main/scripts/install-piv.sh | bash</code></pre>
+                </div>
+
+                <div class="quick-start-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Prime</h3>
+                            <p>Load context and prime workspace</p>
+                            <pre><code class="language-bash">/piv_loop:prime</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Implement</h3>
+                            <p>Plan features and execute implementation (following TDD)</p>
+                            <pre><code class="language-bash">/piv_loop:plan-feature "Add user authentication"
+/piv_loop:execute</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Validate</h3>
+                            <p>Automatic validation runs after execute</p>
+                            <pre><code class="language-bash"># Runs automatically - no manual step needed!</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Examples Section -->
+        <section class="section section-alt" id="commands">
+            <div class="container">
+                <h2 class="section-title">PIV Commands</h2>
+                <p class="section-subtitle">Essential commands for AI-assisted development</p>
+
+                <div class="command-cards">
+                    <div class="command-card">
+                        <div class="command-code">
+                            <pre><code class="language-bash">/piv_loop:prime</code></pre>
+                        </div>
+                        <div class="command-description">
+                            <h3>Prime Context</h3>
+                            <p>Load codebase context and understanding. Run at the start of each session or when switching contexts.</p>
+                        </div>
+                    </div>
+
+                    <div class="command-card">
+                        <div class="command-code">
+                            <pre><code class="language-bash">/piv_loop:plan-feature "description"</code></pre>
+                        </div>
+                        <div class="command-description">
+                            <h3>Create Implementation Plan</h3>
+                            <p>Create detailed implementation plan with deep codebase analysis. Use for complex features or refactoring.</p>
+                        </div>
+                    </div>
+
+                    <div class="command-card">
+                        <div class="command-code">
+                            <pre><code class="language-bash">/piv_loop:execute</code></pre>
+                        </div>
+                        <div class="command-description">
+                            <h3>Execute Plan</h3>
+                            <p>Execute implementation plan following strict TDD. Automatic validation runs after completion.</p>
+                        </div>
+                    </div>
+
+                    <div class="command-card">
+                        <div class="command-code">
+                            <pre><code class="language-bash">/validation:validate</code></pre>
+                        </div>
+                        <div class="command-description">
+                            <h3>Run Validation</h3>
+                            <p>Run full validation pipeline (automatic after execute). Includes environment check, compilation, tests, coverage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation Links Section -->
+        <section class="section" id="documentation">
+            <div class="container">
+                <h2 class="section-title">Documentation</h2>
+                <p class="section-subtitle">Comprehensive guides and documentation</p>
+
+                <div class="doc-categories">
+                    <div class="doc-category">
+                        <h3>Getting Started</h3>
+                        <div class="grid grid-2">
+                            <a href="https://github.com/galando/claude-piv-skeleton#quick-start" class="doc-link-card">
+                                <div class="doc-link-icon">📖</div>
+                                <h4>Quick Start</h4>
+                                <p>Get started in 5 minutes</p>
+                            </a>
+                            <a href="https://github.com/galando/claude-piv-skeleton#your-first-feature" class="doc-link-card">
+                                <div class="doc-link-icon">🎯</div>
+                                <h4>Your First Feature</h4>
+                                <p>Walkthrough of first feature</p>
+                            </a>
+                            <a href="https://github.com/galando/claude-piv-skeleton/blob/main/docs/FAQ.md" class="doc-link-card">
+                                <div class="doc-link-icon">❓</div>
+                                <h4>FAQ</h4>
+                                <p>Frequently asked questions</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="doc-category">
+                        <h3>Methodology</h3>
+                        <div class="grid grid-2">
+                            <a href="https://github.com/galando/claude-piv-skeleton/blob/main/.claude/PIV-METHODOLOGY.md" class="doc-link-card">
+                                <div class="doc-link-icon">📚</div>
+                                <h4>PIV Methodology</h4>
+                                <p>Complete methodology guide</p>
+                            </a>
+                            <a href="https://github.com/galando/claude-piv-skeleton/blob/main/.claude/CLAUDE.md" class="doc-link-card">
+                                <div class="doc-link-icon">⚙️</div>
+                                <h4>Project Instructions</h4>
+                                <p>Quick reference for Claude Code</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="doc-category">
+                        <h3>Contributing</h3>
+                        <div class="grid grid-2">
+                            <a href="https://github.com/galando/claude-piv-skeleton/blob/main/CONTRIBUTING.md" class="doc-link-card">
+                                <div class="doc-link-icon">🤝</div>
+                                <h4>Contributing Guidelines</h4>
+                                <p>How to contribute to the skeleton</p>
+                            </a>
+                            <a href="https://github.com/galando/claude-piv-skeleton/issues" class="doc-link-card">
+                                <div class="doc-link-icon">🐛</div>
+                                <h4>Issue Tracker</h4>
+                                <p>Report bugs and request features</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/galando/claude-piv-skeleton">GitHub Repository</a></li>
+                        <li><a href="https://github.com/galando/claude-piv-skeleton/blob/main/LICENSE">MIT License</a></li>
+                        <li><a href="https://github.com/galando/claude-piv-skeleton/issues">Issue Tracker</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/galando/claude-piv-skeleton/blob/main/CONTRIBUTING.md">Contributing Guidelines</a></li>
+                        <li><a href="https://buymeacoffee.com/galando">Buy Me A Coffee</a></li>
+                        <li><a href="https://deepwiki.com/galando/claude-piv-skeleton">Ask DeepWiki</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Attribution</h4>
+                    <p class="footer-attribution">
+                        The PIV Methodology was created by <a href="https://github.com/coleam00">Cole Medin</a>
+                    </p>
+                    <p class="footer-attribution">
+                        Made with ❤️ for the Claude Code community
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Claude PIV Skeleton. MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Syntax Highlighting JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+</body>
+</html>

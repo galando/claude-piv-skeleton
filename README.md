@@ -5,6 +5,8 @@
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/galando)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/galando/claude-piv-skeleton)
 
+**🌐 Visit the [GitHub Pages landing page](https://galando.github.io/claude-piv-skeleton/) for a visual overview of the PIV methodology.**
+
 **Universal PIV (Prime-Implement-Validate) methodology skeleton for Claude Code projects**
 
 A technology-agnostic, extensible skeleton repository for implementing the PIV methodology with Claude Code. Provides comprehensive documentation, rules, and templates to accelerate development while maintaining code quality and consistency.
