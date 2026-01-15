@@ -2,10 +2,9 @@
 
 [![Claude Dev Framework](https://img.shields.io/badge/Claude_Dev_Framework-AI_Development-blue?style=for-the-badge&logo=anthropic)](https://github.com/galando/claude-dev-framework)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Visual Guide](https://img.shields.io/badge/🌐_Visual_Guide-Interactive_Methodology-467fd9?style=for-the-badge&logo=github)](https://galando.github.io/claude-dev-framework/)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/galando)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/galando/claude-dev-framework)
-
-**🌐 Visit the [GitHub Pages landing page](https://galando.github.io/claude-dev-framework/) for a visual overview of the PIV (Prime-Implement-Validate) methodology.**
 
 **Universal PIV (Prime-Implement-Validate) methodology skeleton for Claude Code projects**
 
@@ -28,6 +27,10 @@ This methodology ensures Claude Code has proper context before making changes, c
 ---
 
 ## Quick Start
+
+### 🌐 New to PIV?
+
+**Start with the [interactive visual guide](https://galando.github.io/claude-dev-framework/) to understand the workflow in 5 minutes.**
 
 ### 🚀 One-Line Install (Existing Projects)
 
@@ -268,6 +271,18 @@ claude-dev-framework/
 ---
 
 ## Documentation
+
+### 🌐 Interactive Methodology Guide
+
+**New to PIV?** Start with the [interactive visual guide](https://galando.github.io/claude-dev-framework/) for a comprehensive walkthrough of the methodology.
+
+The visual guide covers:
+- **PIV Workflow** - How Prime, Implement, and Validate phases work together
+- **Quick Start** - One-line installation and your first feature
+- **Key Features** - Strict TDD, Skills System, Technology Templates
+- **Code Examples** - Real-world PIV commands and workflows
+
+Perfect for visual learners and anyone who wants to understand PIV in 5 minutes.
 
 ### Getting Started
 - [Installation Guide](docs/getting-started/01-installation.md) - How to install and set up
