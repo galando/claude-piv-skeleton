@@ -239,6 +239,15 @@
             :root:not([data-theme="light"]) .doc-link-icon {
                 background: linear-gradient(135deg, rgba(91, 141, 239, 0.15), rgba(77, 225, 255, 0.15));
             }
+
+            /* Commands section and footer dark theme overrides */
+            :root:not([data-theme="light"]) .commands-section {
+                background: #000000;
+            }
+
+            :root:not([data-theme="light"]) .footer {
+                background: #000000;
+            }
         }
 
         /* Smooth theme transition */
@@ -803,7 +812,7 @@
 
         /* === COMMANDS SECTION === */
         .commands-section {
-            background: var(--color-dark);
+            background: #1A1A1A;
             color: #FFFFFF;
         }
 
@@ -817,6 +826,11 @@
 
         .commands-section .section-description {
             color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Dark theme override for commands section */
+        [data-theme="dark"] .commands-section {
+            background: #000000;
         }
 
         .command-card {
@@ -927,9 +941,14 @@
 
         /* === FOOTER === */
         .footer {
-            background: var(--color-dark);
+            background: #1A1A1A;
             color: #FFFFFF;
             padding: var(--space-2xl) var(--space-md) var(--space-lg);
+        }
+
+        /* Dark theme override for footer */
+        [data-theme="dark"] .footer {
+            background: #000000;
         }
 
         .footer-content {
