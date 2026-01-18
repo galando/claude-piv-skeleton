@@ -101,15 +101,32 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ```
 claude-dev-framework/
 ├── .claude/                     # Claude Code configuration
+│   ├── CLAUDE.md                # Project instructions
+│   ├── agents/                  # Artifact directories
 │   ├── commands/                # PIV command definitions
+│   ├── reference/               # Complete guides
 │   ├── rules/                   # Coding rules
-│   ├── skills/                  # Auto-activating behaviors
-│   └── reference/               # Complete guides
+│   └── skills/                  # Auto-activating behaviors
+├── .github/                     # GitHub configuration
+│   ├── workflows/               # CI/CD workflows
+│   └── ISSUE_TEMPLATE/          # Issue templates
 ├── docs/                        # Comprehensive documentation
 │   ├── getting-started/         # Getting started guides
 │   ├── features/                # Feature documentation
-│   └── extending/               # Extension guides
-└── technologies/                # Technology templates
+│   ├── extending/               # Extension guides
+│   ├── methodology/             # Methodology deep dives
+│   └── index.html               # GitHub Pages site
+├── scripts/                     # Utility scripts
+│   └── install/                 # Installer scripts
+├── technologies/                # Technology templates
+│   ├── backend/                 # Backend frameworks
+│   ├── frontend/                # Frontend frameworks
+│   ├── database/                # Databases
+│   └── devops/                  # DevOps tools
+├── CHANGELOG.md                 # Changelog
+├── CONTRIBUTING.md              # Contributing guidelines
+├── LICENSE                      # MIT License
+└── README.md                    # This file
 ```
 
 ---
