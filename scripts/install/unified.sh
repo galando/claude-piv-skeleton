@@ -281,14 +281,37 @@ update_existing() {
 
     print_header "Updating PIV Framework"
 
+    # Ensure PIV_SOURCE_DIR is set (may not be in all execution paths)
+    if [ -z "${PIV_SOURCE_DIR:-}" ]; then
+        # Try to find it relative to script location
+        if [ -f "$SCRIPT_DIR/../.claude/reference/methodology/PIV-METHODOLOGY.md" ]; then
+            PIV_SOURCE_DIR="$(dirname "$SCRIPT_DIR")"
+        elif [ -f "$SCRIPT_DIR/../.claude/PIV-METHODOLOGY.md" ]; then
+            PIV_SOURCE_DIR="$(dirname "$SCRIPT_DIR")"
+        else
+            print_error "Cannot find PIV source directory"
+            exit 1
+        fi
+    fi
+
     # Parse current version
     parse_piv_version
 
     local current_version="$INSTALLED_VERSION"
-    local latest_version=$(get_version)
+    local latest_version
+    latest_version=$(get_version "$PIV_SOURCE_DIR") || latest_version="unknown"
+
+    # For legacy installations without version tracking, create version file
+    if [ "$current_version" = "unknown" ]; then
+        print_info "Legacy installation detected - initializing version tracking"
+        write_version_file "$latest_version" ""
+        current_version="$latest_version"
+        INSTALLED_VERSION="$latest_version"
+    fi
 
     print_info "Current version: $current_version"
     print_info "Latest version: $latest_version"
+    echo ""
 
     # Check for pinned version
     if [ -n "$PINNED_VERSION" ] && [ "$FORCE" != true ]; then
@@ -306,7 +329,12 @@ update_existing() {
     local changes=$(detect_changes)
 
     if [ -z "$changes" ]; then
+        echo ""
         print_success "Already up to date!"
+        echo ""
+        echo "Current installation: $current_version"
+        echo "Latest available:    $latest_version"
+        echo ""
         return 0
     fi
 

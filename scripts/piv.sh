@@ -113,7 +113,7 @@ OPTIONS:
     --version X.Y.Z    Pin to specific version
     --pin              Remember version for future updates
     --dry-run          Show changes without applying
-    --force            Skip confirmation prompts
+    --force, -y        Skip confirmation prompts (auto-confirm)
     --help             Show this help message
     -v, --version      Show version information
 
@@ -129,6 +129,7 @@ EXAMPLES:
 
     # Update without confirmation
     bash piv.sh --force
+    bash piv.sh -y
 
 For more information: https://github.com/galando/claude-dev-framework
 EOF
@@ -157,8 +158,9 @@ while [[ $# -gt 0 ]]; do
             DRY_RUN=true
             shift
             ;;
-        --force)
+        --force|-y|--yes)
             FORCE=true
+            AUTO_CONFIRM=true
             shift
             ;;
         --help|-h)
@@ -184,7 +186,7 @@ if [ "$WANT_VERSION" = true ]; then
 fi
 
 # Export options for subshells
-export DRY_RUN FORCE PINNED_VERSION
+export DRY_RUN FORCE AUTO_CONFIRM PINNED_VERSION
 
 ################################################################################
 # MAIN FLOW

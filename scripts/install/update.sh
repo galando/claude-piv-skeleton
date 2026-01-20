@@ -9,7 +9,8 @@
 # Get version from VERSION file
 # Usage: get_version [path_to_repo]
 get_version() {
-    local repo_root="${1:-$PIV_SOURCE_DIR}"
+    # Use PIV_SOURCE_DIR if available, otherwise use first arg, otherwise current dir
+    local repo_root="${1:-${PIV_SOURCE_DIR:-.}}"
     local version_file="$repo_root/VERSION"
 
     if [ -f "$version_file" ]; then
@@ -32,15 +33,17 @@ parse_piv_version() {
     PINNED_VERSION=""
 
     if [ ! -f "$version_file" ]; then
-        return 1
+        # Missing version file is an expected state for legacy installations
+        # Default values are already set above, return success
+        return 0
     fi
 
-    # Parse securely with grep
-    INSTALLED_VERSION=$(grep "^VERSION=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]')
-    INSTALLED_COMMIT=$(grep "^COMMIT=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]')
-    INSTALLED_DATE=$(grep "^INSTALLED=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]')
-    UPDATED_DATE=$(grep "^UPDATED=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]')
-    PINNED_VERSION=$(grep "^PINNED=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]')
+    # Parse securely with grep (use || true to handle missing keys gracefully)
+    INSTALLED_VERSION=$(grep "^VERSION=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]') || INSTALLED_VERSION="unknown"
+    INSTALLED_COMMIT=$(grep "^COMMIT=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]') || INSTALLED_COMMIT="unknown"
+    INSTALLED_DATE=$(grep "^INSTALLED=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]') || true
+    UPDATED_DATE=$(grep "^UPDATED=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]') || true
+    PINNED_VERSION=$(grep "^PINNED=" "$version_file" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d '[:space:]') || true
 }
 
 # Write .piv-version file
@@ -437,14 +440,20 @@ show_whats_new() {
     print_header "What's New"
 
     # Count using grep (works in parent shell)
-    local add_count=$(echo "$change_list" | grep -c "^ADD" || echo "0")
-    local update_count=$(echo "$change_list" | grep -c "^UPDATE" || echo "0")
+    local add_count=$(echo "$change_list" | grep -c "^ADD" 2>/dev/null || echo "0")
+    local update_count=$(echo "$change_list" | grep -c "^UPDATE" 2>/dev/null || echo "0")
 
     # Count by category
-    local commands_count=$(echo "$change_list" | grep -c "\.claude/commands/" || echo "0")
-    local rules_count=$(echo "$change_list" | grep -c "\.claude/rules/" || echo "0")
-    local reference_count=$(echo "$change_list" | grep -c "\.claude/reference/" || echo "0")
-    local skills_count=$(echo "$change_list" | grep -c "\.claude/skills/" || echo "0")
+    local commands_count=$(echo "$change_list" | grep -c "\.claude/commands/" 2>/dev/null || echo "0")
+    local rules_count=$(echo "$change_list" | grep -c "\.claude/rules/" 2>/dev/null || echo "0")
+    local reference_count=$(echo "$change_list" | grep -c "\.claude/reference/" 2>/dev/null || echo "0")
+    local skills_count=$(echo "$change_list" | grep -c "\.claude/skills/" 2>/dev/null || echo "0")
+
+    # Trim whitespace and ensure numeric values
+    add_count=$(echo "$add_count" | tr -d '[:space:]')
+    update_count=$(echo "$update_count" | tr -d '[:space:]')
+    [ -z "$add_count" ] && add_count=0
+    [ -z "$update_count" ] && update_count=0
 
     # Display individual changes (limit output for large updates)
     local display_limit=20

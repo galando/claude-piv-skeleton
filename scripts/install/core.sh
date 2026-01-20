@@ -67,6 +67,9 @@ else
     USE_TTY=0
 fi
 
+# Auto-confirm flag (set by --yes)
+AUTO_CONFIRM=false
+
 # Confirmation prompt
 # Returns 0 (success/yes) or 1 (no)
 confirm() {
@@ -74,19 +77,41 @@ confirm() {
     local default="${2:-Y}"
     local response
 
+    # Auto-confirm if --yes flag was used
+    if [ "$AUTO_CONFIRM" = true ]; then
+        log "INFO" "Auto-confirmed: $prompt"
+        return 0
+    fi
+
     if [[ "$default" == "Y" ]]; then
         if [ "$USE_TTY" -eq 1 ]; then
-            read -p "$prompt [Y/n]: " -n 1 -r response < /dev/tty
+            read -p "$prompt [Y/n]: " -n 1 -r response < /dev/tty 2>/dev/null || {
+                echo ""
+                print_warning "Cannot read input (non-interactive), assuming 'yes'"
+                return 0
+            }
         else
-            read -p "$prompt [Y/n]: " -n 1 -r response
+            read -p "$prompt [Y/n]: " -n 1 -r response || {
+                echo ""
+                print_warning "Cannot read input, assuming 'yes'"
+                return 0
+            }
         fi
         echo
         [[ -z "$response" ]] || [[ "$response" =~ ^[Yy]$ ]]
     else
         if [ "$USE_TTY" -eq 1 ]; then
-            read -p "$prompt [y/N]: " -n 1 -r response < /dev/tty
+            read -p "$prompt [y/N]: " -n 1 -r response < /dev/tty 2>/dev/null || {
+                echo ""
+                print_warning "Cannot read input (non-interactive), assuming 'no'"
+                return 1
+            }
         else
-            read -p "$prompt [y/N]: " -n 1 -r response
+            read -p "$prompt [y/N]: " -n 1 -r response || {
+                echo ""
+                print_warning "Cannot read input, assuming 'no'"
+                return 1
+            }
         fi
         echo
         [[ "$response" =~ ^[Yy]$ ]]

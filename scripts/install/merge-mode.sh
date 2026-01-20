@@ -57,10 +57,12 @@ install_merge_mode() {
         merge_dirs "$PIV_SOURCE_DIR/.claude/commands" ".claude/commands"
     fi
 
-    # Copy PIV methodology
-    print_info "Installing PIV methodology documentation..."
-    ensure_dir ".claude/reference/methodology"
-    copy_file_if_missing "$PIV_SOURCE_DIR/.claude/reference/methodology/PIV-METHODOLOGY.md" ".claude/reference/methodology/PIV-METHODOLOGY.md"
+    # Copy PIV reference documentation (including methodology, rules-full, skills-full, patterns)
+    print_info "Installing PIV reference documentation..."
+    if [ -d "$PIV_SOURCE_DIR/.claude/reference" ]; then
+        ensure_dir ".claude/reference"
+        merge_dirs "$PIV_SOURCE_DIR/.claude/reference" ".claude/reference"
+    fi
 
     # Install technology-specific rules based on detection
     print_info "Installing technology-specific rules..."
@@ -178,6 +180,15 @@ verify_merge_installation() {
     if [ ! -d ".claude/rules" ]; then
         print_error "Rules directory not found"
         ((errors++))
+    fi
+
+    # Check for full reference documentation (rules-full, skills-full)
+    if [ ! -d ".claude/reference/rules-full" ]; then
+        print_warning "rules-full reference directory not found (may be added via update)"
+    fi
+
+    if [ ! -d ".claude/reference/skills-full" ]; then
+        print_warning "skills-full reference directory not found (may be added via update)"
     fi
 
     if [ $errors -eq 0 ]; then
