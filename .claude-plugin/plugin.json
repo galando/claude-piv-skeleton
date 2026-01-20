@@ -1,7 +1,7 @@
 {
   "name": "piv",
   "description": "PIV (Prime-Implement-Validate) - Universal AI development methodology with strict TDD",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Universal AI Dev Framework",
     "url": "https://github.com/galando/universal-ai-dev-framework"

@@ -51,9 +51,10 @@ VALIDATE → Runs automatically
 
 ## For Full Details
 
+- **Context Architecture:** `Read .claude/CONTEXT-LAYERING.md`
 - **Methodology:** `Read .claude/reference/methodology/PIV-METHODOLOGY.md`
 - **Rules:** `Read .claude/rules/` (compressed) or `.claude/reference/rules-full/` (complete)
-- **Skills:** `Read .claude/reference/skills-full/`
+- **Execution:** `Read .claude/reference/execution/[command].md`
 
 ---
 
