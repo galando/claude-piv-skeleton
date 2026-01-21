@@ -1,7 +1,7 @@
 {
-  "name": "piv",
-  "description": "PIV (Prime-Implement-Validate) - Universal AI development methodology with strict TDD",
-  "version": "1.1.0",
+  "name": "piv-speckit",
+  "description": "PIV + Spec-Kit: Universal AI development with structured specs and strict TDD",
+  "version": "2.0.0",
   "author": {
     "name": "Universal AI Dev Framework",
     "url": "https://github.com/galando/universal-ai-dev-framework"
@@ -9,11 +9,12 @@
   "repository": "https://github.com/galando/universal-ai-dev-framework",
   "homepage": "https://galando.github.io/universal-ai-dev-framework/",
   "license": "MIT",
-  "keywords": ["piv", "tdd", "methodology", "ai-development", "universal"],
+  "keywords": ["piv", "speckit", "spec-kit", "tdd", "methodology", "spec-driven"],
   "commands": [
     "./.claude/commands/bug_fix/rca.md",
     "./.claude/commands/bug_fix/implement-fix.md",
     "./.claude/commands/git/commit.md",
+    "./.claude/commands/piv_loop/constitution.md",
     "./.claude/commands/piv_loop/prime.md",
     "./.claude/commands/piv_loop/plan-feature.md",
     "./.claude/commands/piv_loop/execute.md",

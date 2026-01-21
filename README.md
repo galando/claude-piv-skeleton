@@ -3,6 +3,7 @@
 [![Universal AI Dev Framework](https://img.shields.io/badge/Universal_AI_Dev-Framework-blue?style=for-the-badge)](https://github.com/galando/universal-ai-dev-framework)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Visual Guide](https://img.shields.io/badge/🌐_Visual_Guide-Interactive-467fd9?style=for-the-badge)](https://galando.github.io/universal-ai-dev-framework/)
+[![Inspired by Spec-Kit](https://img.shields.io/badge/Inspired_By-Spec--Kit-blue?style=for-the-badge)](https://github.com/github/spec-kit)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/galando)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/galando/universal-ai-dev-framework)
 
@@ -26,6 +27,32 @@ A development methodology for AI-assisted software development:
 
 ---
 
+## Enhanced with Spec-Kit
+
+This framework integrates best practices from [GitHub's Spec-Kit](https://github.com/github/spec-kit), adding **structured specification artifacts** to the PIV methodology.
+
+### What This Adds
+
+| Artifact | Purpose | Created By |
+|----------|---------|------------|
+| `constitution.md` | Project principles (one-time setup) | `/piv_loop:constitution` |
+| `spec.md` | Functional requirements (WHAT) | `/piv_loop:plan-feature` |
+| `plan.md` | Technical approach (HOW) | `/piv_loop:plan-feature` |
+| `tasks.md` | Implementation steps (DO) | `/piv_loop:plan-feature` |
+| `quickstart.md` | TL;DR for humans | `/piv_loop:plan-feature` |
+
+### Multi-AI Compatibility
+
+All artifacts are **structured Markdown** - works with ANY AI tool:
+- **Claude Code** (plugin) - Full experience with commands
+- **Cursor** - Reads files directly
+- **GitHub Copilot** - Reads files directly
+- **ChatGPT/Claude Web** - Copy-paste content
+
+No Claude Code dependency for planning or implementation!
+
+---
+
 ## Installation
 
 ### Claude Code (Full Experience) ⭐ Recommended
@@ -34,8 +61,8 @@ A development methodology for AI-assisted software development:
 # Add marketplace
 /plugin marketplace add galando/universal-ai-dev-framework
 
-# Install PIV
-/plugin install piv
+# Install PIV + Spec-Kit
+/plugin install piv-speckit
 ```
 
 **Commands:** `/piv_loop:prime`, `/piv_loop:plan-feature`, `/piv_loop:execute`, `/validation:validate`

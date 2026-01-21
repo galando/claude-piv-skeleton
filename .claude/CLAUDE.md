@@ -20,6 +20,7 @@
 
 | Command | Purpose |
 |---------|---------|
+| `/piv_loop:constitution` | Create project principles (one-time) |
 | `/piv_loop:prime` | Load context |
 | `/piv_loop:plan-feature "X"` | Plan feature X |
 | `/piv_loop:execute` | Implement plan |
