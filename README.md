@@ -84,9 +84,11 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 |---------|-------------|-------------------|
 | Slash commands | ✅ `/piv_loop:*` | ❌ (natural language) |
 | Auto-skills | ✅ TDD, security | ❌ |
-| Constitution template | ✅ Included | ✅ Included |
-| Spec templates | ✅ Included | ✅ Included |
+| Constitution template | ✅ **Embedded in plugin** | ✅ Included |
+| Spec templates | ✅ **Embedded in plugin** | ✅ Included |
 | PIV methodology | ✅ Full | ✅ Compact (AGENTS.md) |
+
+**Note:** Plugin templates are embedded directly in command files - they work immediately after installation without needing external template files.
 
 ---
 

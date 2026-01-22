@@ -1060,6 +1060,121 @@ AskUserQuestion with questions about:
 
 **Remember:** AskUserQuestion is for CLARIFICATION. ExitPlanMode is for APPROVAL.
 
+## Spec-Kit Templates (Embedded)
+
+When generating split artifacts, use these template structures. **Templates are embedded here** so they travel with the plugin distribution.
+
+### Spec Template (spec.md)
+
+```markdown
+# Spec: {Feature Name}
+
+**ID:** {XXX-feature-name}
+**Status:** DRAFT
+**Created:** {DATE}
+
+## Overview
+
+{Brief description of what this feature delivers}
+
+## User Stories
+
+### Story 1: {Story Title}
+**As a** {type of user}
+**I want** {action}
+**So that** {benefit}
+
+**Acceptance Criteria:**
+- [ ] {Criteria 1}
+- [ ] {Criteria 2}
+
+## Functional Requirements
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR1 | {Requirement 1} | HIGH |
+
+## Edge Cases
+- {Edge case 1}
+
+## Out of Scope
+{What is explicitly NOT included}
+```
+
+### Plan Template (plan.md)
+
+```markdown
+# Plan: {Feature Name}
+
+**Feature ID:** {XXX-feature-name}
+**Status:** DRAFT
+**Created:** {DATE}
+
+## Technical Approach
+
+{High-level technical solution}
+
+## Architecture
+
+### Component Diagram
+```
+┌─────────────┐    ┌─────────────┐
+│   Frontend  │───▶│    API      │
+└─────────────┘    └─────────────┘
+```
+
+## Technology Choices
+
+| Component | Technology | Rationale |
+|-----------|------------|-----------|
+| API | {Choice} | {Why} |
+
+## Security Considerations
+- {Security item 1}
+```
+
+### Tasks Template (tasks.md)
+
+```markdown
+# Tasks: {Feature Name}
+
+**Feature ID:** {XXX-feature-name}
+
+## Task Breakdown
+
+**Legend:**
+- `[P]` = Can run in parallel
+- `(file: path)` = Target file
+
+## Story 1: {Story Name}
+
+- [ ] Task 1.1 [P] {Task description} (file: `path/to/file.ext`)
+- [ ] Task 1.2 {Task description} (depends on Task 1.1)
+  - Test: `path/to/test.ext`
+```
+
+### Quickstart Template (quickstart.md)
+
+```markdown
+# Quickstart: {Feature Name}
+
+**Feature ID:** {XXX-feature-name}
+
+## What This Feature Does
+
+{One-sentence description}
+
+## Files Created:
+- `path/to/file1.ext` - {Purpose}
+
+## Test Command:
+```bash
+{test command}
+```
+```
+
+**Note:** Replace `{PLACEHOLDERS}` with feature-specific values.
+
 ## Output Format
 
 **Filename:** `.claude/agents/plans/{kebab-case-feature-name}.md`
