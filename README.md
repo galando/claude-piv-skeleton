@@ -64,7 +64,7 @@ No Claude Code dependency for planning or implementation!
 /plugin install piv-speckit
 ```
 
-**Commands:** `/piv_loop:prime`, `/piv_loop:plan-feature`, `/piv_loop:execute`, `/validation:validate`
+**Commands:** `/piv_loop:prime`, `/piv_loop:plan-feature`, `/piv_loop:execute`, `/piv_loop:constitution`
 
 **Features:** Auto-activating skills (TDD, code-review, security), full reference docs, agent context system.
 
@@ -74,20 +74,33 @@ No Claude Code dependency for planning or implementation!
 curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.sh | bash
 ```
 
-**Generates:** `AGENTS.md` - universal AI agent instructions that Cursor and other tools read automatically.
+**How it works:**
+- Generates `AGENTS.md` - a single file with PIV methodology instructions
+- Cursor/Copilot reads `AGENTS.md` automatically via their project-aware features
+- **No slash commands** - type your requests naturally, the AI follows PIV methodology
+
+**Difference from Claude Code:**
+
+| Feature | Claude Code | Cursor / Copilot |
+|---------|-------------|-------------------|
+| Slash commands | ✅ `/piv_loop:*` | ❌ (natural language) |
+| Auto-skills | ✅ TDD, security | ❌ |
+| Constitution template | ✅ Included | ✅ Included |
+| Spec templates | ✅ Included | ✅ Included |
+| PIV methodology | ✅ Full | ✅ Compact (AGENTS.md) |
 
 ---
 
 ## Tool Comparison
 
-| Feature | Claude Code (Plugin) | Cursor / Others (Script) |
-|---------|---------------------|--------------------------|
-| PIV Methodology | ✅ Full | ✅ Compact (AGENTS.md) |
-| Slash Commands | ✅ `/piv:*` | ❌ |
-| Auto-Skills | ✅ TDD, Review, Security | ❌ |
-| Context Loading | Smart (on-demand) | Always (~2500 tokens) |
-| Auto-Update | ✅ Plugin system | Manual |
-| Installation | `/plugin install` | `curl \| bash` |
+| Feature | Claude Code (Plugin) | Cursor / Copilot (Script) |
+|---------|---------------------|----------------------------|
+| Commands | `/piv_loop:prime`, `/piv_loop:plan-feature`, `/piv_loop:execute`, `/piv_loop:constitution` | Natural language (AI reads AGENTS.md) |
+| Auto-Skills | ✅ TDD, code-review, security activate automatically | ❌ |
+| Spec Templates | ✅ Included | ✅ Included |
+| Constitution | ✅ Included | ✅ Included |
+| Context Loading | Smart layering (~15KB on-demand) | AGENTS.md (~500 lines, always loaded) |
+| Updates | `/plugin update` | Re-run script |
 
 ---
 
@@ -117,7 +130,7 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 │                                    ↓                                        │
 │  3. PLAN (Structured Specs)                                               │
 │     ┌─────────────────────────────────────────────────────────────────┐    │
-│     │ /piv_loop:plan-feature "Add user authentication"                │    │
+│     │ /piv_loop:plan-feature "Add user authentication"              │    │
 │     │ → Creates .claude/specs/{feature}/                              │    │
 │     │   ├─ spec.md        (WHAT: requirements, user stories)          │    │
 │     │   ├─ plan.md        (HOW: architecture, data model, APIs)       │    │
@@ -210,7 +223,7 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 | ⚡ **Skills System** | Auto-activating behaviors enforce best practices in real-time |
 | 🧠 **Adaptive Learning** | Framework gets smarter with every feature you build |
 | 🔧 **Technology Agnostic** | Works with Spring Boot, Node.js, Python, React, and more |
-| ⚙️ **Commands** | `/piv:prime`, `/piv:plan-feature`, `/piv:execute`, `/piv:validate` |
+| ⚙️ **Commands** | `/piv_loop:prime`, `/piv_loop:plan-feature`, `/piv_loop:execute` |
 
 [→ See all features](docs/features/) | [→ Full commands list](docs/getting-started/02-quick-start.md#piv-commands-reference)
 
@@ -222,7 +235,7 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  USER: "/piv:prime"                                                     │
+│  USER: "/piv_loop:prime"                                                │
 │                                                                          │
 │  CLAUDE: [Loads project context]                                         │
 │    → "Project: Spring Boot + React + PostgreSQL"                        │
@@ -231,7 +244,8 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 └─────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  USER: "/piv:plan-feature Add password reset flow"                    │
+│  USER: "Plan a password reset feature"                              │
+│  AI: Creates spec.md, plan.md, tasks.md, quickstart.md              │
 │                                                                          │
 │  CLAUDE: [Loads from .claude/reference/methodology/]                    │
 │    → Reads PIV-METHODOLOGY.md for planning steps                        │
@@ -242,7 +256,7 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 └─────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  USER: "/piv:execute"                                                   │
+│  USER: "/piv_loop:execute"                                              │
 │                                                                          │
 │  CLAUDE: [test-driven-development SKILL ACTIVATES 🔴]                    │
 │    → "🔴 RED: Writing test FIRST..."                                     │
@@ -313,7 +327,7 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 ## Repository Structure
 
 ```
-universal-ai-dev-framework/
+piv-speckit/
 ├── .claude/                     # Claude Code configuration
 │   ├── CLAUDE.md                # Project instructions
 │   ├── agents/                  # Artifact directories
