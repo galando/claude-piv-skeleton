@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.1] - 2025-01-22
+
+### 🔧 Fixed
+
+#### Template Distribution for Plugin Users
+- **Constitution template**: Now embedded directly in `/piv_loop:constitution` command
+  - Previously referenced `.claude/memory/constitution.template.md` (not distributed with plugin)
+  - Template now travels with plugin - works immediately after installation
+- **Spec-Kit templates**: Now embedded in `.claude/reference/execution/plan-feature.md`
+  - Includes spec.md, plan.md, tasks.md, quickstart.md templates
+  - `/piv_loop:plan-feature` can generate artifacts without external template files
+- **README**: Updated to clarify "Embedded in plugin" for templates
+- **plugin.json**: Bumped version to 2.0.1
+
+**Impact**: Plugin users can now use all template features without manual setup or local repo clone.
+
+---
+
 ## [1.0.0] - 2025-01-12
 
 ### 🎉 Initial Release - World-Class PIV Skeleton
