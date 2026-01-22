@@ -562,9 +562,9 @@ const express = require('express');
 ### Still Having Issues?
 
 1. **Check the [FAQ](FAQ.md)** - Common questions and answers
-2. **Search [GitHub Issues](https://github.com/galando/claude-piv-skeleton/issues)** - Similar problems may already be solved
-3. **Ask in [GitHub Discussions](https://github.com/galando/claude-piv-skeleton/discussions)** - Community help
-4. **Open a [new issue](https://github.com/galando/claude-piv-skeleton/issues/new)** - Bug reports or feature requests
+2. **Search [GitHub Issues](https://github.com/galando/piv-speckit/issues)** - Similar problems may already be solved
+3. **Ask in [GitHub Discussions](https://github.com/galando/piv-speckit/discussions)** - Community help
+4. **Open a [new issue](https://github.com/galando/piv-speckit/issues/new)** - Bug reports or feature requests
 
 ### When Opening an Issue
 
@@ -597,4 +597,4 @@ This helps us help you faster! 🚀
 
 **Last Updated**: 2025-01-12
 
-**Found this guide helpful?** ⭐ Consider [starring the repo](https://github.com/galando/claude-piv-skeleton)
+**Found this guide helpful?** ⭐ Consider [starring the repo](https://github.com/galando/piv-speckit)

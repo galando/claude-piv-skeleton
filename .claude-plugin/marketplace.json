@@ -1,15 +1,15 @@
 {
-  "name": "universal-ai-dev-framework",
-  "description": "PIV methodology and universal AI development tools",
+  "name": "piv-speckit",
+  "description": "PIV + Spec-Kit: Structured specs, strict TDD, AI-assisted development",
   "owner": {
     "name": "galando",
     "url": "https://github.com/galando"
   },
   "plugins": [
     {
-      "name": "piv",
+      "name": "piv-speckit",
       "source": "./",
-      "description": "PIV methodology with TDD, code review, and development best practices"
+      "description": "PIV + Spec-Kit: Structured specs, TDD enforcement, adaptive learning"
     }
   ]
 }

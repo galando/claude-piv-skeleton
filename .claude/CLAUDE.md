@@ -1,6 +1,6 @@
-# Universal AI Dev Framework
+# PIV Spec-Kit
 
-**Universal PIV (Prime-Implement-Validate) methodology for AI-assisted development**
+**PIV (Prime-Implement-Validate) methodology for AI-assisted development**
 
 ---
 
@@ -20,6 +20,7 @@
 
 | Command | Purpose |
 |---------|---------|
+| `/piv_loop:constitution` | Create project principles (one-time) |
 | `/piv_loop:prime` | Load context |
 | `/piv_loop:plan-feature "X"` | Plan feature X |
 | `/piv_loop:execute` | Implement plan |

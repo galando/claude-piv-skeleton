@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the PIV Skeleton project will be documented in this file.
+All notable changes to PIV Spec-Kit project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -109,9 +109,77 @@ First official release of the universal PIV (Prime-Implement-Validate) methodolo
 
 ---
 
+## [2.0.0] - 2025-01-21
+
+### 🎉 Spec-Kit Integration - Structured Specifications for PIV
+
+Major update integrating [GitHub's Spec-Kit](https://github.com/github/spec-kit) best practices into the PIV methodology. Adds structured specification artifacts and multi-AI compatibility.
+
+### ⚠️ Breaking Changes
+
+- **Plugin renamed**: `piv` → `piv-speckit`
+- Users must run: `/plugin install piv-speckit` (instead of `/plugin install piv`)
+
+### ✨ Added
+
+#### Phase 0: Constitution (New)
+- `/piv_loop:constitution` command for one-time project definition
+- `.claude/memory/constitution.md` - Project principles document
+- `.claude/memory/constitution.template.md` - Constitution template
+- Defines: project purpose, core principles, technology stack, constraints, development guidelines
+
+#### Split Spec Artifacts (New)
+- `.claude/specs/{XXX-feature-name}/` directory structure
+- `spec.md` - WHAT: User stories, requirements, workflows
+- `plan.md` - HOW: Technical approach, architecture, APIs
+- `tasks.md` - DO: Step-by-step implementation tasks
+- `quickstart.md` - TL;DR: Quick reference for humans
+- Templates in `.claude/specs/.templates/` for all artifact types
+
+#### Multi-AI Compatibility
+- All artifacts are pure Markdown (no Claude-specific syntax)
+- Works with: Claude Code, Cursor, GitHub Copilot, ChatGPT, Claude Web
+- No Claude Code dependency for planning or implementation
+
+### 🔧 Updated
+
+- `.claude-plugin/plugin.json`: Version 2.0.0, renamed to `piv-speckit`
+- `.claude-plugin/marketplace.json`: Updated plugin name and description
+- `.claude/CLAUDE.md`: Added constitution command to quick reference
+- `.claude/commands/piv_loop/plan-feature.md`: Added Phase 6 (split artifacts), multi-AI docs
+- `.claude/commands/piv_loop/execute.md`: Updated for split artifacts (tasks.md)
+- `.claude/reference/methodology/PIV-METHODOLOGY.md`: Added Phase 0 (Constitution), split artifact structures
+- `README.md`: Spec-Kit badge, "Enhanced with Spec-Kit" section, multi-AI compatibility docs
+- `docs/index.html`: Updated hero, methodology cards (Constitution added), installation command
+
+### ✅ Backward Compatibility
+
+- Legacy single-file plans (`.claude/agents/plans/`) still supported
+- Old plans can be migrated to split format
+- All existing commands continue to work
+
+### 📚 Documentation
+
+- Constitution vs Spec Artifacts comparison table
+- Multi-AI compatibility examples
+- Updated methodology with Phase 0
+
+---
+
 ## [Unreleased]
 
-### Planned for v1.1.0
+### Planned for v2.1.0
+- [ ] Example constitution.md for reference
+- [ ] FAQ entry: "Why Spec-Kit?"
+- [ ] Migration guide: single-file → split artifacts
+- [ ] Interactive spec artifact generator
+
+### Planned for v2.2.0
+- [ ] Spec artifact validation
+- [ ] Template gallery for common patterns
+- [ ] Spec artifact versioning
+
+### Planned for v3.0.0
 - [ ] Vue.js technology template
 - [ ] Angular technology template
 - [ ] MongoDB technology template

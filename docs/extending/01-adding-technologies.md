@@ -607,8 +607,8 @@ Follow documentation best practices from `.claude/rules/30-documentation.md`.
 ## Need Help?
 
 ### Questions?
-- Open an issue on [GitHub](https://github.com/galando/claude-piv-skeleton/issues)
-- Start a [discussion](https://github.com/galando/claude-piv-skeleton/discussions)
+- Open an issue on [GitHub](https://github.com/galando/piv-speckit/issues)
+- Start a [discussion](https://github.com/galando/piv-speckit/discussions)
 
 ### Template Review
 Submit PR with your technology template. We'll review for:

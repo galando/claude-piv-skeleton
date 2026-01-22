@@ -22,7 +22,7 @@ This methodology prevents common AI-assisted development issues like lack of con
 
 ```bash
 cd your-project
-curl -s https://raw.githubusercontent.com/galando/universal-ai-dev-framework/main/scripts/piv.sh | bash
+curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.sh | bash
 ```
 
 The installer will:
@@ -112,7 +112,7 @@ The validation pipeline runs automatically after `/piv_loop:execute` completes. 
 1. **Read the validation report** - It will explain what failed
 2. **Fix the issues** - Address compilation errors, test failures, etc.
 3. **Run manual validation** - Use `/validation:validate` to re-run
-4. **Get help** - If stuck, open a [GitHub issue](https://github.com/galando/claude-piv-skeleton/issues)
+4. **Get help** - If stuck, open a [GitHub issue](https://github.com/galando/piv-speckit/issues)
 
 You can also run individual validation steps:
 - `/validation:code-review` - Technical code review
@@ -285,7 +285,7 @@ Most projects should prime in under 30 seconds.
 
 - ⭐ **Star the repo** - GitHub will notify you of new releases
 - 👀 **Watch the repo** - See all issues and PRs
-- Join [GitHub Discussions](https://github.com/galando/claude-piv-skeleton/discussions)
+- Join [GitHub Discussions](https://github.com/galando/piv-speckit/discussions)
 - Check the [ROADMAP](ROADMAP.md) for planned features
 
 ### Can I use PIV skeleton for commercial projects?
@@ -304,9 +304,9 @@ No attribution is required (though appreciated!).
 ## Still Have Questions?
 
 - Check the [main documentation](../README.md)
-- Search [existing GitHub issues](https://github.com/galando/claude-piv-skeleton/issues)
-- Start a [GitHub Discussion](https://github.com/galando/claude-piv-skeleton/discussions)
-- Open a [new issue](https://github.com/galando/claude-piv-skeleton/issues/new)
+- Search [existing GitHub issues](https://github.com/galando/piv-speckit/issues)
+- Start a [GitHub Discussion](https://github.com/galando/piv-speckit/discussions)
+- Open a [new issue](https://github.com/galando/piv-speckit/issues/new)
 
 ---
 

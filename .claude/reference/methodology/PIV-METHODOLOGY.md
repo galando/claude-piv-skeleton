@@ -2,13 +2,15 @@
 
 **Prime - Implement - Validate**
 
-A development methodology designed specifically for AI-assisted software development with Claude Code.
+A development methodology designed specifically for AI-assisted software development with Claude Code, enhanced with [GitHub's Spec-Kit](https://github.com/github/spec-kit) best practices.
 
 ---
 
 ## Overview
 
 PIV (Prime-Implement-Validate) is a methodology designed for AI-assisted software development with Claude Code. It ensures proper context, systematic implementation, and automatic validation. An optional Simplify phase helps maintain code quality over time.
+
+**Enhanced with Spec-Kit:** This framework integrates structured specification artifacts (constitution, spec, plan, tasks) for better organization and multi-AI compatibility.
 
 The methodology is designed to minimize misunderstandings, reduce rework, and maintain code quality through systematic planning and automatic validation.
 
@@ -49,6 +51,53 @@ PIV enforces **strict Test-Driven Development** throughout the Implement phase:
 │                                      └──────────┘            │
 └──────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## Phase 0: Constitution (One-Time Setup)
+
+**Goal:** Define project principles that guide all future AI decisions.
+
+### What is a Constitution?
+
+A **constitution** is a one-time document that defines:
+- **Project purpose**: What this project is and why it exists
+- **Core principles**: Quality standards, testing requirements, code style
+- **Technology stack**: Frameworks, languages, databases
+- **Technical constraints**: What to use and what to avoid
+- **Development guidelines**: Git workflow, code review, testing
+- **Security requirements**: Security standards and practices
+- **Performance requirements**: Performance targets
+
+### When to Create
+
+- **Start of project**: Create before any feature work
+- **Project pivot**: Update when major direction changes
+- **New team member**: Helps onboard quickly
+
+### Commands
+
+```
+/piv_loop:constitution
+```
+
+### Artifacts Created
+
+- `.claude/memory/constitution.md` - Project constitution
+
+### How It's Used
+
+The constitution is automatically read during:
+- `/piv_loop:plan-feature` - Planning respects constitution principles
+- `/piv_loop:prime` - Prime checks for constitution existence
+
+### Success Criteria
+
+- [ ] Constitution defines project purpose
+- [ ] Technology stack is documented
+- [ ] Core principles are clear
+- [ ] Constraints (what to use/avoid) are listed
+- [ ] Development guidelines are specified
 
 ---
 
@@ -144,51 +193,114 @@ The Implement phase combines planning AND execution into a unified flow.
 
 ### Artifacts Created
 
-#### Plan Artifact
-`.claude/agents/plans/{feature-name}.md`
+#### Plan Artifacts (Spec-Kit Split Artifacts)
 
-**Plan Structure:**
+**NEW:** `.claude/specs/{XXX-feature-name}/` with split artifacts:
+
+- `spec.md` - WHAT: User stories, requirements, workflows
+- `plan.md` - HOW: Technical approach, architecture, APIs
+- `tasks.md` - DO: Step-by-step implementation tasks
+- `quickstart.md` - TL;DR: Quick reference for humans
+
+**Spec Artifact Structure:**
 ```markdown
-# Feature: [Feature Name]
+# Spec: {Feature Name}
 
-## Context
-[Context from Prime phase about relevant parts of codebase]
+**ID:** {XXX-feature-name}
+**Status:** DRAFT
+**Created:** {DATE}
 
-## Requirements
-[Detailed functional and non-functional requirements]
+## Overview
+{Brief description}
+
+## User Stories
+### Story 1: {Story Title}
+**As a** {type of user}
+**I want** {action}
+**So that** {benefit}
+
+**Acceptance Criteria:**
+- [ ] {Criteria 1}
+- [ ] {Criteria 2}
+
+## Functional Requirements
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR1 | {Requirement 1} | HIGH |
+
+## User Workflows
+{Workflow descriptions}
+
+## Edge Cases
+{Edge cases to consider}
+
+## Out of Scope
+{What is NOT included}
+```
+
+**Plan Artifact Structure:**
+```markdown
+# Plan: {Feature Name}
+
+**Feature ID:** {XXX-feature-name}
 
 ## Technical Approach
-[Architecture decisions, design patterns, technology choices]
+{High-level technical solution}
 
-## Implementation Steps
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-...
+## Architecture
+### Component Diagram
+{ASCII diagram}
 
-## Files to Create
-- `path/to/file1.ext` - [Purpose]
-- `path/to/file2.ext` - [Purpose]
+### Technology Choices
+| Component | Technology | Rationale |
+|-----------|------------|-----------|
+| API | {Choice} | {Why} |
 
-## Files to Modify
-- `path/to/existing.ext` - [Changes needed]
+## Data Model
+{Entity definitions, SQL schemas}
 
-## Testing Strategy
-- Unit tests needed: [List]
-- Integration tests needed: [List]
-- Manual verification steps: [List]
+## API Design
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | /api/resource | Create resource |
 
-## Verification Criteria
-- [ ] Criterion 1
-- [ ] Criterion 2
-- [ ] Criterion 3
-
-## Dependencies
-[What needs to be done first]
-
-## Notes
-[Additional considerations, edge cases, risks]
+## Security & Performance
+{Considerations}
 ```
+
+**Tasks Artifact Structure:**
+```markdown
+# Tasks: {Feature Name}
+
+**Feature ID:** {XXX-feature-name}
+
+## Task Breakdown
+- [ ] Task 1.1 {Task description} (file: `path/to/file.ext`)
+  - Test: `path/to/test.ext`
+- [ ] Task 1.2 {Task description} (depends on Task 1.1)
+  - Test: `path/to/test.ext`
+```
+
+**Quickstart Artifact Structure:**
+```markdown
+# Quickstart: {Feature Name}
+
+## What This Feature Does
+{One-sentence description}
+
+## Quick Reference
+**Files Created:**
+- `path/to/file1.ext` - {Purpose}
+
+**Test Command:**
+```bash
+{test command}
+```
+```
+
+#### Legacy Single-File Plan (Backward Compatible)
+
+`.claude/agents/plans/{feature-name}.md` - Still supported for backward compatibility.
 
 #### Execution Report
 `.claude/agents/reports/execution-report-{feature-name}.md`
