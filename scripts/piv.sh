@@ -8,7 +8,7 @@ set -euo pipefail
 # CONFIGURATION
 ################################################################################
 
-readonly SCRIPT_VERSION="2.0.1"
+readonly SCRIPT_VERSION="2.1.0"
 readonly REPO_URL="https://github.com/galando/piv-speckit"
 readonly REPO_NAME="universal-ai-dev-framework"
 
@@ -82,6 +82,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Source generators
 source "$SCRIPT_DIR/install/generate-agents-md.sh"
 source "$SCRIPT_DIR/install/generate-cursor-rules.sh"
+source "$SCRIPT_DIR/install/generate-specs-templates.sh"
 
 ################################################################################
 # ARGUMENT PARSING
@@ -226,24 +227,35 @@ main() {
     echo "📁 Generating .cursor/rules/..."
     generate_cursor_rules "$target_dir"
 
+    # 3. Generate .specs/.templates/ and constitution template
+    echo ""
+    echo "📁 Generating .specs/.templates/..."
+    generate_specs_templates "$target_dir"
+
     echo ""
     echo "════════════════════════════════════════════════════════════════════"
-    echo "✅ Universal AI Dev Framework installed successfully!"
+    echo "✅ PIV Spec-Kit installed successfully!"
     echo "════════════════════════════════════════════════════════════════════"
     echo ""
-    echo "📄 AGENTS.md - Core PIV methodology (works with ALL AI tools)"
-    echo "📁 .cursor/rules/ - Auto-attach rules for Cursor"
+    echo "📄 AGENTS.md              - Core PIV methodology (auto-loaded)"
+    echo "📁 .cursor/rules/         - Auto-attach rules for Cursor"
+    echo "📁 .specs/.templates/     - Spec, plan, and task templates"
+    echo "📄 constitution.template.md - Project constitution template"
     echo ""
-    echo "For Cursor users:"
-    echo "  • AGENTS.md is loaded automatically"
-    echo "  • .cursor/rules/ auto-attach based on file type"
-    echo "  • Edit a *Test.java file → TDD rules activate"
-    echo "  • Edit a *Controller.java → API rules activate"
+    echo "🚀 NEXT STEPS:"
     echo ""
-    echo "For other AI tools (Copilot, Codex, etc.):"
-    echo "  • AGENTS.md provides PIV methodology guidance"
+    echo "1. Create your constitution:"
+    echo "   cp constitution.template.md constitution.md"
+    echo "   # Then customize it for your project"
     echo ""
-    echo "📚 Learn more: $REPO_URL"
+    echo "2. Start using PIV workflow:"
+    echo "   • Prime: \"Analyze this codebase\""
+    echo "   • Plan:  \"Plan feature X in .specs/X/\""
+    echo "   • Execute: \"Implement tasks.md using TDD\""
+    echo ""
+    echo "📚 Guides:"
+    echo "   • Cursor:  $REPO_URL/blob/main/docs/getting-started/06-cursor-guide.md"
+    echo "   • Copilot: $REPO_URL/blob/main/docs/getting-started/07-copilot-guide.md"
     echo ""
 }
 

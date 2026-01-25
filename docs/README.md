@@ -20,6 +20,14 @@
 | [Your First Feature](getting-started/03-your-first-feature.md) | Detailed walkthrough | 10 min |
 | [Installing to Existing Projects](getting-started/04-installing-to-existing-projects.md) | Add PIV to current project | 5 min |
 
+### Tool-Specific Guides
+
+| Guide | Description |
+|-------|-------------|
+| [Cursor Guide](getting-started/06-cursor-guide.md) | Complete guide for Cursor users |
+| [GitHub Copilot Guide](getting-started/07-copilot-guide.md) | Complete guide for Copilot users |
+| [Cursor Support (Legacy)](getting-started/05-cursor-support.md) | Original Cursor reference |
+
 ---
 
 ## Features
@@ -86,4 +94,4 @@
 
 ---
 
-**Last Updated:** 2025-01-18
+**Last Updated:** 2025-01-25
