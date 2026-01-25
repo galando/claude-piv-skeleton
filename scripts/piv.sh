@@ -82,6 +82,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Source generators
 source "$SCRIPT_DIR/install/generate-agents-md.sh"
 source "$SCRIPT_DIR/install/generate-cursor-rules.sh"
+source "$SCRIPT_DIR/install/generate-copilot-instructions.sh"
 source "$SCRIPT_DIR/install/generate-specs-templates.sh"
 
 ################################################################################
@@ -227,6 +228,13 @@ main() {
     echo "📁 Generating .cursor/rules/..."
     generate_cursor_rules "$target_dir"
 
+    # 3. Generate .github/copilot-instructions.md (for Copilot users)
+    echo ""
+    echo "📁 Generating .github/copilot-instructions.md..."
+    generate_copilot_instructions "$target_dir"
+
+    # 4. Generate .specs/.templates/ and constitution template
+
     # 3. Generate .specs/.templates/ and constitution template
     echo ""
     echo "📁 Generating .specs/.templates/..."
@@ -239,6 +247,7 @@ main() {
     echo ""
     echo "📄 AGENTS.md              - Core PIV methodology (auto-loaded)"
     echo "📁 .cursor/rules/         - Auto-attach rules for Cursor"
+    echo "📁 .github/copilot-instructions.md - Auto-load rules for Copilot"
     echo "📁 .specs/.templates/     - Spec, plan, and task templates"
     echo "📄 constitution.template.md - Project constitution template"
     echo ""

@@ -1,6 +1,6 @@
 # Using PIV Spec-Kit with GitHub Copilot
 
-> Use `@workspace` in Copilot Chat to load context from `AGENTS.md`.
+> **Auto-loading**: Copilot automatically reads `.github/copilot-instructions.md`
 
 ---
 
@@ -14,42 +14,26 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 
 | File/Directory | Purpose |
 |----------------|---------|
-| `AGENTS.md` | Core PIV methodology |
+| `AGENTS.md` | Core PIV methodology (reference with `@file:AGENTS.md`) |
+| `.github/copilot-instructions.md` | **Auto-loaded** by Copilot automatically |
 | `.specs/` | Directory for feature specifications |
 | `.specs/.templates/` | Reusable templates |
 | `constitution.md` | Project principles (you'll create this) |
 
 ---
 
-## Setup: Enable Workspace Context
-
-For Copilot to read `AGENTS.md`, enable workspace context:
-
-### VS Code
-
-1. Open **Settings** (Cmd+, or Ctrl+,)
-2. Search for "copilot"
-3. Enable these settings:
-   - `GitHub Copilot: Enable Auto Completions`
-   - `Copilot Chat: Use Project Context` (or similar)
-
-### JetBrains IDEs
-
-1. Open **Settings → GitHub Copilot**
-2. Enable workspace/project context options
-
----
-
 ## How Copilot Loads Context
 
-Unlike Cursor, Copilot doesn't auto-load `AGENTS.md`. You need to:
+**Good news**: Copilot automatically reads `.github/copilot-instructions.md`!
 
-1. **Use `@workspace`** prefix in Copilot Chat
-2. **Reference files explicitly** with `@file`
+No special setup needed. The PIV rules are always active.
 
-```
-@workspace Follow AGENTS.md and implement user authentication
-```
+### For Additional Context
+
+Use these in Copilot Chat when needed:
+- **`@workspace`** - Include entire workspace in context
+- **`@file:AGENTS.md`** - Reference specific files
+- **`@file:constitution.md`** - Reference your project constitution
 
 ---
 
@@ -264,7 +248,13 @@ Rules:
 Delete what you wrote and start with the test.
 ```
 
-### Copilot Doesn't See Files
+### Copilot Doesn't See .github/copilot-instructions.md
+
+1. Verify file exists: `ls .github/copilot-instructions.md`
+2. Restart VS Code / JetBrains
+3. Check Copilot is logged in
+
+### Copilot Doesn't See Other Files
 
 1. Make sure you're using Copilot Chat (not just inline)
 2. Use `@workspace` to enable file access
@@ -276,7 +266,8 @@ Delete what you wrote and start with the test.
 
 | Feature | Copilot Chat | Inline Copilot |
 |---------|--------------|----------------|
-| Read AGENTS.md | ✅ With @workspace | ❌ Limited |
+| Auto-loads .github/copilot-instructions.md | ✅ Yes | ✅ Yes |
+| Read AGENTS.md | ✅ With @workspace | ⚠️ Limited |
 | Multi-file context | ✅ Yes | ⚠️ Current file only |
 | TDD workflow | ✅ Can guide | ❌ Just autocomplete |
 | Best for | Planning, reviews | Quick completions |
@@ -292,19 +283,21 @@ Delete what you wrote and start with the test.
 │  COPILOT + PIV QUICK REFERENCE                          │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
-│  Always start with: @workspace                          │
+│  Auto-loaded: .github/copilot-instructions.md           │
+│                                                         │
+│  For more context: @workspace @file:AGENTS.md            │
 │                                                         │
 │  CONSTITUTION (once)                                    │
-│  "@workspace Create constitution in constitution.md"    │
+│  "Create constitution in constitution.md"               │
 │                                                         │
 │  PRIME (each session)                                   │
-│  "@workspace Analyze codebase, read AGENTS.md"          │
+│  "@workspace Analyze codebase"                          │
 │                                                         │
 │  PLAN (complex features)                                │
 │  "@workspace Plan feature X in .specs/X/"               │
 │                                                         │
 │  EXECUTE (TDD!)                                         │
-│  "@workspace Implement tasks.md - FAILING TEST first"   │
+│  "Implement tasks.md - FAILING TEST first"              │
 │                                                         │
 │  VALIDATE                                               │
 │  "@workspace Review code, check coverage"               │
