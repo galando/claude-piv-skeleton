@@ -12,12 +12,26 @@ alwaysApply: false
 
 Validate EVERYTHING: form submissions, API requests, file uploads, URL params, webhooks.
 
-## Input Validation
+## SQL Injection Prevention
 
-- ✅ Validate structure, type, format, length, range
-- ✅ Sanitize data before use
-- ✅ Use parameterized queries (prevent SQL injection)
-- ✅ Escape output (prevent XSS)
+```javascript
+// ❌ VULNERABLE - Never concatenate user input
+const query = `SELECT * FROM users WHERE id = '${userId}'`;
+
+// ✅ SECURE - Use parameterized queries
+const query = 'SELECT * FROM users WHERE id = $1';
+await db.query(query, [userId]);
+```
+
+## XSS Prevention
+
+```javascript
+// ❌ VULNERABLE - Never insert raw user input
+div.innerHTML = userInput;
+
+// ✅ SECURE - Use textContent or framework escaping
+div.textContent = userInput;
+```
 
 ## Authentication & Passwords
 

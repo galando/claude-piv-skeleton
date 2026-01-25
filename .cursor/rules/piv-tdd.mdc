@@ -33,14 +33,19 @@ alwaysApply: false
 ## Test Structure (Given-When-Then)
 
 ```javascript
-// GIVEN: Setup test data and preconditions
-const input = { name: "Test", email: "test@example.com" };
-
-// WHEN: Execute the code being tested
-const result = await service.create(input);
-
-// THEN: Verify expected outcomes
-expect(result.id).toBeDefined();
+describe('UserService', () => {
+  it('should create user with valid input', async () => {
+    // GIVEN: Setup test data
+    const input = { name: 'Test User', email: 'test@example.com' };
+    
+    // WHEN: Execute the code
+    const result = await userService.create(input);
+    
+    // THEN: Verify outcomes
+    expect(result.id).toBeDefined();
+    expect(result.name).toBe('Test User');
+  });
+});
 ```
 
 <!-- PIV Spec-Kit v2.1.0 -->
