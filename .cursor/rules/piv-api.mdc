@@ -23,10 +23,10 @@ alwaysApply: false
 
 ```json
 // Success
-{ "data": {...}, "meta": {...} }
+{ "data": {...}, "meta": { "page": 1, "total": 100 } }
 
 // Error
-{ "error": "ErrorCode", "message": "Human-readable description" }
+{ "error": "ValidationError", "message": "Email is required" }
 ```
 
 ## HTTP Methods & Status Codes
