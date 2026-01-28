@@ -11,30 +11,6 @@ show_usage() {
     cat << EOF
 Usage: bump-version.sh <major|minor|patch|VERSION>
 
-Bump the PIV framework version.
-VERSION is the single source of truth - all other files read from it.
-
-Arguments:
-  major    Bump major version (e.g., 1.0.0 → 2.0.0)
-  minor    Bump minor version (e.g., 1.0.0 → 1.1.0)
-  patch    Bump patch version (e.g., 1.0.0 → 1.0.1)
-  VERSION  Set exact version (e.g., 2.3.4)
-
-Example:
-  bump-version.sh patch
-  bump-version.sh 2.0.0
-
-Files updated:
-  - VERSION (single source of truth - ONLY place with version number)
-
-Note: All other files (piv.sh, generators, etc.) read VERSION dynamically.
-EOF
-}
-
-show_usage() {
-    cat << EOF
-Usage: bump-version.sh <major|minor|patch|VERSION>
-
 Bump the PIV framework version and regenerate all files.
 
 Arguments:
