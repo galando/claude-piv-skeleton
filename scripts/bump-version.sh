@@ -11,30 +11,6 @@ show_usage() {
     cat << EOF
 Usage: bump-version.sh <major|minor|patch|VERSION>
 
-Bump the PIV framework version.
-VERSION is the single source of truth - all other files read from it.
-
-Arguments:
-  major    Bump major version (e.g., 1.0.0 → 2.0.0)
-  minor    Bump minor version (e.g., 1.0.0 → 1.1.0)
-  patch    Bump patch version (e.g., 1.0.0 → 1.0.1)
-  VERSION  Set exact version (e.g., 2.3.4)
-
-Example:
-  bump-version.sh patch
-  bump-version.sh 2.0.0
-
-Files updated:
-  - VERSION (single source of truth - ONLY place with version number)
-
-Note: All other files (piv.sh, generators, etc.) read VERSION dynamically.
-EOF
-}
-
-show_usage() {
-    cat << EOF
-Usage: bump-version.sh <major|minor|patch|VERSION>
-
 Bump the PIV framework version and regenerate all files.
 
 Arguments:
@@ -49,11 +25,9 @@ Example:
 
 Files updated:
   - VERSION (single source of truth)
-  - .claude-plugin/plugin.json
-  - scripts/piv.sh
-  - .github/copilot-instructions.md
-  - AGENTS.md
-  - .cursor/rules/*
+
+Note: All other files read VERSION dynamically (scripts/piv.sh, .cursor/rules/*, AGENTS.md).
+Note: .claude-plugin/plugin.json uses __VERSION__ placeholder (replaced during install/release).
 EOF
 }
 
@@ -98,7 +72,7 @@ bump_version() {
 
     echo "Bumping version: $current_version → $new_version"
 
-    # Update VERSION file (ONLY place with version number)
+    # Update VERSION file (single source of truth)
     echo "$new_version" > "$VERSION_FILE"
 
     echo ""
@@ -106,9 +80,10 @@ bump_version() {
     echo "✅ Version bump complete!"
     echo "════════════════════════════════════════════════════════════════════"
     echo ""
-    echo "Updated: VERSION = $new_version"
+    echo "Updated files:"
+    echo "  - VERSION = $new_version"
     echo ""
-    echo "All other files read VERSION dynamically:"
+    echo "Files that read VERSION dynamically:"
     echo "  - scripts/piv.sh: reads VERSION at runtime"
     echo "  - .cursor/rules/*: read VERSION at generation time"
     echo "  - AGENTS.md: reads VERSION at generation time"

@@ -1,12 +1,15 @@
 # PIV Spec-Kit
 
 [![PIV Spec-Kit](https://img.shields.io/badge/PIV_Spec--Kit-Framework-blue?style=for-the-badge)](https://github.com/galando/piv-speckit)
+[![Version](https://img.shields.io/badge/Version-3.0.0-green?style=for-the-badge)](https://github.com/galando/piv-speckit/blob/main/CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Visual Guide](https://img.shields.io/badge/🌐_Visual_Guide-Interactive-467fd9?style=for-the-badge)](https://galando.github.io/piv-speckit/)
 [![Inspired by Spec-Kit](https://img.shields.io/badge/Inspired_By-Spec--Kit-blue?style=for-the-badge)](https://github.com/github/spec-kit)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/galando/piv-speckit)
 
 **PIV (Prime-Implement-Validate) + Spec-Kit: Structured specs, strict TDD, for AI-assisted development.**
+
+**NEW v3.0:** Zero-setup workflow - just run `/piv-speckit:plan-feature` and context loads automatically!
 
 Works with **Claude Code**, **Cursor**, **GitHub Copilot**, **OpenAI Codex**, and 20+ AI coding tools.
 
@@ -18,11 +21,11 @@ Works with **Claude Code**, **Cursor**, **GitHub Copilot**, **OpenAI Codex**, an
 
 A development methodology for AI-assisted software development:
 
-- **Prime**: Load codebase context before making changes
+- **Prime (v3.0: Auto)**: Context loads automatically when planning
 - **Implement**: Write tests FIRST (strict TDD), then minimal code
 - **Validate**: Automatic testing and verification
 
-[→ Interactive Visual Guide](https://galando.github.io/piv-speckit/) | [→ Full Methodology](.claude/reference/methodology/PIV-METHODOLOGY.md)
+[→ Interactive Visual Guide](https://galando.github.io/piv-speckit/) | [→ Full Methodology](.claude/reference/methodology/PIV-METHODOLOGY.md) | [→ v3.0 Changelog](CHANGELOG.md)
 
 ---
 
@@ -34,11 +37,11 @@ This framework integrates best practices from [GitHub's Spec-Kit](https://github
 
 | Artifact | Purpose | Created By |
 |----------|---------|------------|
-| `constitution.md` | Project principles (one-time setup) | `/piv-speckit:constitution` |
 | `spec.md` | Functional requirements (WHAT) | `/piv-speckit:plan-feature` |
 | `plan.md` | Technical approach (HOW) | `/piv-speckit:plan-feature` |
 | `tasks.md` | Implementation steps (DO) | `/piv-speckit:plan-feature` |
 | `quickstart.md` | TL;DR for humans | `/piv-speckit:plan-feature` |
+| `prime-context.md` | Codebase context (auto-generated) | Auto-prime in plan-feature |
 
 ### Multi-AI Compatibility
 
@@ -63,7 +66,7 @@ No Claude Code dependency for planning or implementation!
 /plugin install piv-speckit
 ```
 
-**Commands:** `/piv-speckit:prime`, `/piv-speckit:plan-feature`, `/piv-speckit:execute`, `/piv-speckit:constitution`
+**Commands:** `/piv-speckit:plan-feature` (auto-primes), `/piv-speckit:execute`, `/piv-speckit:prime` (optional)
 
 **Features:** Auto-activating skills (TDD, code-review, security), full reference docs, agent context system.
 
@@ -83,8 +86,8 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 | Feature | Claude Code | Cursor / Copilot |
 |---------|-------------|-------------------|
 | Slash commands | ✅ `/piv-speckit:*` | ❌ (natural language) |
+| Auto-prime | ✅ Built into plan-feature | ❌ Manual |
 | Auto-skills | ✅ TDD, security | ❌ |
-| Constitution template | ✅ **Embedded in plugin** | ✅ Included |
 | Spec templates | ✅ **Embedded in plugin** | ✅ Included |
 | PIV methodology | ✅ Full | ✅ Compact (AGENTS.md) |
 
@@ -96,11 +99,11 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 
 | Feature | Claude Code (Plugin) | Cursor / Copilot (Script) |
 |---------|---------------------|----------------------------|
-| Commands | `/piv-speckit:prime`, `/piv-speckit:plan-feature`, `/piv-speckit:execute`, `/piv-speckit:constitution` | Natural language (AI reads AGENTS.md) |
+| Commands | `/piv-speckit:plan-feature` (auto-primes), `/piv-speckit:execute`, `/piv-speckit:prime` (optional) | Natural language (AI reads AGENTS.md) |
+| Auto-Prime | ✅ Built into plan-feature | ❌ Manual context loading |
 | Auto-Skills | ✅ TDD, code-review, security activate automatically | ❌ |
 | Spec Templates | ✅ Included | ✅ Included |
-| Constitution | ✅ Included | ✅ Included |
-| Context Loading | Smart layering (~15KB on-demand) | AGENTS.md (~500 lines, always loaded) |
+| Context Loading | Auto-prime (~50 lines, reference-based) | AGENTS.md (~500 lines, always loaded) |
 | Updates | `/plugin update` | Re-run script |
 
 ---
@@ -111,27 +114,14 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           PIV SPEC-KIT WORKFLOW                             │
+│                      PIV SPEC-KIT WORKFLOW (v3.0)                           │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  1. CONSTITUTION (One-time)                                                 │
-│     ┌─────────────────────────────────────────────────────────────────┐    │
-│     │ /piv-speckit:constitution                                          │    │
-│     │ → Creates .claude/memory/constitution.md                        │    │
-│     │ → Defines: purpose, principles, stack, constraints              │    │
-│     └─────────────────────────────────────────────────────────────────┘    │
-│                                    ↓                                        │
-│  2. PRIME (Context Loading)                                               │
-│     ┌─────────────────────────────────────────────────────────────────┐    │
-│     │ /piv-speckit:prime                                                  │    │
-│     │ → Analyzes codebase structure                                   │    │
-│     │ → Identifies patterns, conventions, tech stack                  │    │
-│     │ → Loads only relevant context (smart layering)                 │    │
-│     └─────────────────────────────────────────────────────────────────┘    │
-│                                    ↓                                        │
-│  3. PLAN (Structured Specs)                                               │
+│  1. PLAN (Auto-Primes + Structured Specs)                                  │
 │     ┌─────────────────────────────────────────────────────────────────┐    │
 │     │ /piv-speckit:plan-feature "Add user authentication"              │    │
+│     │                                                                  │    │
+│     │ → Auto-prime: loads/refreshes context silently                  │    │
 │     │ → Creates .claude/specs/{feature}/                              │    │
 │     │   ├─ spec.md        (WHAT: requirements, user stories)          │    │
 │     │   ├─ plan.md        (HOW: architecture, data model, APIs)       │    │
@@ -139,7 +129,7 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 │     │   └─ quickstart.md  (TL;DR: quick reference)                   │    │
 │     └─────────────────────────────────────────────────────────────────┘    │
 │                                    ↓                                        │
-│  4. IMPLEMENT (Strict TDD)                                               │
+│  2. IMPLEMENT (Strict TDD)                                               │
 │     ┌─────────────────────────────────────────────────────────────────┐    │
 │     │ /piv-speckit:execute .claude/specs/{feature}/tasks.md              │    │
 │     │                                                                  │    │
@@ -151,7 +141,7 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 │     │   Skills auto-activate: TDD, code-review, security              │    │
 │     └─────────────────────────────────────────────────────────────────┘    │
 │                                    ↓                                        │
-│  5. VALIDATE (Automatic)                                                 │
+│  3. VALIDATE (Automatic)                                                 │
 │     ┌─────────────────────────────────────────────────────────────────┐    │
 │     │ Auto-runs after execute                                          │    │
 │     │ → Tests: all passing?                                           │    │
@@ -160,12 +150,14 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 │     │ → TDD compliance: tests written first?                          │    │
 │     └─────────────────────────────────────────────────────────────────┘    │
 │                                    ↓                                        │
-│  6. COMMIT                                                                  │
+│  4. COMMIT                                                                  │
 │     ┌─────────────────────────────────────────────────────────────────┐    │
 │     │ /commit                                                          │    │
 │     │ → Conventional commit message                                    │    │
 │     │ → Atomic, focused changes                                       │    │
 │     └─────────────────────────────────────────────────────────────────┘    │
+│                                                                             │
+│  Optional: /piv-speckit:prime — Force context refresh anytime             │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -236,24 +228,14 @@ curl -s https://raw.githubusercontent.com/galando/piv-speckit/main/scripts/piv.s
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  USER: "/piv-speckit:prime"                                                │
+│  USER: "/piv-speckit:plan-feature 'password reset feature'"              │
 │                                                                          │
-│  CLAUDE: [Loads project context]                                         │
+│  CLAUDE: [Auto-primes silently, then plans]                             │
+│    → Auto-prime: Scanning codebase context...                           │
 │    → "Project: Spring Boot + React + PostgreSQL"                        │
-│    → "Architecture: Controller → Service → Repository"                 │
 │    → "15 Java classes, 8 React components identified"                  │
-└─────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────┐
-│  USER: "Plan a password reset feature"                              │
-│  AI: Creates spec.md, plan.md, tasks.md, quickstart.md              │
-│                                                                          │
-│  CLAUDE: [Loads from .claude/reference/methodology/]                    │
-│    → Reads PIV-METHODOLOGY.md for planning steps                        │
-│    → [Loads from technologies/backend/spring-boot/]                      │
-│    → Reads security patterns, email templates                           │
-│    → Creates implementation plan...                                      │
-│    → Plan saved to .claude/agents/plans/                               │
+│    → Creates spec.md, plan.md, tasks.md, quickstart.md                 │
+│    → Plan saved to .claude/specs/password-reset/                        │
 └─────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────────┐
